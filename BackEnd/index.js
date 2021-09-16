@@ -2,12 +2,25 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var cookieParser = require('cookie-parser');
 var cors = require('cors');
 var mysql = require('mysql');
 
 app.set('view engine', 'ejs');
+//set the directory of views
+app.set('views', './views');
+//specify the path of static directory
+app.use(express.static(__dirname + '/public'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+//use cookie parser to parse request headers
+app.use(cookieParser());
 var constants = require('./config.json');
 const { everySeries } = require('async');
+
+app.listen(3000, () => {
+    console.log('Server listening at port 3000');
+});
 
 app.use(cors({ origin: constants.frontEnd, credentials: true}));
 
@@ -18,8 +31,6 @@ app.use(session({
     duration: 60 * 60 * 1000,
     activeDuration: 5 * 60 * 1000
 }));
-
-app.use(bodyParser.json());
 
 app.use(function(req, res, next){
     res.setHeader('Access-Control-Origin', constants.frontEnd);
@@ -45,6 +56,59 @@ connection.getConnection((err) => {
     console.log("pool created");
 });
 
+
+app.get('/', function(req, res) {
+    res.redirect('/welcome');
+});
+
+app.all('/welcome', function(req, res) {
+    res.render('welcome.ejs');
+});
+
+app.get('/RestaurantLogin', function(req, res) {
+    if(req.session.user) {
+        res.redirect('/RestaurantHome');
+    }
+    else {
+        res.render('RestaurantLogin.ejs');
+    }
+});
+
+// app.post('/RestaurantLogin', function(req, res) {
+//     if(req.session.user) {
+//         res.redirect('/RestaurantHome');
+//     }
+//     else {
+
+//         res.render('RestaurantLogin.ejs');
+//     }
+// });
+
+app.post('/RestaurantSignUp', function(req, res) {
+    if(req.session.user) {
+        res.redirect('/RestaurantHome');
+    }
+    else {
+        console.log(req.body);
+        // await connection.query('SELECT * FROM test_table', async function (error, results) {
+        //     if(error) {
+        //         res.writeHead(200, {
+        //             'Content-Type': 'text/plain'
+        //         });
+        //         res.end(error.code);
+        //     }
+        //     else {
+        //         res.writeHead(200, {
+        //             'Content-Type': 'text/plain'
+        //         });
+        //         res.end(JSON.stringify(results));
+        //     }
+        // });
+        res.render('RestaurantLogin.ejs');
+    }
+});
+
+
 app.get('/test-api', async function(req, res) {
     await connection.query('SELECT * FROM test_table', async function (error, results) {
         if(error) {
@@ -62,7 +126,5 @@ app.get('/test-api', async function(req, res) {
     });
 });
 
-app.listen(3000, () => {
-    console.log('Server listening at port 3000');
-})
+
 
