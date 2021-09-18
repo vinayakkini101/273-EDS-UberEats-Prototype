@@ -3,14 +3,14 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 
 import {BrowserRouter} from 'react-router-dom';
-import MainRoutes from './components/Main';
+import RoutesMapping from './components/RoutesMapping';
 
 class App extends Component {
   render(){
     return (
       <BrowserRouter>
       <div>
-          <MainRoutes/>
+          <RoutesMapping/>
       </div>
       </BrowserRouter>
 

@@ -6,23 +6,23 @@ var cookieParser = require('cookie-parser');
 var cors = require('cors');
 var mysql = require('mysql');
 
+var pool = require('./config/dbConnection.js');
+const constants = require('./config/config.json');
+const login = require('./routes/login');
+
 app.set('view engine', 'ejs');
-//set the directory of views
 app.set('views', './views');
-//specify the path of static directory
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 //use cookie parser to parse request headers
 app.use(cookieParser());
-var constants = require('./config.json');
-const { everySeries } = require('async');
 
 app.listen(3000, () => {
     console.log('Server listening at port 3000');
 });
 
-app.use(cors({ origin: constants.frontEnd, credentials: true}));
+app.use(cors({ origin: true, credentials: true}));
 
 app.use(session({
     secret: 'UberEatsClone',
@@ -33,7 +33,7 @@ app.use(session({
 }));
 
 app.use(function(req, res, next){
-    res.setHeader('Access-Control-Origin', constants.frontEnd);
+    res.setHeader('Access-Control-Allow-Origin', constants.frontEnd);
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     res.setHeader('Access-Control-Methods', 'GET,HEAD,POST,OPTIONS,POST,PUT,DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Accept');
@@ -41,89 +41,56 @@ app.use(function(req, res, next){
     next();
 });
 
-var connection = mysql.createPool({
-    host: constants.DB.host,
-    user: constants.DB.username,
-    password: constants.DB.password,
-    port: constants.DB.port,
-    database: constants.DB.database
-});
+app.use('/', login);
 
-connection.getConnection((err) => {
-    if(err) {
-        throw 'Error occured: ' + err;
-    }
-    console.log("pool created");
-});
+app.get('/test-api', function(req, res) {
 
-
-app.get('/', function(req, res) {
-    res.redirect('/welcome');
-});
-
-app.all('/welcome', function(req, res) {
-    res.render('welcome.ejs');
-});
-
-app.get('/RestaurantLogin', function(req, res) {
-    if(req.session.user) {
-        res.redirect('/RestaurantHome');
-    }
-    else {
-        res.render('RestaurantLogin.ejs');
-    }
-});
-
-// app.post('/RestaurantLogin', function(req, res) {
-//     if(req.session.user) {
-//         res.redirect('/RestaurantHome');
-//     }
-//     else {
-
-//         res.render('RestaurantLogin.ejs');
-//     }
-// });
-
-app.post('/RestaurantSignUp', function(req, res) {
-    if(req.session.user) {
-        res.redirect('/RestaurantHome');
-    }
-    else {
-        console.log(req.body);
-        // await connection.query('SELECT * FROM test_table', async function (error, results) {
-        //     if(error) {
-        //         res.writeHead(200, {
-        //             'Content-Type': 'text/plain'
-        //         });
-        //         res.end(error.code);
-        //     }
-        //     else {
-        //         res.writeHead(200, {
-        //             'Content-Type': 'text/plain'
-        //         });
-        //         res.end(JSON.stringify(results));
-        //     }
-        // });
-        res.render('RestaurantLogin.ejs');
-    }
-});
-
-
-app.get('/test-api', async function(req, res) {
-    await connection.query('SELECT * FROM test_table', async function (error, results) {
-        if(error) {
+    pool
+        .then((conn) => {
+            console.log("pool created");
+            return conn;
+        })
+        .catch((err) => {
+            console.log('Error occured in creating pool ' + err);
+        })
+        .then((conn) => {
+            let result = conn.query('SELECT * FROM Restaurant');
+            return result;
+        })
+        .catch((err) => {
             res.writeHead(200, {
                 'Content-Type': 'text/plain'
             });
-            res.end(error.code);
-        }
-        else {
+            res.end(err.code);
+        })
+        .then((result) => {
             res.writeHead(200, {
                 'Content-Type': 'text/plain'
             });
-            res.end(JSON.stringify(results));
-        }
-    });
+            res.end(JSON.stringify(result));
+        })
+
+        // pool.getConnection((err) => {
+    //     if(err) {
+    //         throw 'Error occured: ' + err;
+    //     }
+    //     console.log("pool created");
+    // })
+
+    // pool.query('SELECT * FROM Restaurant', function (error, results) {
+    //     if (error) {
+    //         res.writeHead(200, {
+    //             'Content-Type': 'text/plain'
+    //         });
+    //         res.end(error.code);
+    //     }
+    //     else {
+    //         res.writeHead(200, {
+    //             'Content-Type': 'text/plain'
+    //         });
+    //         res.end(JSON.stringify(results));
+    //     }
+    // });
 });
 
 
