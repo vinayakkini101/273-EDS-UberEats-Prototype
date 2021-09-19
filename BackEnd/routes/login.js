@@ -1,5 +1,5 @@
 const express = require('express');
-var mysql = require('mysql');
+const mysql = require('mysql');
 const app = express.Router();
 const pool = require('../config/dbConnection.js');
 
@@ -15,8 +15,15 @@ app.post('/login', (req, res) => {
             res.end("Error while creating pool");
         })
         .then((conn) => {
-            console.log('Pool created')
-            let queryResult = conn.query(`SELECT * from Restaurant where Email= ${mysql.escape(req.body.email)}`);
+            console.log('Pool created');
+            let queryResult;
+            console.log("req.body.isRestaurant ", req.body.isRestaurant);
+            if(req.body.isRestaurant) {
+                queryResult = conn.query(`SELECT * from Restaurant where email= ${mysql.escape(req.body.email)}`);
+            }
+            else {
+                queryResult = conn.query(`SELECT * from Customer where email= ${mysql.escape(req.body.email)}`);
+            }
             return queryResult;
         })
         .catch((err) => {
@@ -24,9 +31,10 @@ app.post('/login', (req, res) => {
             res.writeHead(400, {
                 'Content-type': 'text/plain'
             });
-            res.end("Invalid credentials");
+            res.end("Error in query execution");
         })
         .then((queryResult) => {
+            console.log("queryResult ", queryResult);
             if (queryResult.length == 0 || req.body.password !== queryResult[0].password) {
                 res.writeHead(402, {
                     'Content-type': 'text/plain'
@@ -37,14 +45,14 @@ app.post('/login', (req, res) => {
                 console.log(queryResult);
                 console.log("local Storage: ", req.session.email);
 
-                res.cookie('cookie', queryResult[0].Email, {
+                res.cookie('cookie', queryResult[0].email, {
                     maxAge: 360000,
                     httpOnly: false,
                     path: '/'
                 });
-                console.log("res.cookie ",res.cookie);
+                // console.log("res.cookie ",res.cookie);
 
-                req.session.email = queryResult[0].Email;
+                req.session.email = queryResult[0].email;
                 console.log("req.session.email " + req.session.email);
                 res.writeHead(200, {
                     'Content-type': 'text/plain'

@@ -24,6 +24,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.2",
     "mysql": "^2.18.1",
+    "node-localstorage": "^2.2.1",
     "promise-mysql": "^5.0.4"
   }
 }

@@ -1,16 +1,16 @@
 import React from 'react';
 import NavBar from './Navbar/navbar';
 
-class RestaurantHome extends React.Component {
+class CustomerHome extends React.Component {
 
     render() {
         return (
             <>
             <NavBar />
-            <div>Restaurant Home</div>
+            <div>CUstomer home</div>
             </>
         );
     }
 }
 
-export default RestaurantHome;
+export default CustomerHome;
