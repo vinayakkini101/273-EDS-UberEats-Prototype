@@ -1,5 +1,5 @@
 import React from 'react';
-import {Field} from 'formik';
+// import {Field} from 'formik';
 import cookie from 'react-cookies';
 
 class NavBar extends React.Component {

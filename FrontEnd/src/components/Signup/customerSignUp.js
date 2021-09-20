@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import {Formik, Form, Field, ErrorMessage} from 'formik';
-import {Link} from 'react-router-dom';
+// import {Link} from 'react-router-dom';
 
 class CustomerSignUp extends React.Component {
 
