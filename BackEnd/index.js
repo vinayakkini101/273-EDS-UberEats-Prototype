@@ -12,6 +12,7 @@ var pool = require('./config/dbConnection.js');
 const constants = require('./config/config.json');
 const login = require('./routes/login.js');
 const signup = require('./routes/signup.js');
+const getAllDishes = require('./routes/getAllDishes.js');
 
 app.set('view engine', 'ejs');
 app.set('views', './views');
@@ -46,6 +47,7 @@ app.use(function(req, res, next){
 
 app.use('/', login);
 app.use('/', signup);
+app.use('/', getAllDishes);
 
 app.get('/test-api', function(req, res) {
 
