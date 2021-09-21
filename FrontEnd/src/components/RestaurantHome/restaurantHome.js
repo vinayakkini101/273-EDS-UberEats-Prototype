@@ -69,35 +69,45 @@ class RestaurantHome extends React.Component {
                 <form>
                     <div className="row align-items-end">
                         <div className="col-2">
-                            <label htmlFor="inputEmail4" className="form-label">dish name</label>
+                            <label htmlFor="inputEmail4" className="form-label">Dish Name</label>
                             <input type="text" name="dishname" className="form-control" 
                                 value={this.state.dishDetails.dishname} 
                                 onChange={this.handleFieldInput} 
                             />
                         </div> 
                         <div className="col-2">
-                            <label htmlFor="inputPassword4" className="form-label">ingred</label>
+                            <label htmlFor="inputPassword4" className="form-label">Ingredients</label>
                             <input type="text" name="ingredients" className="form-control" 
                                 value={this.state.dishDetails.ingredients} 
                                 onChange={this.handleFieldInput} 
                             />
                         </div>
                         <div className="col-2">
-                            <label htmlFor="inputEmail4" className="form-label">Descr</label>
+                            <label htmlFor="inputEmail4" className="form-label">Description</label>
                             <input type="text" name="description" className="form-control" 
                                 value={this.state.dishDetails.description} 
                                 onChange={this.handleFieldInput}  
                             />
                         </div>
                         <div className="col-2">
-                            <label htmlFor="inputPassword4" className="form-label">cate</label>
-                            <input type="text" name="category" className="form-control" 
-                                value={this.state.dishDetails.category} 
+                            <label htmlFor="inputPassword4" className="form-label">Category</label>
+                            <select 
+                                type="dropdown"
+                                id="category" 
+                                name="category" 
+                                className="form-select"
                                 onChange={this.handleFieldInput}  
-                            />
+                                value={this.state.dishDetails.category}   
+                            >
+                                <option value="Appetizers">Appetizers</option>
+                                <option value="Salads">Salads</option>
+                                <option value="Main Course">Main Course</option>
+                                <option value="Desserts">Desserts</option>
+                                <option value="Beverages">Beverages</option>
+                            </select>
                         </div>
                         <div className="col-2">
-                            <label htmlFor="inputEmail4" className="form-label"> price</label>
+                            <label htmlFor="inputEmail4" className="form-label">Price</label>
                             <input type="text" name="price" className="form-control" 
                                 value={this.state.dishDetails.price} 
                                 onChange={this.handleFieldInput} 
