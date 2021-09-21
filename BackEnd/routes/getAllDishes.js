@@ -18,23 +18,10 @@ app.get('/getAllDishes', (req, res) => {
         .then((conn) => {
             console.log('Pool created');
             dbConn = conn;
-            // const restaurantEmail  = localStorage.getItem('userEmail');
-            console.log('req body resto email ' + req.query.restaurantEmail);
-            let result = conn.query(`SELECT Restaurant_ID from Restaurant WHERE email=${mysql.escape(req.query.restaurantEmail)}`);
-            return result;
-        })
-        .catch((err) => {
-            console.log('Error in query execution (getting the restaurant ID)' + err);
-            res.writeHead(400, {
-                'Content-type': 'text/plain'
-            });
-            res.end("Error in query execution");
-        })
-        .then((result) => {
-            console.log('restrnt id from query ', result);
-            let restaurantID = result[0].Restaurant_ID;
+            console.log('restrnt id from query ', req.query.restaurantEmail);
+            // let restaurantID = result[0].Restaurant_ID;
             let queryResult;
-            queryResult = dbConn.query(`SELECT * from Dish where Restaurant_ID= ${restaurantID}`);
+            queryResult = dbConn.query(`SELECT * from Dish WHERE Restaurant_Email=${mysql.escape(req.query.restaurantEmail)}`);
             return queryResult;
         })
         .catch((err) => {
