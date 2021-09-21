@@ -1,18 +1,5 @@
 import axios from 'axios';
 import React from 'react';
-import NavBar from './Navbar/navbar';
-
-class RestaurantHome extends React.Component {
-
-    render() {
-        return (
-            <>
-            <NavBar />
-            <DishList />
-            </>
-        );
-    }
-}
 
 class DishList extends React.Component {
     constructor(props) {
@@ -46,10 +33,6 @@ class DishList extends React.Component {
                 console.log(error);
                 alert("Unable to get dishes, please try again!");
             })
-    }
-
-    handleAddNewDish = () => {
-
     }
 
     handleDeleteDish = () => {
@@ -92,56 +75,10 @@ class DishList extends React.Component {
                         })}
                     </tbody>
                 </table>
-            
-            
-                
-
-                <div className="container">
-                    <div className="row">
-                        <div className="col-2">
-                            <label htmlFor="inputEmail4" className="form-label">Dish name</label>
-                        </div>
-                        <div className="col-2">
-                            <label htmlFor="inputPassword4" className="form-label">ingred</label>
-                        </div>
-                        <div className="col-2">
-                            <label htmlFor="inputEmail4" className="form-label">Descr</label>
-                        </div>
-                        <div className="col-2">
-                            <label htmlFor="inputPassword4" className="form-label">cate</label>
-                        </div>
-                        <div className="col-2">
-                            <label htmlFor="inputEmail4" className="form-label"> price</label>
-                        </div>
-                        <div className="col-2">
-
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-2">
-                            <input type="text" className="form-control" />
-                        </div>
-                        <div className="col-2">
-                            <input type="text" className="form-control" />
-                        </div>
-                        <div className="col-2">
-                            <input type="text" className="form-control" />
-                        </div>
-                        <div className="col-2">
-                            <input type="text" className="form-control" />
-                        </div>
-                        <div className="col-2">
-                            <input type="text" className="form-control" />
-                        </div>
-                        <div className="col-2">
-                            <button type="button" className="btn btn-success">Add New Dish</button>
-                        </div>
-                    </div>
-                </div>
             </div>
             </>
         )
     }
 }
 
-export default RestaurantHome;
+export default DishList;

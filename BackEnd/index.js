@@ -13,6 +13,7 @@ const constants = require('./config/config.json');
 const login = require('./routes/login.js');
 const signup = require('./routes/signup.js');
 const getAllDishes = require('./routes/getAllDishes.js');
+const addNewDish = require('./routes/addNewDish.js');
 
 app.set('view engine', 'ejs');
 app.set('views', './views');
@@ -48,6 +49,7 @@ app.use(function(req, res, next){
 app.use('/', login);
 app.use('/', signup);
 app.use('/', getAllDishes);
+app.use('/', addNewDish);
 
 app.get('/test-api', function(req, res) {
 
