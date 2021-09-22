@@ -18,6 +18,7 @@ app.post('/addNewDish', (req, res) => {
             console.log('Pool created');
             let queryResult;
             queryResult = conn.query(`INSERT INTO Dish (
+                Dish_Code,
                 Restaurant_Email,
                 Dish_Name,
                 Ingredients,
@@ -26,6 +27,7 @@ app.post('/addNewDish', (req, res) => {
                 Price
             )
             VALUES (
+                ${mysql.escape(req.body.dishcode)},
                 ${mysql.escape(req.body.restaurantEmail)},
                 ${mysql.escape(req.body.dishname)},
                 ${mysql.escape(req.body.ingredients)},

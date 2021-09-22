@@ -1,132 +1,132 @@
 import axios from 'axios';
 import React from 'react';
+import cookie from 'react-cookies';
+import { Redirect } from 'react-router';
 import NavBar from '../Navbar/navbar';
-import DishList from './DishList';
+import NewDish from './newDish.js'
 
 class RestaurantHome extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
-            dishDetails: {
-                dishname: '',
-                ingredients: '',
-                description: '',
-                category: '',
-                price: ''
-            },
-            isPageUpdated: false
+            isPageUpdated: false,
+            dishList: []
         }
     }
-    
-    handleAddNewDish = (event) => {
-        event.preventDefault();
-        axios.defaults.withCredentials = true;
-        axios.post('http://localhost:3000/addNewDish', {
-                ...this.state.dishDetails, 
-                restaurantEmail: localStorage.getItem('userEmail') 
-            })
+
+    componentDidMount = () => {
+        this.handleGetAllDishes();
+    }
+
+    handleGetAllDishes = () => {
+        axios.get('http://localhost:3000/getAllDishes', {
+            params: {
+                restaurantEmail: localStorage.getItem('userEmail')
+            }
+        })
             .then((response) => {
                 if (response.status === 200) {
                     console.log("response ", response.data);
                     this.setState({
                         isPageUpdated: true,
-                        dishDetails: {
-                            dishname: '',
-                            ingredients: '',
-                            description: '',
-                            category: '',
-                            price: ''
-                        }
+                        dishList: response.data.slice()
                     })
                 }
             })
             .catch(error => {
-                console.log("Add new dish error");
+                console.log("Get all dishes error");
                 this.setState({
                     isPageUpdated: "false"
                 });
                 console.log(error);
-                alert("Unable to add new dish, please try again!");
+                alert("Unable to get dishes, please try again!");
             })
     }
 
-    handleFieldInput = (e) => {
-        console.log(e.target.name, e.target.value);
-        this.setState((state) => {
-            state.dishDetails = {...state.dishDetails, [e.target.name] : e.target.value};
-            return state.dishDetails;
+    handleDeleteDish = (e) => {
+        console.log('delete dish e target ', e.target.name);
+        axios.post('http://localhost:3000/deleteDish', {
+            dishcode: [e.target.name],
+            restaurantEmail: localStorage.getItem('userEmail') 
         })
+            .then((response) => {
+                if (response.status === 200) {
+                    console.log("response ", response.data);
+                    this.setState({
+                        isPageUpdated: true,
+                    })
+                    this.componentDidMount();
+                }
+            })
+            .catch(error => {
+                this.componentDidMount();
+                console.log("Delete dish error");
+                this.setState({
+                    isPageUpdated: "false"
+                });
+                console.log(error);
+                alert("Unable to delete dish, please try again!");
+
+            })
     }
 
     render() {
+        let authenticate = null;
+        if( !cookie.load('cookie')) {
+            console.log('hello');
+            authenticate = <Redirect to='/login' />;
+        }
+
         return (
             <>
-            <NavBar />
-            <DishList />
-
             <div className="container">
-                <form>
-                    <div className="row align-items-end">
-                        <div className="col-2">
-                            <label htmlFor="inputEmail4" className="form-label">Dish Name</label>
-                            <input type="text" name="dishname" className="form-control" 
-                                value={this.state.dishDetails.dishname} 
-                                onChange={this.handleFieldInput} 
-                            />
-                        </div> 
-                        <div className="col-2">
-                            <label htmlFor="inputPassword4" className="form-label">Ingredients</label>
-                            <input type="text" name="ingredients" className="form-control" 
-                                value={this.state.dishDetails.ingredients} 
-                                onChange={this.handleFieldInput} 
-                            />
-                        </div>
-                        <div className="col-2">
-                            <label htmlFor="inputEmail4" className="form-label">Description</label>
-                            <input type="text" name="description" className="form-control" 
-                                value={this.state.dishDetails.description} 
-                                onChange={this.handleFieldInput}  
-                            />
-                        </div>
-                        <div className="col-2">
-                            <label htmlFor="inputPassword4" className="form-label">Category</label>
-                            <select 
-                                type="dropdown"
-                                id="category" 
-                                name="category" 
-                                className="form-select"
-                                onChange={this.handleFieldInput}  
-                                value={this.state.dishDetails.category}   
-                            >
-                                <option value="Appetizers">Appetizers</option>
-                                <option value="Salads">Salads</option>
-                                <option value="Main Course">Main Course</option>
-                                <option value="Desserts">Desserts</option>
-                                <option value="Beverages">Beverages</option>
-                            </select>
-                        </div>
-                        <div className="col-2">
-                            <label htmlFor="inputEmail4" className="form-label">Price</label>
-                            <input type="text" name="price" className="form-control" 
-                                value={this.state.dishDetails.price} 
-                                onChange={this.handleFieldInput} 
-                            />
-                        </div>
-                        <div className="col-2">
-                            <button 
-                                type="submit" 
-                                className="btn btn-success"
-                                onClick={this.handleAddNewDish}
-                            >
-                                Add New Dish
-                            </button>
-                        </div>
-                    </div>
-                </form>
+            
+                {authenticate}
+                <NavBar />
+
+                <table className="table">
+                    <thead>
+                        <tr key="headingKey">
+                            <th scope="col">Dish Code</th>
+                            <th scope="col">Dish Name</th>
+                            <th scope="col">Ingredients</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Price</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.state.dishList.map(dish => {
+                            return (
+                                <tr key={dish.Dish_Code}>
+                                    <td>{dish.Dish_Code}</td>
+                                    <td>{dish.Dish_Name}</td>
+                                    <td>{dish.Ingredients}</td>
+                                    <td>{dish.Description}</td>
+                                    <td>{dish.Category}</td>
+                                    <td>{dish.Price}</td>
+                                    <td>
+                                        <button
+                                            name={dish.Dish_Code}
+                                            className="btn btn-danger"
+                                            onClick={this.handleDeleteDish}
+                                        >
+                                            Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                            )
+                        })}
+                    </tbody>
+                </table>
+
+
+                <NewDish handleGetAllDishes={this.handleGetAllDishes} />
+                
             </div>
             </>
-        );
+        )
     }
 }
 
