@@ -1,6 +1,7 @@
 import React from 'react';
 import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
+import axios from 'axios';
 import NavBar from '../Navbar/navbar';
 
 class EditProfile extends React.Component {
@@ -25,11 +26,46 @@ class EditProfile extends React.Component {
 
     handleChange = e => {
         this.setState({
+            updateOperation: '',
             profileDetails: {
                 ...this.state.profileDetails,
                 [e.target.name]: e.target.value
             }
         })
+    }
+
+    handleUpdate = (event) => {
+        axios.defaults.withCredentials = true;
+        axios.post('http://localhost:3000/updateRestaurantProfile', this.state.profileDetails)
+            .then((response) => {
+                if (response.status === 200) {
+                    console.log("response ", response.data);
+                    const details = response.data;
+                    this.setState({
+                        updateOperation: 'success',
+                        profileDetails: {
+                            id: details.Restaurant_ID,
+                            name: details.name,
+                            description: details.description,
+                            email: details.email,
+                            contactno: details.contact_number,
+                            starttime: details.start_time,
+                            endtime: details.end_time,
+                            country: details.country,
+                            state: details.state,
+                            city: details.City 
+                        }
+                    })
+                }
+            })
+            .catch(error => {
+                console.log("update restaurant details error");
+                this.setState({
+                    updateOperation: 'failure'
+                });
+                console.log(error);
+                alert("Unable to update restaurant details, please try again!");
+            })
     }
 
     render() {
@@ -38,6 +74,16 @@ class EditProfile extends React.Component {
             console.log('hello');
             authenticate = <Redirect to='/login' />;
         }
+
+        let errorMessage = null;
+        let redirectVar = null;
+        if(this.state.updateOperation === 'failure') {
+            errorMessage = <div className='alert alert-danger'>Update failed</div>;
+        }
+        else if(this.state.updateOperation === 'success') {
+            redirectVar = <Redirect to='/RestaurantProfile' />;
+        }
+
         return (
             <>
             {authenticate}
@@ -165,6 +211,18 @@ class EditProfile extends React.Component {
                         </div>
                     </div>
                 </form>
+                <button 
+                        type='button'
+                        className='btn btn-success'
+                        onClick={this.handleUpdate}
+                    > 
+                        Update
+                </button>
+                
+                {errorMessage}
+
+                {redirectVar}
+
             </div>
             </>
         );

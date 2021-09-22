@@ -79,10 +79,11 @@ class RestaurantHome extends React.Component {
 
         return (
             <>
+            <NavBar />
+            
             <div className="container">
             
                 {authenticate}
-                <NavBar />
 
                 <table className="table">
                     <thead>
