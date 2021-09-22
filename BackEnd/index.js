@@ -14,6 +14,8 @@ const login = require('./routes/login.js');
 const signup = require('./routes/signup.js');
 const getAllDishes = require('./routes/getAllDishes.js');
 const addNewDish = require('./routes/addNewDish.js');
+const deleteDish = require('./routes/deleteDish.js');
+const getRestaurantProfile = require('./routes/getRestaurantProfile.js');
 
 app.set('view engine', 'ejs');
 app.set('views', './views');
@@ -50,6 +52,8 @@ app.use('/', login);
 app.use('/', signup);
 app.use('/', getAllDishes);
 app.use('/', addNewDish);
+app.use('/', deleteDish);
+app.use('/', getRestaurantProfile);
 
 app.get('/test-api', function(req, res) {
 
