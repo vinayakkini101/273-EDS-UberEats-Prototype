@@ -3,11 +3,13 @@ import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
 import axios from 'axios';
 import NavBar from '../Navbar/navbar';
+import rootURL from '../config/setting';
 
 class EditProfile extends React.Component {
 
     constructor(props) {
         super(props);
+        this.imageRef = React.createRef();
         this.state = {
             profileDetails: {
                 id: this.props.location.id,
@@ -19,9 +21,37 @@ class EditProfile extends React.Component {
                 endtime: this.props.location.endtime,
                 country: this.props.location.country,
                 state: this.props.location.state,
-                city: this.props.location.city 
+                city: this.props.location.city,
+                imageLink: this.props.location.imageLink,
+                imageName: this.props.location.imageName
             }
         }
+    }
+
+    handleUpload = (event) => {
+        // event.preventDefault();
+        console.log(event.target.files[0]);
+
+        const imageFile = event.target.files[0];
+        const formData = new FormData();
+        formData.append('photos', imageFile);
+        console.log('formData ', formData);
+
+        axios.post('/uploadFile', formData)
+            .then(response => {
+                if (response.status === 200) {
+                    console.log('Image name : ', imageFile.name);
+                    this.setState({
+                        profileDetails: {
+                            ...this.state.profileDetails,
+                            imageName: imageFile.name,
+                            imageLink: rootURL + '/items/download-image/' + imageFile.name
+                        }
+                    })
+                    console.log('restaurant pic link state ', this.state.profileDetails.imageLink);
+                    this.imageRef.current.value = '';
+                }
+            })
     }
 
     handleChange = e => {
@@ -35,6 +65,8 @@ class EditProfile extends React.Component {
     }
 
     handleUpdate = (event) => {
+        event.preventDefault();
+        
         axios.defaults.withCredentials = true;
         axios.post('http://localhost:3000/updateRestaurantProfile', this.state.profileDetails)
             .then((response) => {
@@ -53,7 +85,8 @@ class EditProfile extends React.Component {
                             endtime: details.end_time,
                             country: details.country,
                             state: details.state,
-                            city: details.City 
+                            city: details.City,
+                            imageLink: details.Display_Picture
                         }
                     })
                 }
@@ -90,7 +123,14 @@ class EditProfile extends React.Component {
             <NavBar />
             <div>Edit profile</div>
             <div className='container'>
-                <form>
+                <img src={this.state.profileDetails.imageLink || ''} className='img-fluid' alt='Display picture' />
+                <form encType="multipart/form-data">
+                    <input 
+                        type='file'
+                        ref={this.imageRef}
+                        onChange={this.handleUpload}
+                    >
+                    </input>
                     <div className="row mb-3 align-items-center">
                         <div className="col-3">
                             <label htmlFor="" className="col-form-label">Restaurant ID</label>

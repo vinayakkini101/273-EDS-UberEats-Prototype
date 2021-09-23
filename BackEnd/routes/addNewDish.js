@@ -2,8 +2,9 @@ const express = require('express');
 const mysql = require('mysql');
 const app = express.Router();
 const pool = require('../config/dbConnection.js');
+const { upload } = require('./uploadDownload.js');
 
-app.post('/addNewDish', (req, res) => {
+app.post('/addNewDish', upload.array('photos', 5), (req, res) => {;
     console.log(req.body);
 
     pool
@@ -24,7 +25,8 @@ app.post('/addNewDish', (req, res) => {
                 Ingredients,
                 Description,
                 Category,
-                Price
+                Price,
+                Dish_Image
             )
             VALUES (
                 ${mysql.escape(req.body.dishcode)},
@@ -33,8 +35,9 @@ app.post('/addNewDish', (req, res) => {
                 ${mysql.escape(req.body.ingredients)},
                 ${mysql.escape(req.body.description)},
                 ${mysql.escape(req.body.category)},
-                ${mysql.escape(req.body.price)}
-            )`)
+                ${mysql.escape(req.body.price)},
+                ${mysql.escape(req.body.imageLink)}
+            )`);
 
             return queryResult;
         })

@@ -4,11 +4,13 @@ import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import NavBar from '../Navbar/navbar';
+import rootURL from '../config/setting';
 
 class RestaurantProfile extends React.Component {
 
     constructor(props) {
         super(props);
+        this.imageRef = React.createRef();
         this.state = {
             val: 1,
             profileDetails: {
@@ -21,10 +23,16 @@ class RestaurantProfile extends React.Component {
                 endtime: '',
                 country: '',
                 state: '',
-                city: '' 
+                city: '',
+                imageLink: '',
+                imageName: ''
             }
         }
     } 
+
+    componentDidMount = () => {
+        this.getProfileDetails();
+    }
 
     handleChange = (e) => {
         this.setState({
@@ -33,10 +41,6 @@ class RestaurantProfile extends React.Component {
                 [e.target.name]: e.target.value
             }
         })
-    }
-
-    componentDidMount = () => {
-        this.getProfileDetails();
     }
 
     getProfileDetails = () => {
@@ -60,7 +64,8 @@ class RestaurantProfile extends React.Component {
                         endtime: details.end_time,
                         country: details.country,
                         state: details.state,
-                        city: details.City 
+                        city: details.City,
+                        imageLink: details.Display_Picture 
                     }
                 })
             }
@@ -87,7 +92,11 @@ class RestaurantProfile extends React.Component {
                 <NavBar />
 
                 <div className='container'>
-                    <form>
+                
+                    <img src={this.state.profileDetails.imageLink || ''} className='img-fluid' alt='Display picture' />
+                    {/* <label className="form-label">Display picture</label> */}
+                    
+                    <form encType="multipart/form-data">
                         <div className="row mb-3 align-items-center">
                             <div className="col-3">
                                 <label htmlFor="" className="col-form-label">Restaurant ID</label>
@@ -219,7 +228,9 @@ class RestaurantProfile extends React.Component {
                                 endtime: this.state.profileDetails.endtime,
                                 country: this.state.profileDetails.country,
                                 state: this.state.profileDetails.state,
-                                city: this.state.profileDetails.city
+                                city: this.state.profileDetails.city,
+                                imageLink: this.state.profileDetails.imageLink,
+                                imageName: this.state.profileDetails.imageName
                             }} 
                         type='button'
                         className='btn btn-success'

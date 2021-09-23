@@ -1,10 +1,13 @@
 import axios from 'axios';
 import React from 'react';
+import rootURL from '../config/setting.js';
+
 
 class NewDish extends React.Component {
 
     constructor(props) {
         super(props);
+        this.imageRef = React.createRef();
         this.state = {
             dishDetails: {
                 dishcode: '',
@@ -12,7 +15,9 @@ class NewDish extends React.Component {
                 ingredients: '',
                 description: '',
                 category: '',
-                price: ''
+                price: '',
+                imageLink: '',
+                imageName: ''
             },
             isPageUpdated: false
         }
@@ -20,10 +25,11 @@ class NewDish extends React.Component {
     
     handleAddNewDish = (event) => {
         event.preventDefault();
+        
         axios.defaults.withCredentials = true;
         axios.post('http://localhost:3000/addNewDish', {
                 ...this.state.dishDetails, 
-                restaurantEmail: localStorage.getItem('userEmail') 
+                restaurantEmail: localStorage.getItem('userEmail'),
             })
             .then((response) => {
                 if (response.status === 200) {
@@ -36,7 +42,9 @@ class NewDish extends React.Component {
                             ingredients: '',
                             description: '',
                             category: '',
-                            price: ''
+                            price: '',
+                            imageLink: '',
+                            imageName: ''
                         }
                     })
                     this.props.handleGetAllDishes();
@@ -57,14 +65,39 @@ class NewDish extends React.Component {
         this.setState((state) => {
             state.dishDetails = {...state.dishDetails, [e.target.name] : e.target.value};
             return state.dishDetails;
-        })
+        });
     }
+
+    handleImageUpload = (event) => {
+        console.log(event.target.files[0]);
+
+        const imageFile = event.target.files[0];
+        const formData = new FormData();
+        formData.append('photos', imageFile);
+        console.log('formData ', formData);
+
+        axios.post('/uploadFile', formData)
+            .then(response => {
+                if (response.status === 200) {
+                    console.log('Image name : ', imageFile.name);
+                    this.setState({
+                        dishDetails: {
+                            ...this.state.dishDetails,
+                            imageName: imageFile.name,
+                            imageLink: rootURL + '/items/download-image/' + imageFile.name
+                        }
+                    })
+                    console.log('dish link state ', this.state.dishDetails.imageLink);
+                    this.imageRef.current.value = '';
+                }
+            })
+      }
 
     render() {
         return (
             <>
-            <div className="container">
-                <form>
+            <div className="container-fluid">
+                <form encType="multipart/form-data">
                     <div className="row align-items-end">
                         <div className="col-1">
                             <label htmlFor="inputEmail4" className="form-label">Code</label>
@@ -94,7 +127,7 @@ class NewDish extends React.Component {
                                 onChange={this.handleFieldInput}  
                             />
                         </div>
-                        <div className="col-2">
+                        <div className="col-1">
                             <label htmlFor="inputPassword4" className="form-label">Category</label>
                             <select 
                                 type="dropdown"
@@ -119,12 +152,19 @@ class NewDish extends React.Component {
                             />
                         </div>
                         <div className="col-2">
+                            <label htmlFor="dishimage" className="form-label">Image</label>
+                            <input type="file" name="dishimage" className="form-control" 
+                                ref={this.imageRef}
+                                onChange={this.handleImageUpload} 
+                            />
+                        </div> 
+                        <div className="col-1">
                             <button 
                                 type="submit" 
                                 className="btn btn-success"
                                 onClick={this.handleAddNewDish}
                             >
-                                Add New Dish
+                                Add Dish
                             </button>
                         </div>
                     </div>

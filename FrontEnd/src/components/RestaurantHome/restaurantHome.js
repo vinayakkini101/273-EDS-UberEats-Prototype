@@ -81,15 +81,16 @@ class RestaurantHome extends React.Component {
             <>
             <NavBar />
             
-            <div className="container">
+            <div className="container-fluid">
             
                 {authenticate}
 
                 <table className="table">
                     <thead>
                         <tr key="headingKey">
-                            <th scope="col">Dish Code</th>
-                            <th scope="col">Dish Name</th>
+                            <th scope="col">Image</th>
+                            <th scope="col">Code</th>
+                            <th scope="col">Name</th>
                             <th scope="col">Ingredients</th>
                             <th scope="col">Description</th>
                             <th scope="col">Category</th>
@@ -101,6 +102,9 @@ class RestaurantHome extends React.Component {
                         {this.state.dishList.map(dish => {
                             return (
                                 <tr key={dish.Dish_Code}>
+                                    <td><img src={dish.Dish_Image} className='img-fluid img-thumbnail' alt=''></img></td>
+                                    {/* className='img-fluid' */}
+                                    {/* style={{width: '8rem', height: '5rem'}} */}
                                     <td>{dish.Dish_Code}</td>
                                     <td>{dish.Dish_Name}</td>
                                     <td>{dish.Ingredients}</td>

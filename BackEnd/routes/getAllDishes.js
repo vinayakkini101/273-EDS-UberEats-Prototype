@@ -4,7 +4,7 @@ const app = express.Router();
 const pool = require('../config/dbConnection.js');
 
 app.get('/getAllDishes', (req, res) => {
-    console.log(req.query);
+    // console.log(req.query);
     let dbConn;
 
     pool

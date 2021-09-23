@@ -27,7 +27,8 @@ app.post('/updateRestaurantProfile', (req, res) => {
                                             end_time = ${mysql.escape(req.body.endtime)},
                                             country = ${mysql.escape(req.body.country)},
                                             state = ${mysql.escape(req.body.state)},
-                                            City = ${mysql.escape(req.body.city)}
+                                            City = ${mysql.escape(req.body.city)},
+                                            Display_Picture=${mysql.escape(req.body.imageLink)}
                                         WHERE 
                                             email=${mysql.escape(req.body.email)}
                                     `);

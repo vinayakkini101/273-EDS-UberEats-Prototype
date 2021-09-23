@@ -17,6 +17,7 @@ const addNewDish = require('./routes/addNewDish.js');
 const deleteDish = require('./routes/deleteDish.js');
 const getRestaurantProfile = require('./routes/getRestaurantProfile.js');
 const updateRestaurantProfile = require('./routes/updateRestaurantProfile.js');
+const { uploadDownload } = require('./routes/uploadDownload.js');
 
 app.set('view engine', 'ejs');
 app.set('views', './views');
@@ -56,6 +57,7 @@ app.use('/', addNewDish);
 app.use('/', deleteDish);
 app.use('/', getRestaurantProfile);
 app.use('/', updateRestaurantProfile);
+app.use('/', uploadDownload);
 
 app.get('/test-api', function(req, res) {
 
