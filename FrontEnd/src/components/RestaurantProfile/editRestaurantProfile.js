@@ -5,7 +5,7 @@ import axios from 'axios';
 import NavBar from '../Navbar/navbar';
 import rootURL from '../config/setting';
 
-class EditProfile extends React.Component {
+class EditRestaurantProfile extends React.Component {
 
     constructor(props) {
         super(props);
@@ -121,9 +121,9 @@ class EditProfile extends React.Component {
             <>
             {authenticate}
             <NavBar />
-            <div>Edit profile</div>
+            <div>Edit Restaurant profile</div>
             <div className='container'>
-                <img src={this.state.profileDetails.imageLink || ''} className='img-fluid' alt='Display picture' />
+                <img src={this.state.profileDetails.imageLink || ''} className='img-fluid' alt='Display' />
                 <form encType="multipart/form-data">
                     <input 
                         type='file'
@@ -269,4 +269,4 @@ class EditProfile extends React.Component {
     }
 }
 
-export default EditProfile;
+export default EditRestaurantProfile;

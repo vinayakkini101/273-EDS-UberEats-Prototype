@@ -6,7 +6,7 @@ import axios from 'axios';
 import NavBar from '../Navbar/navbar';
 import rootURL from '../config/setting';
 
-class RestaurantProfile extends React.Component {
+class CustomerProfile extends React.Component {
 
     constructor(props) {
         super(props);
@@ -14,13 +14,12 @@ class RestaurantProfile extends React.Component {
         this.state = {
             val: 1,
             profileDetails: {
-                id: '',
                 name: '',
-                description: '',
                 email: '',
+                about: '',
+                nickname: '',
                 contactno: '',
-                starttime: '',
-                endtime: '',
+                dob: '',
                 country: '',
                 state: '',
                 city: '',
@@ -45,8 +44,8 @@ class RestaurantProfile extends React.Component {
 
     getProfileDetails = () => {
         axios.defaults.withCredentials = true;
-        axios.post('/getRestaurantProfile', {
-            restaurantEmail: localStorage.getItem('userEmail') 
+        axios.post('/getCustomerProfile', {
+            customerEmail: localStorage.getItem('userEmail') 
         })
         .then((response) => {
             if (response.status === 200) {
@@ -55,28 +54,27 @@ class RestaurantProfile extends React.Component {
                 this.setState({
                     // isPageUpdated: true,
                     profileDetails: {
-                        id: details.Restaurant_ID,
                         name: details.name,
-                        description: details.description,
                         email: details.email,
                         contactno: details.contact_number,
-                        starttime: details.start_time,
-                        endtime: details.end_time,
+                        about: details.about,
+                        nickname: details.nickname,
+                        dob: details.dob.split('T')[0],
                         country: details.country,
                         state: details.state,
-                        city: details.City,
-                        imageLink: details.Display_Picture 
+                        city: details.city,
+                        imageLink: details.profile_picture 
                     }
                 })
             }
         })
         .catch(error => {
-            console.log("get restaurant details error");
+            console.log("get customer details error");
             this.setState({
                 isPageUpdated: "false"
             });
             console.log(error);
-            alert("Unable to get restaurant details, please try again!");
+            alert("Unable to get customer details, please try again!");
         })
     }
 
@@ -90,9 +88,7 @@ class RestaurantProfile extends React.Component {
         return (
             <>
                 <NavBar />
-
                 {authenticate}
-
                 <div className='container'>
                 
                     <img src={this.state.profileDetails.imageLink || ''} className='img-fluid' alt='Display' />
@@ -101,35 +97,12 @@ class RestaurantProfile extends React.Component {
                     <form encType="multipart/form-data">
                         <div className="row mb-3 align-items-center">
                             <div className="col-3">
-                                <label htmlFor="" className="col-form-label">Restaurant ID</label>
-                            </div>
-                            <div className="col-6">
-                                <input type="text" name="id" className="form-control" 
-                                value={this.state.profileDetails.id} 
-                                readOnly
-                            />
-                            </div>
-                        </div>
-                        <div className="row mb-3 align-items-center">
-                            <div className="col-3">
                                 <label htmlFor="" className="col-form-label">Name</label>
                             </div>
                             <div className="col-6">
                                 <input type="text" name="name" className="form-control" 
                                 // disabled 
                                 value={this.state.profileDetails.name} 
-                                readOnly
-                            />
-                            </div>
-                        </div>
-                        <div className="row mb-3 align-items-center">
-                            <div className="col-3">
-                                <label htmlFor="" className="col-form-label">Description</label>
-                            </div>
-                            <div className="col-6">
-                                <input type="text" name="description" className="form-control" 
-                                // disabled 
-                                value={this.state.profileDetails.description} 
                                 readOnly
                             />
                             </div>
@@ -160,24 +133,36 @@ class RestaurantProfile extends React.Component {
                         </div>
                         <div className="row mb-3 align-items-center">
                             <div className="col-3">
-                                <label htmlFor="" className="col-form-label">Start Time</label>
+                                <label htmlFor="" className="col-form-label">About</label>
                             </div>
                             <div className="col-6">
-                                <input type="text" name="starttime" className="form-control" 
+                                <input type="text" name="about" className="form-control" 
                                 // disabled 
-                                value={this.state.profileDetails.starttime} 
+                                value={this.state.profileDetails.about} 
                                 readOnly
                             />
                             </div>
                         </div>
                         <div className="row mb-3 align-items-center">
                             <div className="col-3">
-                                <label htmlFor="" className="col-form-label">End Time</label>
+                                <label htmlFor="nickname" className="col-form-label">Nickname</label>
                             </div>
                             <div className="col-6">
-                                <input type="text" name="endtime" className="form-control" 
+                                <input type="text" name="nickname" className="form-control" 
                                 // disabled 
-                                value={this.state.profileDetails.endtime} 
+                                value={this.state.profileDetails.nickname} 
+                                readOnly
+                            />
+                            </div>
+                        </div>
+                        <div className="row mb-3 align-items-center">
+                            <div className="col-3">
+                                <label htmlFor="dob" className="col-form-label">Date of Birth</label>
+                            </div>
+                            <div className="col-6">
+                                <input type="date" name="dob" className="form-control" 
+                                // disabled 
+                                value={this.state.profileDetails.dob} 
                                 readOnly
                             />
                             </div>
@@ -220,14 +205,13 @@ class RestaurantProfile extends React.Component {
                         </div>
                     </form>
                     <Link 
-                        to={{pathname: '/EditRestaurantProfile', 
-                                id: this.state.profileDetails.id,
+                        to={{pathname: '/EditCustomerProfile', 
                                 name: this.state.profileDetails.name,
-                                description: this.state.profileDetails.description,
+                                about: this.state.profileDetails.about,
                                 email: this.state.profileDetails.email,
                                 contactno: this.state.profileDetails.contactno,
-                                starttime: this.state.profileDetails.starttime,
-                                endtime: this.state.profileDetails.endtime,
+                                dob: this.state.profileDetails.dob,
+                                nickname: this.state.profileDetails.nickname,
                                 country: this.state.profileDetails.country,
                                 state: this.state.profileDetails.state,
                                 city: this.state.profileDetails.city,
@@ -248,4 +232,4 @@ class RestaurantProfile extends React.Component {
     }
 }
 
-export default RestaurantProfile;
+export default CustomerProfile;

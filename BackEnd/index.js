@@ -18,6 +18,8 @@ const deleteDish = require('./routes/deleteDish.js');
 const getRestaurantProfile = require('./routes/getRestaurantProfile.js');
 const updateRestaurantProfile = require('./routes/updateRestaurantProfile.js');
 const { uploadDownload } = require('./routes/uploadDownload.js');
+const getCustomerProfile = require('./routes/getCustomerProfile.js');
+const updateCustomerProfile = require('./routes/updateCustomerProfile.js');
 
 app.set('view engine', 'ejs');
 app.set('views', './views');
@@ -58,6 +60,9 @@ app.use('/', deleteDish);
 app.use('/', getRestaurantProfile);
 app.use('/', updateRestaurantProfile);
 app.use('/', uploadDownload);
+app.use('/', getCustomerProfile);
+app.use('/', updateCustomerProfile);
+
 
 app.get('/test-api', function(req, res) {
 

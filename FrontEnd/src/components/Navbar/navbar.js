@@ -12,12 +12,23 @@ class NavBar extends React.Component {
     }
 
     render() {
+        let homeLink = null;
+        let profileLink = null;
+        if(localStorage.getItem('isRestaurant') === 'true') {
+            homeLink = '/RestaurantHome';
+            profileLink = '/RestaurantProfile';
+        }
+        else {
+            homeLink = '/CustomerHome';
+            profileLink = '/CustomerProfile';
+        }
+        // console.log(localStorage.getItem('isRestaurant'));
         return (
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <div className="container-fluid">
-                    <a className="navbar-brand" href="/RestaurantHome">Navbar</a>
-                    <a className="nav-link active" aria-current="page" href="/">Home</a>
-                    <a className="nav-link" href="/RestaurantProfile">Profile</a>
+                    <a className="navbar-brand" href="/">Navbar</a>
+                    <a className="nav-link active" href={homeLink}>Home</a>
+                    <a className="nav-link" href={profileLink}>Profile</a>
                     <a className="nav-link" href="/">Navbar</a>
                     {/* <Field className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />  */}
                     <button className="btn btn-outline-success" type="submit">Search</button>

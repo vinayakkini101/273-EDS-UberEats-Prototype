@@ -139,10 +139,10 @@ class CustomerSignUp extends React.Component {
                                     <label htmlFor="dob">Date Of Birth</label>
                                     <Field type="date" name="dob" className="form-control" id="dob" placeholder="Date Of Births" required />
                                 </div>
-                                <div  className="mb-3">
+                                {/* <div  className="mb-3">
                                     <label htmlFor="profilepic" className="form-label">Upload Your Picture</label>
                                     <Field type="file" name="profilepic" className="form-control" id="profilepic" accept="image/*required" />
-                                </div>
+                                </div> */}
                                 <div  className="mb-3">
                                     <label htmlFor="country">Country</label>
                                     <select 

@@ -1,0 +1,260 @@
+import React from 'react';
+import cookie from 'react-cookies';
+import { Redirect } from 'react-router';
+import axios from 'axios';
+import NavBar from '../Navbar/navbar';
+import rootURL from '../config/setting';
+
+class EditCustomerProfile extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.imageRef = React.createRef();
+        this.state = {
+            profileDetails: {
+                name: this.props.location.name,
+                about: this.props.location.about,
+                email: this.props.location.email,
+                contactno: this.props.location.contactno,
+                dob: this.props.location.dob,
+                nickname: this.props.location.nickname,
+                country: this.props.location.country,
+                state: this.props.location.state,
+                city: this.props.location.city,
+                imageLink: this.props.location.imageLink,
+                imageName: this.props.location.imageName
+            }
+        }
+    }
+
+    handleUpload = (event) => {
+        // event.preventDefault();
+        console.log(event.target.files[0]);
+
+        const imageFile = event.target.files[0];
+        const formData = new FormData();
+        formData.append('photos', imageFile);
+        console.log('formData ', formData);
+
+        axios.post('/uploadFile', formData)
+            .then(response => {
+                if (response.status === 200) {
+                    console.log('Image name : ', imageFile.name);
+                    this.setState({
+                        profileDetails: {
+                            ...this.state.profileDetails,
+                            imageName: imageFile.name,
+                            imageLink: '/items/download-image/' + imageFile.name
+                        }
+                    })
+                    console.log('Customer pic link state ', this.state.profileDetails.imageLink);
+                    this.imageRef.current.value = '';
+                }
+            })
+    }
+
+    handleChange = e => {
+        this.setState({
+            updateOperation: '',
+            profileDetails: {
+                ...this.state.profileDetails,
+                [e.target.name]: e.target.value
+            }
+        })
+    }
+
+    handleUpdate = (event) => {
+        event.preventDefault();
+        
+        axios.defaults.withCredentials = true;
+        axios.post('/updateCustomerProfile', this.state.profileDetails)
+            .then((response) => {
+                if (response.status === 200) {
+                    console.log("response ", response.data);
+                    const details = response.data;
+                    this.setState({
+                        updateOperation: 'success',
+                        profileDetails: {
+                            id: details.Customer_ID,
+                            name: details.name,
+                            description: details.description,
+                            email: details.email,
+                            contactno: details.contact_number,
+                            starttime: details.start_time,
+                            endtime: details.end_time,
+                            country: details.country,
+                            state: details.state,
+                            city: details.City,
+                            imageLink: details.Display_Picture
+                        }
+                    })
+                }
+            })
+            .catch(error => {
+                console.log("update Customer details error");
+                this.setState({
+                    updateOperation: 'failure'
+                });
+                console.log(error);
+                alert("Unable to update Customer details, please try again!");
+            })
+    }
+
+    render() {
+        let authenticate = null;
+        if( !cookie.load('cookie')) {
+            console.log('hello');
+            authenticate = <Redirect to='/login' />;
+        }
+
+        let errorMessage = null;
+        let redirectVar = null;
+        if(this.state.updateOperation === 'failure') {
+            errorMessage = <div className='alert alert-danger'>Update failed</div>;
+        }
+        else if(this.state.updateOperation === 'success') {
+            redirectVar = <Redirect to='/CustomerProfile' />;
+        }
+
+        return (
+            <>
+            {authenticate}
+            <NavBar />
+            <div>Edit Customer profile</div>
+            <div className='container'>
+                <img src={(rootURL + this.state.profileDetails.imageLink) || ''} className='img-fluid' alt='Display' />
+                <form encType="multipart/form-data">
+                    <input 
+                        type='file'
+                        ref={this.imageRef}
+                        onChange={this.handleUpload}
+                    >
+                    </input>
+                    <div className="row mb-3 align-items-center">
+                        <div className="col-3">
+                            <label htmlFor="" className="col-form-label">Name</label>
+                        </div>
+                        <div className="col-6">
+                            <input type="text" name="name" className="form-control" 
+                            // disabled 
+                            value={this.state.profileDetails.name} 
+                            onChange={this.handleChange}
+                        />
+                        </div>
+                    </div>
+                    <div className="row mb-3 align-items-center">
+                        <div className="col-3">
+                            <label htmlFor="" className="col-form-label">Email</label>
+                        </div>
+                        <div className="col-6">
+                            <input type="text" name="email" className="form-control" 
+                            // disabled 
+                            value={this.state.profileDetails.email} 
+                            onChange={this.handleChange}
+                        />
+                        </div>
+                    </div>
+                    <div className="row mb-3 align-items-center">
+                        <div className="col-3">
+                            <label htmlFor="" className="col-form-label">Contact Number</label>
+                        </div>
+                        <div className="col-6">
+                            <input type="text" name="contactno" className="form-control" 
+                            // disabled 
+                            value={this.state.profileDetails.contactno} 
+                            onChange={this.handleChange}
+                        />
+                        </div>
+                    </div>
+                    <div className="row mb-3 align-items-center">
+                        <div className="col-3">
+                            <label htmlFor="" className="col-form-label">About</label>
+                        </div>
+                        <div className="col-6">
+                            <input type="text" name="about" className="form-control" 
+                            // disabled 
+                            value={this.state.profileDetails.about} 
+                            onChange={this.handleChange}
+                        />
+                        </div>
+                    </div>
+                    <div className="row mb-3 align-items-center">
+                        <div className="col-3">
+                            <label htmlFor="" className="col-form-label">Nickname</label>
+                        </div>
+                        <div className="col-6">
+                            <input type="text" name="nickname" className="form-control" 
+                            // disabled 
+                            value={this.state.profileDetails.nickname} 
+                            onChange={this.handleChange}
+                        />
+                        </div>
+                    </div>
+                    <div className="row mb-3 align-items-center">
+                        <div className="col-3">
+                            <label htmlFor="" className="col-form-label">Date of Birth</label>
+                        </div>
+                        <div className="col-6">
+                            <input type="text" name="dob" className="form-control" 
+                            // disabled 
+                            value={this.state.profileDetails.dob} 
+                            onChange={this.handleChange}
+                        />
+                        </div>
+                    </div>
+                    <div className="row mb-3 align-items-center">
+                        <div className="col-3">
+                            <label htmlFor="" className="col-form-label">City</label>
+                        </div>
+                        <div className="col-6">
+                            <input type="text" name="city" className="form-control" 
+                            // disabled 
+                            value={this.state.profileDetails.city} 
+                            onChange={this.handleChange}
+                        />
+                        </div>
+                    </div>
+                    <div className="row mb-3 align-items-center">
+                        <div className="col-3">
+                            <label htmlFor="" className="col-form-label">State</label>
+                        </div>
+                        <div className="col-6">
+                            <input type="text" name="state" className="form-control" 
+                            // disabled 
+                            value={this.state.profileDetails.state} 
+                            onChange={this.handleChange}
+                        />
+                        </div>
+                    </div>
+                    <div className="row mb-3 align-items-center">
+                        <div className="col-3">
+                            <label htmlFor="" className="col-form-label">Country</label>
+                        </div>
+                        <div className="col-6">
+                            <input type="text" name="country" className="form-control" 
+                            // disabled 
+                            value={this.state.profileDetails.country} 
+                            onChange={this.handleChange}
+                        />
+                        </div>
+                    </div>
+                </form>
+                <button 
+                        type='button'
+                        className='btn btn-success'
+                        onClick={this.handleUpdate}
+                    > 
+                        Update
+                </button>
+                
+                {errorMessage}
+
+                {redirectVar}
+
+            </div>
+            </>
+        );
+    }
+}
+
+export default EditCustomerProfile;
