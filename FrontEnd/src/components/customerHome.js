@@ -15,12 +15,7 @@ class CustomerHome extends React.Component {
                 state: localStorage.getItem('state'),
                 city: localStorage.getItem('city')
             },
-            filters: {
-                locationFilter: true,
-                vegFilter: false,
-                nonvegFilter: false,
-                veganFilter: false
-            }
+            selectedFilter: 'location'
         }
     }
 
@@ -33,7 +28,7 @@ class CustomerHome extends React.Component {
 
                     this.setState({
                         restaurantList: response.data
-                    })
+                    });
                     
                     this.sortRestaurantByLocation();
                     console.log('resto list state ',this.state.restaurantList);
@@ -50,36 +45,32 @@ class CustomerHome extends React.Component {
             })
     }
 
-    handleCheckbox = (event) => {
+    handleRadioButtons = (event) => {
         const target = event.target;
-        const targetName = target.name;
+        const targetValue = target.value;
         const targetChecked = target.checked;
-        console.log('checkbox event', targetName, ' ', targetChecked);
+        // console.log('checkbox event', targetValue, ' ', targetChecked);
         this.setState({
-            filters: {
-                ...this.state.filters,
-                [targetName]: targetChecked
-            }
+            selectedFilter: targetValue
         })
 
-        if(targetChecked) {
-            switch(targetName) {
-                case 'locationFilter':
-                    this.sortRestaurantByLocation();
-                    break;
-                case 'vegFilter':
-                    this.filterVegRestaurants();
-                    break;
-                case 'nonvegFilter':
-                    this.filterNonvegRestaurants();
-                    break;
-                case 'veganFilter':
-                    this.filterVeganRestaurants();
-                    break;
-                default:
-            }
-        }
-        
+        // if(targetChecked) {
+        //     switch(targetName) {
+        //         case 'locationFilter':
+        //             this.sortRestaurantByLocation();
+        //             break;
+        //         case 'vegFilter':
+        //             this.filterVegRestaurants();
+        //             break;
+        //         case 'nonvegFilter':
+        //             this.filterNonvegRestaurants();
+        //             break;
+        //         case 'veganFilter':
+        //             this.filterVeganRestaurants();
+        //             break;
+        //         default:
+        //     }
+        // }
     }
 
     sortRestaurantByLocation = () => {
@@ -99,16 +90,12 @@ class CustomerHome extends React.Component {
         console.log('sorted list ', this.state.restaurantList);
     }
 
-    filterVegRestaurants = () => {
-        const originalList = this.state.restaurantList;
-        const vegList = [];
-        // const closestList = originalList.filter(restaurant => {
-        //     if(restaurant.)
-        // });
-        // this.setState({
-        //     restaurantList: closestList.concat(notClosestList)
-        // });
-        console.log('sorted list ', this.state.restaurantList);
+    handleClearFilter = (event) => {
+        this.setState({
+            selectedFilter: ''
+        });
+        // event.target.check = false;
+        // console.log('sorted list ', event.target.checked);
     }
 
     render() {
@@ -133,31 +120,35 @@ class CustomerHome extends React.Component {
                             <ul className="nav nav-pills flex-column">
                                 <li className="nav-item">
                                     <input 
-                                        type="checkbox" 
-                                        name="locationFilter"
-                                        checked={this.state.filters.locationFilter}
-                                        onChange={this.handleCheckbox}
+                                        type="radio" 
+                                        name="filter"
+                                        value="location"
+                                        checked={this.state.selectedFilter === "location"}
+                                        onChange={this.handleRadioButtons}
                                     />By Closest Location<br/>
                                 </li>
                                 <li className="nav-item">
                                     <span className="nav-link" href="#">By Type</span>
                                     <input 
-                                        type="checkbox" 
-                                        name='vegFilter' 
-                                        checked={this.state.filters.vegFilter}
-                                        onChange={this.handleCheckbox}    
+                                        type="radio" 
+                                        name="filter"
+                                        value="veg"
+                                        checked={this.state.selectedFilter === "veg"}
+                                        onChange={this.handleRadioButtons}    
                                     />Veg<br/>
                                     <input 
-                                        type="checkbox" 
-                                        name='nonvegFilter' 
-                                        checked={this.state.filters.nonvegFilter}
-                                        onChange={this.handleCheckbox}
+                                        type="radio" 
+                                        name="filter"
+                                        value="nonveg"
+                                        checked={this.state.selectedFilter === "nonveg"}
+                                        onChange={this.handleRadioButtons}
                                     />Non-Veg<br/>
                                     <input 
-                                        type="checkbox" 
-                                        name='veganFilter' 
-                                        checked={this.state.filters.veganFilter}
-                                        onChange={this.handleCheckbox}
+                                        type="radio" 
+                                        name="filter"
+                                        value="vegan"
+                                        checked={this.state.selectedFilter === "vegan"}
+                                        onChange={this.handleRadioButtons}
                                     />Vegan
                                 </li>
                                 <li className="nav-item">
@@ -178,6 +169,12 @@ class CustomerHome extends React.Component {
                                     <a className="nav-link" href="#">Link</a>
                                 </li>
                             </ul>
+                            <button 
+                                className='btn btn-sm btn-outline-danger'
+                                onClick={this.handleClearFilter}
+                            >
+                                Clear All Filters
+                            </button>
                         </div>
                     </div>
                     <div className="col-md col-12 main pa-1">
