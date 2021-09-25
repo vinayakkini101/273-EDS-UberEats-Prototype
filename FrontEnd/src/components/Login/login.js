@@ -28,6 +28,9 @@ class LoginForm extends React.Component {
                     localStorage.setItem("isRestaurant", details.isRestaurant);
                     localStorage.setItem("userName", response.data.name);
                     localStorage.setItem("userEmail", response.data.email);
+                    localStorage.setItem("country", response.data.country);
+                    localStorage.setItem("state", response.data.state);
+                    localStorage.setItem("city", response.data.city);
                     this.setState({
                         authFlag: true
                     })
@@ -53,7 +56,7 @@ class LoginForm extends React.Component {
             }
             else {
                 console.log('hello')
-                redirectVar = <Redirect to="/CustomerHome" />
+                redirectVar =  <Redirect to="/CustomerHome" />
             }
         }
         else{
