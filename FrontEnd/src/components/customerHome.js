@@ -9,13 +9,15 @@ class CustomerHome extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            restaurantList: [],
+            defaultRestaurantList: [],
+            currentRestaurantList: [],
             userLocation: {
                 country: localStorage.getItem('country'),
                 state: localStorage.getItem('state'),
                 city: localStorage.getItem('city')
             },
-            selectedFilter: 'location'
+            selectedFilter: 'location',
+            defaultDishList: []
         }
     }
 
@@ -27,11 +29,12 @@ class CustomerHome extends React.Component {
                     // console.log("response ", response.data);
 
                     this.setState({
-                        restaurantList: response.data
+                        defaultRestaurantList: response.data,
+                        currentRestaurantList: response.data
                     });
                     
                     this.sortRestaurantByLocation();
-                    console.log('resto list state ',this.state.restaurantList);
+                    console.log('resto list state ',this.state.currentRestaurantList);
                     console.log(this.state.userLocation);
                 }
             })
@@ -50,33 +53,41 @@ class CustomerHome extends React.Component {
         const targetValue = target.value;
         const targetChecked = target.checked;
         // console.log('checkbox event', targetValue, ' ', targetChecked);
-        this.setState({
-            selectedFilter: targetValue
-        })
+        this.setState(state => {
+            state.selectedFilter = targetValue;
+            // console.log('radiobutton event', targetValue, ' ', targetChecked, ' ', this.state.selectedFilter);
+            switch(state.selectedFilter) {
+                case 'location':
+                    console.log('inside switch location');
+                    this.sortRestaurantByLocation();
+                    break;
+                case 'veg':
+                    this.filterVegRestaurants();
+                    break;
+                case 'nonveg':
+                    this.filterNonvegRestaurants();
+                    break;
+                case 'vegan':
+                    this.filterVeganRestaurants();
+                    break;
+                default:
+                    this.setDefaultRestaurantOrder();
+                    break;
+            }
+        });
+    }
 
-        // if(targetChecked) {
-        //     switch(targetName) {
-        //         case 'locationFilter':
-        //             this.sortRestaurantByLocation();
-        //             break;
-        //         case 'vegFilter':
-        //             this.filterVegRestaurants();
-        //             break;
-        //         case 'nonvegFilter':
-        //             this.filterNonvegRestaurants();
-        //             break;
-        //         case 'veganFilter':
-        //             this.filterVeganRestaurants();
-        //             break;
-        //         default:
-        //     }
-        // }
+    setDefaultRestaurantOrder = () => {
+        this.setState({
+            currentRestaurantList: this.state.defaultRestaurantList
+        });
+        console.log('sorted by default ', this.state.currentRestaurantList);
     }
 
     sortRestaurantByLocation = () => {
-        const originalList = this.state.restaurantList;
+        const defaultList = this.state.defaultRestaurantList;
         const notClosestList = [];
-        const closestList = originalList.filter(restaurant => {
+        const closestList = defaultList.filter(restaurant => {
             if(restaurant.City !== this.state.userLocation.city) {
                 notClosestList.push(restaurant);
             }
@@ -85,15 +96,16 @@ class CustomerHome extends React.Component {
             }
         });
         this.setState({
-            restaurantList: closestList.concat(notClosestList)
+            currentRestaurantList: closestList.concat(notClosestList)
         });
-        console.log('sorted list ', this.state.restaurantList);
+        console.log('sorted by location ', this.state.currentRestaurantList);
     }
 
     handleClearFilter = (event) => {
         this.setState({
             selectedFilter: ''
         });
+        this.setDefaultRestaurantOrder();
         // event.target.check = false;
         // console.log('sorted list ', event.target.checked);
     }
@@ -109,7 +121,7 @@ class CustomerHome extends React.Component {
             <>
             <NavBar />
             {authenticate}
-            <div>CUstomer home</div>
+            <div>Customer home</div>
              
             <div className="container-fluid">
                 <h1 className="text-primary pt-1">Welcome to UberEats!</h1>
@@ -188,8 +200,11 @@ class CustomerHome extends React.Component {
                                     <h1 className="text-center">311</h1>
                                 </div>
                             </div> */}
-                            {this.state.restaurantList.map(restaurant => {
-                                return <Restaurant key={restaurant.Display_Picture} details={restaurant} />;
+                            {this.state.currentRestaurantList.map(restaurant => {
+                                return <Restaurant 
+                                            key={restaurant.Display_Picture} 
+                                            details={restaurant}   
+                                        />;
                             })}
                         </div>
                     </div>

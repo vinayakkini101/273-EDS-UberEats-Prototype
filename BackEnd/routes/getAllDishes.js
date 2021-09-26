@@ -21,7 +21,13 @@ app.get('/getAllDishes', (req, res) => {
             console.log('restrnt id from query ', req.query.restaurantEmail);
             // let restaurantID = result[0].Restaurant_ID;
             let queryResult;
-            queryResult = dbConn.query(`SELECT * from Dish WHERE Restaurant_Email=${mysql.escape(req.query.restaurantEmail)}`);
+            if(req.query.restaurantEmail) {
+                queryResult = dbConn.query(`SELECT * from Dish WHERE Restaurant_Email=${mysql.escape(req.query.restaurantEmail)}`);
+            }
+            else {
+                queryResult = dbConn.query(`SELECT * from Dish`);
+            }
+            
             return queryResult;
         })
         .catch((err) => {

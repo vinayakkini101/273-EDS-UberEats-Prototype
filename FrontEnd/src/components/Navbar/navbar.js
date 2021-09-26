@@ -31,8 +31,14 @@ class NavBar extends React.Component {
                     <a className="nav-link" href={profileLink}>Profile</a>
                     <a className="nav-link" href="/">Navbar</a>
                     {/* <Field className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />  */}
-                    <button className="btn btn-outline-success" type="submit">Search</button>
-                    <a className="btn btn-outline-danger" href="/" onClick={this.handleLogout}>Logout</a>
+                    <a className="btn btn-outline-success" href="/Search">Search</a>
+                    <a 
+                        className="btn btn-outline-danger" 
+                        href="/" 
+                        onClick={this.handleLogout}
+                    >
+                        Logout
+                    </a>
                 </div>
             </nav>
         );
