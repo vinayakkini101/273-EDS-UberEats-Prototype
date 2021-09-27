@@ -3,6 +3,7 @@ import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
 import axios from 'axios';
 import NavBar from '../Navbar/navbar';
+import SearchResult from './searchResult';
 
 class Search extends React.Component {
     constructor(props) {
@@ -57,21 +58,6 @@ class Search extends React.Component {
         this.setState(state => {
             state.selectedFilter = targetValue;
             return state.selectedFilter;
-            // console.log('radiobutton event', targetValue, ' ', targetChecked, ' ', this.state.selectedFilter);
-            // switch(state.selectedFilter) {
-            //     case 'location':
-            //         console.log('inside switch location');
-            //         this.filterRestaurantByLocation();
-            //         break;
-            //     case 'veg':
-            //         this.filterByDishName();
-            //         break;
-            //     case 'nonveg':
-            //         this.filterByDeliveryMode();
-            //         break;
-            //     default:
-            //         this.filterByDishName();
-            // }
         });
     }
     
@@ -217,44 +203,6 @@ class Search extends React.Component {
                 </div>
             </div>
             </>
-        );
-    }
-}
-
-class SearchResult extends React.Component {
-    constructor(props) {
-        super(props);
-        console.log(props.details);
-    }
-
-    render() {
-        return (
-            <div className="card mb-3" style={{maxWidth: "540px;"}}>
-                <div className="row g-0">
-                    <div className="col-md-4">
-                        <img 
-                            src={this.props.details.Display_Picture || this.props.details.Dish_Image} 
-                            className="img-fluid rounded-start" 
-                            alt=""     
-                        />
-                    </div>
-                    <div className="col-md-8">
-                        <div className="card-body">
-                            <h5 className="card-title">
-                                {this.props.details.name || this.props.details.Dish_Name}
-                            </h5>
-                            <p className="card-text">
-                                {this.props.details.description || this.props.details.Description}
-                            </p>
-                            <p className="card-text">
-                                <small className="text-muted">
-                                    {this.props.details.City || this.props.details.Price}
-                                </small>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
         );
     }
 }

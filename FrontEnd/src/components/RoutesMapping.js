@@ -10,6 +10,7 @@ import RestaurantSignUp from './Signup/restaurantSignUp.js';
 import RestaurantProfile from './RestaurantProfile/restaurantProfile.js';
 import EditRestaurantProfile from './RestaurantProfile/editRestaurantProfile.js'
 import Search from './Search/search.js'
+import VisitRestaurant from './RestaurantView/visitRestaurant.js';
 
 class RoutesMapping extends React.Component {
     render() {
@@ -26,6 +27,7 @@ class RoutesMapping extends React.Component {
                 <Route exact path='/RestaurantProfile' component={RestaurantProfile} />
                 <Route exact path='/EditRestaurantProfile' component={EditRestaurantProfile} />
                 <Route exact path='/Search' component={Search} />
+                <Route exact path='/Restaurant/:RestaurantEmail' component={VisitRestaurant} />
             </div>
         );
     }

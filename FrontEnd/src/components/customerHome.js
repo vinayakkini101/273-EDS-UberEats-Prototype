@@ -3,6 +3,7 @@ import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
 import axios from 'axios';
 import NavBar from './Navbar/navbar';
+import { Link } from 'react-router-dom';
 
 class CustomerHome extends React.Component {
 
@@ -201,8 +202,8 @@ class CustomerHome extends React.Component {
                                 </div>
                             </div> */}
                             {this.state.currentRestaurantList.map(restaurant => {
-                                return <Restaurant 
-                                            key={restaurant.Display_Picture} 
+                                return <RestaurantDisplayCard
+                                            key={restaurant.Restaurant_ID} 
                                             details={restaurant}   
                                         />;
                             })}
@@ -217,11 +218,11 @@ class CustomerHome extends React.Component {
 
 
 
-class Restaurant extends React.Component {
+class RestaurantDisplayCard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-                id: this.props.details.id,
+                id: this.props.details.Restaurant_ID,
                 name: this.props.details.name,
                 description: this.props.details.description,
                 email: this.props.details.email,
@@ -238,14 +239,23 @@ class Restaurant extends React.Component {
 
     render() {
         return (
-            <div className="card col-lg-3 col-md-6 col-12" style={{width: '3rem;'}}>
-                <img src={this.state.imageLink} className="card-img-top" alt="..."/>
-                <div className="card-body">
-                    <h5 className="card-title">{this.state.name}</h5>
-                    <p className="card-text">{this.state.description}</p>
-                    <a href="#" className="btn btn-primary">{this.state.city}</a>
+                <div className="card col-lg-3 col-md-6 col-12" style={{width: '3rem;'}}>
+                    <Link to={`/Restaurant/${this.state.name}`} >
+                        <img src={this.state.imageLink} className="card-img-top" alt="..."/>
+                    </Link>
+                        <div className="card-body">
+                            <Link 
+                                to={{
+                                    pathname: `/Restaurant/${this.state.email}`,
+                                    // details: this.props.details
+                                }}
+                            >
+                                <h5 className="card-title">{this.state.name}</h5>
+                            </Link>
+                            <p className="card-text">{this.state.description}</p>
+                            <a href="" className="btn btn-primary">{this.state.city}</a>
+                        </div>
                 </div>
-            </div>
         );
     }
 }
