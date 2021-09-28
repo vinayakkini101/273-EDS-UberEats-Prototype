@@ -21,6 +21,8 @@ const getAllRestaurants = require('./routes/getAllRestaurants.js');
 const { uploadDownload } = require('./routes/uploadDownload.js');
 const getCustomerProfile = require('./routes/getCustomerProfile.js');
 const updateCustomerProfile = require('./routes/updateCustomerProfile.js');
+const addToCart = require('./routes/addToCart.js');
+const getCartItems = require('./routes/getCartItems.js')
 
 app.set('view engine', 'ejs');
 app.set('views', './views');
@@ -64,6 +66,8 @@ app.use('/', uploadDownload);
 app.use('/', getCustomerProfile);
 app.use('/', updateCustomerProfile);
 app.use('/', getAllRestaurants);
+app.use('/', addToCart);
+app.use('/', getCartItems);
 
 
 app.get('/test-api', function(req, res) {
