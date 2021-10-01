@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import cookie from 'react-cookies';
+import { connect } from 'react-redux';
 
 class NavBar extends React.Component {
 
@@ -78,6 +79,7 @@ class NavBar extends React.Component {
                     >
                         Cart
                     </a>
+                    <div>{this.props.username}</div>
                     <a 
                         className="btn btn-outline-danger" 
                         href="/" 
@@ -128,4 +130,10 @@ class NavBar extends React.Component {
     }
 }
 
-export default NavBar;
+function mapStateToProps(state) {
+    return {username: state.username};
+}
+
+const ConnectedNavbar = connect(mapStateToProps)(NavBar);
+
+export default ConnectedNavbar;

@@ -1,0 +1,2 @@
+export const STORE_USERNAME = 'STORE_USERNAME';
+export const RECORD_DETAILS = 'RECORD_DETAILS';

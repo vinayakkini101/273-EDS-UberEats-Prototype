@@ -4,6 +4,8 @@ import axios from 'axios';
 import cookie from 'react-cookies';
 import {Redirect} from 'react-router';
 import {Link} from 'react-router-dom';
+import { storeUsername } from '../../js/actions/index.js';
+import { connect } from 'react-redux';
 
 class LoginForm extends React.Component {
 
@@ -34,6 +36,7 @@ class LoginForm extends React.Component {
                     this.setState({
                         authFlag: true
                     })
+                    this.props.storeUsername({username: response.data.name});
                 }
             })
             .catch(error => {
@@ -136,4 +139,11 @@ class LoginForm extends React.Component {
     }
 }
 
-export default LoginForm;
+function mapDispatchToProps(dispatch) {
+    return {
+        storeUsername: username => dispatch(storeUsername(username))
+    }
+}
+
+const ConnectedForm = connect(null, mapDispatchToProps)(LoginForm);
+export default ConnectedForm;

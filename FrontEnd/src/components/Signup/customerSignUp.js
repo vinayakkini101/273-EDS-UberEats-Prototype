@@ -2,7 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import {Formik, Form, Field, ErrorMessage} from 'formik';
 import countryList from 'country-list';
-// import {Link} from 'react-router-dom';
+import { recordDetails } from '../../js/actions/index.js';
+import { connect } from 'react-redux';
 
 class CustomerSignUp extends React.Component {
 
@@ -29,6 +30,11 @@ class CustomerSignUp extends React.Component {
                     // localStorage.setItem("userEmail", response.data.email);
                     this.setState({
                         authFlag: true
+                    })
+
+                    this.props.recordDetails({
+                        isRestaurant: details.isRestaurant,
+                        userEmail: details.email
                     })
                 }
             })
@@ -183,4 +189,14 @@ class CustomerSignUp extends React.Component {
     }
 }
 
-export default CustomerSignUp;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        recordDetails: function(details) {
+            dispatch(recordDetails(details));
+        }
+    };
+}
+
+const ConnectedCustomerSignUp = connect(null, mapDispatchToProps)(CustomerSignUp);
+
+export default ConnectedCustomerSignUp;
