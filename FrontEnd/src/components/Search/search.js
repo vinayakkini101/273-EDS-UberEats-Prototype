@@ -31,6 +31,7 @@ class Search extends React.Component {
 
                     this.setState({
                         defaultRestaurantList: response.data.slice(),
+                        currentSearchResult: response.data.slice()
                     });
                     
                     // this.sortRestaurantByLocation();
@@ -48,6 +49,7 @@ class Search extends React.Component {
             })
 
         this.populateDishList();
+        this.filterByDishName('');
     }
 
     handleRadioButtons = (event) => {
@@ -73,30 +75,57 @@ class Search extends React.Component {
             if(restaurant.City.toLowerCase() === requestedLocation.toLowerCase()) {
                 return restaurant;
             }
+            return null;
         });
         if(requestedLocation === '') {
             closestList = defaultList;
         }
         this.setState({
-            currentSearchResult: closestList
+            currentSearchResult: closestList.slice()
         });
-        console.log('sorted by location ', this.state.currentSearchResult);
+        console.log('filtered by location ', this.state.currentSearchResult);
     }
 
     filterByDishName = (dishName) => {
-        const defaultList = this.state.defaultDishList;
-        let matchingDishes = defaultList.filter(dish => {
-            if(dish.Dish_Name.toLowerCase() === dishName.toLowerCase()) {
-                return dish;
+        let defaultList = this.state.defaultDishList;
+        let matchingRestaurants = defaultList.filter(dish => {
+            if(dish.Dish_Name.toLowerCase().includes(dishName.toLowerCase())) {
+                return dish.Restaurant_Email;
             }
+            return null;
         });
-        if(dishName === '') {
-            matchingDishes = defaultList;
+        matchingRestaurants = matchingRestaurants.map(restaurant => restaurant.Restaurant_Email);
+        defaultList = this.state.defaultRestaurantList;
+        let filteredRestaurants = defaultList.filter(restaurant => {
+            if(matchingRestaurants.includes(restaurant.email)) {
+                return restaurant;
+            }
+            return null;
+        });
+
+        if(dishName === null || dishName === '') {
+            filteredRestaurants = this.state.defaultRestaurantList;
         }
         this.setState({
-            currentSearchResult: matchingDishes
+            currentSearchResult: filteredRestaurants.slice()
         });
-        console.log('sorted by dishname ', this.state.currentSearchResult);
+        console.log('filtered by dishname ', this.state.currentSearchResult);
+    }
+
+    filterByDeliveryMode = () => {
+        let filter = this.state.selectedFilter;
+        let filteredRestaurants = this.state.defaultRestaurantList.filter(restaurant => {
+            if(filter === 'pickup' && restaurant.pickup === 1) {
+                return restaurant;
+            }
+            else if(filter === 'delivery' && restaurant.delivery === 1) {
+                return restaurant;
+            }
+        });
+        this.setState({
+            currentSearchResult: filteredRestaurants.slice()
+        });
+        console.log('filtered by pickup/delivery ', this.state.currentSearchResult);
     }
 
     populateDishList = () => {
@@ -106,8 +135,7 @@ class Search extends React.Component {
                     console.log("response ", response.data.slice());
 
                     this.setState({
-                        defaultDishList: response.data.slice(),
-                        currentSearchResult: response.data.slice()
+                        defaultDishList: response.data.slice()
                     });
                     
                     console.log('dish list state ',this.state.defaultDishList);
@@ -132,8 +160,8 @@ class Search extends React.Component {
         else if(this.state.selectedFilter === 'dishname') {
             this.filterByDishName(searchQuery);
         }
-        else if(this.state.selectedFilter === 'delivery') {
-            this.filterByDeliveryMode(searchQuery);
+        else if(this.state.selectedFilter === 'delivery' || this.state.selectedFilter === 'pickup') {
+            this.filterByDeliveryMode();
         }
         else if(this.state.selectedFilter === 'dishname') {
             this.filterByDeliveryMode(searchQuery);
@@ -197,7 +225,7 @@ class Search extends React.Component {
                 <div className="row">
                     {this.state.currentSearchResult.map(item => {
                         return <SearchResult 
-                                    key={item.Restaurant_ID || item.Dish_ID} 
+                                    key={item.Restaurant_ID} 
                                     details={item} />;
                     })}
                 </div>

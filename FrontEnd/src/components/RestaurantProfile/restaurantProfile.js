@@ -25,7 +25,9 @@ class RestaurantProfile extends React.Component {
                 state: '',
                 city: '',
                 imageLink: '',
-                imageName: ''
+                imageName: '',
+                pickup: false,
+                delivery: false
             }
         }
     } 
@@ -41,6 +43,15 @@ class RestaurantProfile extends React.Component {
                 [e.target.name]: e.target.value
             }
         })
+    }
+
+    handleCheckbox = (event) => {
+        this.setState({
+            profileDetails: {
+                ...this.state.profileDetails,
+                [event.target.name] : event.target.checked
+            }
+        }) 
     }
 
     getProfileDetails = () => {
@@ -65,7 +76,9 @@ class RestaurantProfile extends React.Component {
                         country: details.country,
                         state: details.state,
                         city: details.City,
-                        imageLink: details.Display_Picture 
+                        imageLink: details.Display_Picture,
+                        pickup: details.pickup === 1 ? true : false,
+                        delivery: details.delivery === 1 ? true : false
                     }
                 })
             }
@@ -218,6 +231,26 @@ class RestaurantProfile extends React.Component {
                             />
                             </div>
                         </div>
+                        <div className="row mb-3 align-items-center">
+                            <input className="form-check-input mt-0" 
+                                name="pickup" 
+                                type="checkbox" 
+                                checked={this.state.profileDetails.pickup} 
+                                disabled
+                                onChange={this.handleCheckbox}
+                            />
+                            Atleast 1 item available for pickup
+                        </div>
+                        <div className="row mb-3 align-items-center">
+                            <input className="form-check-input mt-0" 
+                                name="delivery" 
+                                type="checkbox" 
+                                checked={this.state.profileDetails.delivery} 
+                                disabled
+                                onChange={this.handleCheckbox}
+                            />
+                                Atleast 1 item available for delivery
+                        </div>
                     </form>
                     <Link 
                         to={{pathname: '/EditRestaurantProfile', 
@@ -232,7 +265,9 @@ class RestaurantProfile extends React.Component {
                                 state: this.state.profileDetails.state,
                                 city: this.state.profileDetails.city,
                                 imageLink: this.state.profileDetails.imageLink,
-                                imageName: this.state.profileDetails.imageName
+                                imageName: this.state.profileDetails.imageName,
+                                pickup: this.state.profileDetails.pickup,
+                                delivery: this.state.profileDetails.delivery
                             }} 
                         type='button'
                         className='btn btn-success'

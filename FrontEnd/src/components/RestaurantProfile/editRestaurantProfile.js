@@ -23,7 +23,9 @@ class EditRestaurantProfile extends React.Component {
                 state: this.props.location.state,
                 city: this.props.location.city,
                 imageLink: this.props.location.imageLink,
-                imageName: this.props.location.imageName
+                imageName: this.props.location.imageName,
+                pickup: this.props.location.pickup,
+                delivery: this.props.location.delivery
             }
         }
     }
@@ -64,6 +66,15 @@ class EditRestaurantProfile extends React.Component {
         })
     }
 
+    handleCheckbox = (event) => {
+        this.setState({
+            profileDetails: {
+                ...this.state.profileDetails,
+                [event.target.name] : event.target.checked
+            }
+        }) 
+    }
+
     handleUpdate = (event) => {
         event.preventDefault();
         
@@ -86,7 +97,9 @@ class EditRestaurantProfile extends React.Component {
                             country: details.country,
                             state: details.state,
                             city: details.City,
-                            imageLink: details.Display_Picture
+                            imageLink: details.Display_Picture,
+                            pickup: details.pickup === 1 ? true : false,
+                            delivery: details.delivery === 1 ? true : false
                         }
                     })
                 }
@@ -250,6 +263,24 @@ class EditRestaurantProfile extends React.Component {
                         />
                         </div>
                     </div>
+                    <div className="row mb-3 align-items-center">
+                            <input className="form-check-input mt-0" 
+                                name="pickup" 
+                                type="checkbox" 
+                                checked={this.state.profileDetails.pickup} 
+                                onChange={this.handleCheckbox}
+                            />
+                            Atleast 1 item available for pickup
+                        </div>
+                        <div className="row mb-3 align-items-center">
+                            <input className="form-check-input mt-0" 
+                                name="delivery" 
+                                type="checkbox" 
+                                checked={this.state.profileDetails.delivery} 
+                                onChange={this.handleCheckbox}
+                            />
+                                Atleast 1 item available for delivery
+                        </div>
                 </form>
                 <button 
                         type='button'
