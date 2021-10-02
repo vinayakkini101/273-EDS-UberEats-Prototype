@@ -27,7 +27,10 @@ class RestaurantProfile extends React.Component {
                 imageLink: '',
                 imageName: '',
                 pickup: false,
-                delivery: false
+                delivery: false,
+                veg: false,
+                nonveg: false,
+                vegan: false
             }
         }
     } 
@@ -78,7 +81,10 @@ class RestaurantProfile extends React.Component {
                         city: details.City,
                         imageLink: details.Display_Picture,
                         pickup: details.pickup === 1 ? true : false,
-                        delivery: details.delivery === 1 ? true : false
+                        delivery: details.delivery === 1 ? true : false,
+                        veg: details.veg === 1 ? true : false,
+                        nonveg: details.nonveg === 1 ? true : false,
+                        vegan: details.vegan === 1 ? true : false,
                     }
                 })
             }
@@ -251,6 +257,36 @@ class RestaurantProfile extends React.Component {
                             />
                                 Atleast 1 item available for delivery
                         </div>
+                        <div className="row mb-3 align-items-center">
+                            <input className="form-check-input mt-0" 
+                                name="veg" 
+                                type="checkbox" 
+                                checked={this.state.profileDetails.veg} 
+                                disabled
+                                onChange={this.handleCheckbox}
+                            />
+                                Atleast 1 item available in veg
+                        </div>
+                        <div className="row mb-3 align-items-center">
+                            <input className="form-check-input mt-0" 
+                                name="nonveg" 
+                                type="checkbox" 
+                                checked={this.state.profileDetails.nonveg} 
+                                disabled
+                                onChange={this.handleCheckbox}
+                            />
+                                Atleast 1 item available in nonveg 
+                        </div>
+                        <div className="row mb-3 align-items-center">
+                            <input className="form-check-input mt-0" 
+                                name="vegan" 
+                                type="checkbox" 
+                                checked={this.state.profileDetails.vegan} 
+                                disabled
+                                onChange={this.handleCheckbox}
+                            />
+                                Atleast 1 item available in vegan
+                        </div>
                     </form>
                     <Link 
                         to={{pathname: '/EditRestaurantProfile', 
@@ -267,7 +303,10 @@ class RestaurantProfile extends React.Component {
                                 imageLink: this.state.profileDetails.imageLink,
                                 imageName: this.state.profileDetails.imageName,
                                 pickup: this.state.profileDetails.pickup,
-                                delivery: this.state.profileDetails.delivery
+                                delivery: this.state.profileDetails.delivery,
+                                veg: this.state.profileDetails.veg,
+                                nonveg: this.state.profileDetails.nonveg,
+                                vegan: this.state.profileDetails.vegan
                             }} 
                         type='button'
                         className='btn btn-success'

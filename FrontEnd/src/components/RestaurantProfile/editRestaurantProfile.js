@@ -25,7 +25,10 @@ class EditRestaurantProfile extends React.Component {
                 imageLink: this.props.location.imageLink,
                 imageName: this.props.location.imageName,
                 pickup: this.props.location.pickup,
-                delivery: this.props.location.delivery
+                delivery: this.props.location.delivery,
+                veg: this.props.location.veg,
+                nonveg: this.props.location.nonveg,
+                vegan: this.props.location.vegan
             }
         }
     }
@@ -280,6 +283,33 @@ class EditRestaurantProfile extends React.Component {
                                 onChange={this.handleCheckbox}
                             />
                                 Atleast 1 item available for delivery
+                        </div>
+                        <div className="row mb-3 align-items-center">
+                            <input className="form-check-input mt-0" 
+                                name="veg" 
+                                type="checkbox" 
+                                checked={this.state.profileDetails.veg} 
+                                onChange={this.handleCheckbox}
+                            />
+                                Atleast 1 item available in veg
+                        </div>
+                        <div className="row mb-3 align-items-center">
+                            <input className="form-check-input mt-0" 
+                                name="nonveg" 
+                                type="checkbox" 
+                                checked={this.state.profileDetails.nonveg} 
+                                onChange={this.handleCheckbox}
+                            />
+                                Atleast 1 item available in nonveg 
+                        </div>
+                        <div className="row mb-3 align-items-center">
+                            <input className="form-check-input mt-0" 
+                                name="vegan" 
+                                type="checkbox" 
+                                checked={this.state.profileDetails.vegan} 
+                                onChange={this.handleCheckbox}
+                            />
+                                Atleast 1 item available in vegan
                         </div>
                 </form>
                 <button 

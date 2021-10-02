@@ -30,7 +30,10 @@ app.post('/updateRestaurantProfile', (req, res) => {
                                             City = ${mysql.escape(req.body.city)},
                                             Display_Picture=${mysql.escape(req.body.imageLink)},
                                             pickup = ${mysql.escape(req.body.pickup)},
-                                            delivery = ${mysql.escape(req.body.delivery)}
+                                            delivery = ${mysql.escape(req.body.delivery)},
+                                            veg = ${mysql.escape(req.body.veg)},
+                                            nonveg = ${mysql.escape(req.body.nonveg)},
+                                            vegan = ${mysql.escape(req.body.vegan)}
                                         WHERE 
                                             email=${mysql.escape(req.body.email)}
                                     `);

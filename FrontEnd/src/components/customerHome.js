@@ -63,13 +63,15 @@ class CustomerHome extends React.Component {
                     this.sortRestaurantByLocation();
                     break;
                 case 'veg':
-                    this.filterVegRestaurants();
-                    break;
                 case 'nonveg':
-                    this.filterNonvegRestaurants();
-                    break;
                 case 'vegan':
-                    this.filterVeganRestaurants();
+                    this.filterRestaurantsByFoodType();
+                    break;
+                case 'pickup':
+                    this.filterRestaurantsByPickup();
+                    break;
+                case 'delivery':
+                    this.filterRestaurantsByDelivery();
                     break;
                 default:
                     this.setDefaultRestaurantOrder();
@@ -100,6 +102,45 @@ class CustomerHome extends React.Component {
             currentRestaurantList: closestList.concat(notClosestList)
         });
         console.log('sorted by location ', this.state.currentRestaurantList);
+    }
+
+    filterRestaurantsByFoodType = () => {
+        const defaultList = this.state.defaultRestaurantList;
+        const foodType = this.state.selectedFilter;
+        const vegList = defaultList.filter(restaurant => {
+            switch(foodType) {
+                case 'veg':
+                    return restaurant.veg;
+                case 'nonveg':
+                    return restaurant.nonveg;
+                case 'vegan':
+                    return restaurant.vegan;
+                default:
+                    return null;
+            }
+        });
+        this.setState({
+            currentRestaurantList: vegList
+        });
+        console.log(`filtered by veg ${foodType}`, this.state.currentRestaurantList);
+    }
+
+    filterRestaurantsByPickup = () => {
+        const defaultList = this.state.defaultRestaurantList;
+        const pickupList = defaultList.filter(restaurant =>  restaurant.pickup === 1 );
+        this.setState({
+            currentRestaurantList: pickupList
+        });
+        console.log(`filtered by pickup`, this.state.currentRestaurantList);
+    }
+
+    filterRestaurantsByDelivery = () => {
+        const defaultList = this.state.defaultRestaurantList;
+        const deliveryList = defaultList.filter(restaurant =>  restaurant.delivery === 1 );
+        this.setState({
+            currentRestaurantList: deliveryList
+        });
+        console.log(`filtered by delivery`, this.state.currentRestaurantList);
     }
 
     handleClearFilter = (event) => {
@@ -138,16 +179,16 @@ class CustomerHome extends React.Component {
                                         value="location"
                                         checked={this.state.selectedFilter === "location"}
                                         onChange={this.handleRadioButtons}
-                                    />By Closest Location<br/>
+                                    />By Nearest Location<br/>
                                 </li>
-                                <li className="nav-item">
-                                    <span className="nav-link" href="#">By Type</span>
+                                <li className="nav-item mb-4">
                                     <input 
                                         type="radio" 
                                         name="filter"
                                         value="veg"
                                         checked={this.state.selectedFilter === "veg"}
-                                        onChange={this.handleRadioButtons}    
+                                        onChange={this.handleRadioButtons}
+                                        className="mb-2"
                                     />Veg<br/>
                                     <input 
                                         type="radio" 
@@ -155,6 +196,7 @@ class CustomerHome extends React.Component {
                                         value="nonveg"
                                         checked={this.state.selectedFilter === "nonveg"}
                                         onChange={this.handleRadioButtons}
+                                        className="mb-2"
                                     />Non-Veg<br/>
                                     <input 
                                         type="radio" 
@@ -162,24 +204,23 @@ class CustomerHome extends React.Component {
                                         value="vegan"
                                         checked={this.state.selectedFilter === "vegan"}
                                         onChange={this.handleRadioButtons}
-                                    />Vegan
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link" href="#">Another link</a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link disabled" href="#">Disabled</a>
-                                </li>
-                            </ul>
-                            <ul className="nav flex-column">
-                                <li className="nav-item">
-                                    <a className="nav-link" href="#">Link</a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link" href="#">Another link</a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link" href="#">Link</a>
+                                        className="mb-2"
+                                    />Vegan<br/>
+                                    <input 
+                                        type="radio" 
+                                        name="filter"
+                                        value="pickup"
+                                        checked={this.state.selectedFilter === "pickup"}
+                                        onChange={this.handleRadioButtons}
+                                        className="mb-2"
+                                    />Pickup<br/>
+                                    <input 
+                                        type="radio" 
+                                        name="filter"
+                                        value="delivery"
+                                        checked={this.state.selectedFilter === "delivery"}
+                                        onChange={this.handleRadioButtons}
+                                    />Delivery
                                 </li>
                             </ul>
                             <button 
