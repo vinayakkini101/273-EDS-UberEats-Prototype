@@ -2,7 +2,7 @@ import React from "react";
 import cookie from 'react-cookies';
 import axios from 'axios';
 import { Redirect } from "react-router";
-import {Toast} from 'bootstrap';
+import {Toast, Modal} from 'bootstrap';
 import NavBar from "../Navbar/navbar";
 
 class VisitRestaurant extends React.Component {
@@ -24,7 +24,8 @@ class VisitRestaurant extends React.Component {
                 imageName: '',
                 restaurantEmail: props.match.params.RestaurantEmail
             },
-            dishList: []
+            dishList: [],
+            cartItems: []
         }
 
         console.log('email state in visitResto ', this.state.profileDetails.restaurantEmail);
@@ -122,7 +123,7 @@ class VisitRestaurant extends React.Component {
                 <div>Contact: {this.state.profileDetails.contactno}</div>
 
                 <div className="position-fixed bottom-0 end-0 p-3" style={{zIndex: '11', color: 'green' }}>
-                    <div id="liveToast" className="toast" role="alert">
+                    <div id="successToast" className="toast" role="alert">
                         <div className="toast-header">
                         <strong className="me-auto">Awesome!</strong>
                         <small>Just now</small>
@@ -158,53 +159,39 @@ class DishDisplayCard extends React.Component {
             details: props.dishDetails,
             restaurantEmail: props.restaurantEmail,
             quantity: 0,
-            price: props.dishDetails.Price
+            price: props.dishDetails.Price,
+            isQuantityZero: false
         }
         this.triggerToast = props.triggerToast;
-        console.log(this.state.details);
+
     }
 
-    addToCart = (event) => {
-        axios.post('/addToCart', {
-            userEmail: localStorage.getItem('userEmail'),
-            restaurantEmail: this.state.details.Restaurant_Email,
-            dishName: this.state.details.Dish_Name,
-            quantity: this.state.quantity,
-            price: this.state.price
-        })
-        .then((response) => {
-            if (response.status === 200) {
-                console.log("response ", response.data);
-                const toastElement = document.getElementById('liveToast');
-                const bsToast = new Toast(toastElement);
-                bsToast.show();
-                // const details = response.data;
-                // this.setState({
-                //     // isPageUpdated: true,
-                //     profileDetails: {
-                //         id: details.Restaurant_ID,
-                //         name: details.name,
-                //         description: details.description,
-                //         email: details.email,
-                //         contactno: details.contact_number,
-                //         starttime: details.start_time,
-                //         endtime: details.end_time,
-                //         country: details.country,
-                //         state: details.state,
-                //         city: details.City,
-                //         imageLink: details.Display_Picture 
-                //     }
-                // })
-            }
-        })
-        .catch(error => {
-            console.log("get restaurant details error");
-            this.setState({
-                isPageUpdated: "false"
-            });
-            console.log(error);
-            alert("Unable to get restaurant details, please try again!");
-        })
+    handleAddToCart = (event) => {
+        event.preventDefault();
+        let cart = [];
+        console.log(sessionStorage);
+        if(sessionStorage.getItem('cartItems')) {
+            cart = JSON.parse(sessionStorage.getItem('cartItems'));
+        }
+
+        let itemStatus = '';
+        itemStatus = this.ensureItemsFromSameRestaurant(cart);
+        if(itemStatus === 'NOTADDED') {
+            return;
+        }
+        itemStatus = this.addOrUpdateItem(cart);
+        
+        if(itemStatus === 'ADDED') {
+            sessionStorage.setItem('cartItems', JSON.stringify(cart));
+            console.log('js obj ', JSON.parse(sessionStorage.getItem('cartItems')));
+            const toastElement = document.getElementById('successToast');
+            const bsToast = new Toast(toastElement);
+            bsToast.show();
+        }
+        else if(itemStatus === 'REMOVED') {
+            sessionStorage.setItem('cartItems', JSON.stringify(cart));
+            console.log('js obj ', JSON.parse(sessionStorage.getItem('cartItems')));
+        }
     }   
 
     handleQuantityMinus = () => {
@@ -225,10 +212,68 @@ class DishDisplayCard extends React.Component {
         });
     }
 
+    ensureItemsFromSameRestaurant = (cart) => {
+        // Show modal if items from another restaurant are added
+        const restaurantEmail = this.state.details.Restaurant_Email;
+        for(let item of cart) {
+            if(item.restaurantEmail !== restaurantEmail) {
+                const cartModal = new Modal('#cartModal');
+                cartModal.show();
+                return 'NOTADDED';
+            }
+        }
+        return 'ADDED';
+    }
+
+    handleQuantityLessThanOne = () => {
+        // Display error if added quantity is less than 1
+        if(this.state.quantity < 1) {
+            this.setState({ isQuantityZero: true });
+            return;
+        }
+    }
+
+    addOrUpdateItem = (cart) => {
+        // Update item if it already exists in the cart
+        // Else add item to cart
+        let isDishFound = false;
+        const dishName = this.state.details.Dish_Name;
+        const restaurantEmail = this.state.details.Restaurant_Email;
+
+        for(let item of cart) {
+            if(item.dishName === dishName && item.restaurantEmail === restaurantEmail) {
+                if(this.state.quantity === 0) {
+                    cart.splice(cart.indexOf(item), 1);
+                    return 'REMOVED';
+                }
+                item.quantity = this.state.quantity;
+                isDishFound = true;
+            }
+        }
+        if( !isDishFound ) {
+            if(this.state.quantity > 0) {
+                cart.push({
+                    userEmail: localStorage.getItem('userEmail'),
+                    restaurantEmail: this.state.details.Restaurant_Email,
+                    dishName: this.state.details.Dish_Name,
+                    quantity: this.state.quantity,
+                    price: this.state.price
+                });
+                this.setState({ isQuantityZero: false });
+            }
+            else {
+                this.handleQuantityLessThanOne(cart);
+                return 'NOTADDED';
+            }
+        }
+
+        return 'ADDED';
+    }
+
     render() {
         let errorMessage = null;
-        if(this.state.isErrorSeen === 'true') {
-            errorMessage = <div className="alert alert-danger">Cannot add item</div>;
+        if(this.state.isQuantityZero === true) {
+            errorMessage = <div className="alert alert-danger">Add atleast 1 quantity</div>;
         }
         return (
                 <div className="card col-lg-3 col-md-6 col-12 g-4 m-2" style={{width: '3rem;'}}>
@@ -244,7 +289,7 @@ class DishDisplayCard extends React.Component {
                         </div>
                         <button 
                             className="btn btn-primary"
-                            onClick={this.addToCart}
+                            onClick={this.handleAddToCart}
                         >
                             Add to Cart
                         </button>

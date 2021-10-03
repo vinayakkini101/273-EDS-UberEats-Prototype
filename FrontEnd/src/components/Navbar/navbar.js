@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import cookie from 'react-cookies';
+import Cart from '../Cart/cart.js';
 
 class NavBar extends React.Component {
 
@@ -17,34 +18,9 @@ class NavBar extends React.Component {
         console.log('localstorage on logout ', localStorage);
         localStorage.clear();
 
-        // sessionStorage.removeItem('cartItems');
-        // sessionStorage.clear();
-        // console.log('sessionstorage  ', sessionStorage);
-    }
-
-    getCartItems = () => {
-        axios.post('/getCartItems', {
-            userEmail: localStorage.getItem('userEmail')
-        })
-            .then((response) => {
-                if (response.status === 200) {
-                    // console.log("cart array response ", response.data.slice());
-
-                    this.setState({
-                        cartItems: response.data.slice(),
-                    });
-                    
-                    console.log('cart array state ',this.state.cartItems);
-                }
-            })
-            .catch(error => {
-                console.log("get all cart items error");
-                this.setState({
-                    // isPageUpdated: "false"
-                });
-                console.log(error);
-                alert("Unable to get all cart items, please try again!");
-            })
+        sessionStorage.removeItem('cartItems');
+        sessionStorage.clear();
+        console.log('sessionstorage  ', sessionStorage);
     }
 
     render() {
@@ -71,13 +47,7 @@ class NavBar extends React.Component {
                     <a className="nav-link" href={profileLink}>Profile</a>
                     {/* <Field className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />  */}
                     {searchElement}
-                    <a className="nav-link" href="/Cart" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#exampleModal"
-                        onClick={this.getCartItems}
-                    >
-                        Cart
-                    </a>
+                    <Cart />
                     <a 
                         className="btn btn-outline-danger" 
                         href="/" 
@@ -87,42 +57,6 @@ class NavBar extends React.Component {
                     </a>
                 </div>
             </nav>
-
-            <div className="modal fade" id="exampleModal" tabIndex="-1">
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                    <div className="modal-header">
-                        <h5 className="modal-title" id="exampleModalLabel">Your Cart</h5>
-                        <button type="button" className="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div className="modal-body">
-                        <div className="container-fluid">
-                            <div className="row">
-                                <div className="col-6 dark">Dish Name</div>
-                                <div className="col-3">Price</div>
-                                <div className="col-3">Quantity</div>
-                                {/* <div className="col-2">Total</div> */}
-                            </div>
-                            {this.state.cartItems.map(item => {
-                                return (
-                                    <div className="row">
-                                        <div className="col-6">{item.dishName}</div>
-                                        <div className="col-3">${item.price}</div>
-                                        <div className="col-3">x{item.quantity}</div>
-                                        {/* <div className="col-2">${item.quantity * item.price}</div> */}
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    </div>
-                    <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <a className="btn btn-primary" href="/Checkout">Checkout</a>
-                    </div>
-                    </div>
-                </div>
-            </div>
-            
             </>
         );
     }
