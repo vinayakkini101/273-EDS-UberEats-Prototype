@@ -72,7 +72,8 @@ class RestaurantSignUp extends React.Component {
                                     endtime: '',
                                     country: '',
                                     state: '',
-                                    city: ''
+                                    city: '',
+                                    street: ''
                                 }}
                             validate={values => {
                                 const errors = {};
@@ -150,6 +151,10 @@ class RestaurantSignUp extends React.Component {
                                             return <option value={name}>{name}</option>
                                         })}
                                     </Field>
+                                </div>
+                                <div  className="mb-3">
+                                    <label htmlFor="street">Street</label>
+                                    <Field type="text" name="street" className="form-control" id="street" placeholder="Street" required />
                                 </div>
                                 <div  className="mb-3">
                                     <label htmlFor="state">State</label>

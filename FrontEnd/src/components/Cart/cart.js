@@ -20,6 +20,8 @@ class Cart extends React.Component {
     }
 
     render() {
+        let cartTotal = 0;
+
         return (
             <>
             <a className="nav-link" href="/Cart" 
@@ -47,6 +49,7 @@ class Cart extends React.Component {
                                 {/* <div className="col-2">Total</div> */}
                             </div>
                             {this.state.cartItems.map(item => {
+                                cartTotal += item.price * item.quantity
                                 return (
                                     <div className="row">
                                         <div className="col-6">{item.dishName}</div>
@@ -60,7 +63,7 @@ class Cart extends React.Component {
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <a className="btn btn-primary" href="/Checkout">Checkout</a>
+                        <a className="btn btn-primary" href="/Checkout">Checkout - ${cartTotal}</a>
                     </div>
                     </div>
                 </div>

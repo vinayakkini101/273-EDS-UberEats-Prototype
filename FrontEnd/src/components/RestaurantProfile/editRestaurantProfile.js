@@ -28,7 +28,9 @@ class EditRestaurantProfile extends React.Component {
                 delivery: this.props.location.delivery,
                 veg: this.props.location.veg,
                 nonveg: this.props.location.nonveg,
-                vegan: this.props.location.vegan
+                vegan: this.props.location.vegan,
+                currentStreet: this.props.location.street,
+                updatedStreet: this.props.location.street
             }
         }
     }
@@ -99,10 +101,12 @@ class EditRestaurantProfile extends React.Component {
                             endtime: details.end_time,
                             country: details.country,
                             state: details.state,
-                            city: details.City,
+                            city: details.city,
                             imageLink: details.Display_Picture,
                             pickup: details.pickup === 1 ? true : false,
-                            delivery: details.delivery === 1 ? true : false
+                            delivery: details.delivery === 1 ? true : false,
+                            currentStreet: details.updatedStreet,
+                            updatedStreet: details.updatedStreet
                         }
                     })
                 }
@@ -230,6 +234,18 @@ class EditRestaurantProfile extends React.Component {
                         />
                         </div>
                     </div>
+                    <div className="row mb-3 align-items-center">
+                            <div className="col-3">
+                                <label htmlFor="street" className="col-form-label">Street Address</label>
+                            </div>
+                            <div className="col-6">
+                                <input type="text" name="updatedStreet" className="form-control" 
+                                // disabled 
+                                value={this.state.profileDetails.updatedStreet} 
+                                onChange={this.handleChange}
+                            />
+                            </div>
+                        </div>
                     <div className="row mb-3 align-items-center">
                         <div className="col-3">
                             <label htmlFor="" className="col-form-label">City</label>

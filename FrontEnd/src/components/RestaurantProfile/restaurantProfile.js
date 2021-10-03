@@ -30,7 +30,8 @@ class RestaurantProfile extends React.Component {
                 delivery: false,
                 veg: false,
                 nonveg: false,
-                vegan: false
+                vegan: false,
+                street: ''
             }
         }
     } 
@@ -78,13 +79,14 @@ class RestaurantProfile extends React.Component {
                         endtime: details.end_time,
                         country: details.country,
                         state: details.state,
-                        city: details.City,
+                        city: details.city,
                         imageLink: details.Display_Picture,
                         pickup: details.pickup === 1 ? true : false,
                         delivery: details.delivery === 1 ? true : false,
                         veg: details.veg === 1 ? true : false,
                         nonveg: details.nonveg === 1 ? true : false,
                         vegan: details.vegan === 1 ? true : false,
+                        street: details.street
                     }
                 })
             }
@@ -203,6 +205,18 @@ class RestaurantProfile extends React.Component {
                         </div>
                         <div className="row mb-3 align-items-center">
                             <div className="col-3">
+                                <label htmlFor="street" className="col-form-label">Street Address</label>
+                            </div>
+                            <div className="col-6">
+                                <input type="text" name="street" className="form-control" 
+                                // disabled 
+                                value={this.state.profileDetails.street} 
+                                readOnly
+                            />
+                            </div>
+                        </div>
+                        <div className="row mb-3 align-items-center">
+                            <div className="col-3">
                                 <label htmlFor="" className="col-form-label">City</label>
                             </div>
                             <div className="col-6">
@@ -306,7 +320,8 @@ class RestaurantProfile extends React.Component {
                                 delivery: this.state.profileDetails.delivery,
                                 veg: this.state.profileDetails.veg,
                                 nonveg: this.state.profileDetails.nonveg,
-                                vegan: this.state.profileDetails.vegan
+                                vegan: this.state.profileDetails.vegan,
+                                street: this.state.profileDetails.street
                             }} 
                         type='button'
                         className='btn btn-success'

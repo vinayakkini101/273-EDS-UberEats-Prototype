@@ -23,6 +23,8 @@ const getCustomerProfile = require('./routes/getCustomerProfile.js');
 const updateCustomerProfile = require('./routes/updateCustomerProfile.js');
 const addToCart = require('./routes/addToCart.js');
 const getCartItems = require('./routes/getCartItems.js')
+const getCustomerAddresses = require('./routes/getCustomerAddress.js');
+const addCustomerAddress = require('./routes/addCustomerAddress.js');
 
 app.set('view engine', 'ejs');
 app.set('views', './views');
@@ -68,6 +70,8 @@ app.use('/', updateCustomerProfile);
 app.use('/', getAllRestaurants);
 app.use('/', addToCart);
 app.use('/', getCartItems);
+app.use('/', getCustomerAddresses);
+app.use('/', addCustomerAddress);
 
 
 app.get('/test-api', function(req, res) {

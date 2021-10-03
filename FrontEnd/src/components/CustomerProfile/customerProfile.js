@@ -24,7 +24,8 @@ class CustomerProfile extends React.Component {
                 state: '',
                 city: '',
                 imageLink: '',
-                imageName: ''
+                imageName: '',
+                street: ''
             }
         }
     } 
@@ -63,7 +64,8 @@ class CustomerProfile extends React.Component {
                         country: details.country,
                         state: details.state,
                         city: details.city,
-                        imageLink: details.profile_picture 
+                        imageLink: details.profile_picture ,
+                        street: details.street
                     }
                 })
             }
@@ -169,6 +171,18 @@ class CustomerProfile extends React.Component {
                         </div>
                         <div className="row mb-3 align-items-center">
                             <div className="col-3">
+                                <label htmlFor="street" className="col-form-label">Street Address</label>
+                            </div>
+                            <div className="col-6">
+                                <input type="text" name="street" className="form-control" 
+                                // disabled 
+                                value={this.state.profileDetails.street} 
+                                readOnly
+                            />
+                            </div>
+                        </div>
+                        <div className="row mb-3 align-items-center">
+                            <div className="col-3">
                                 <label htmlFor="" className="col-form-label">City</label>
                             </div>
                             <div className="col-6">
@@ -216,7 +230,8 @@ class CustomerProfile extends React.Component {
                                 state: this.state.profileDetails.state,
                                 city: this.state.profileDetails.city,
                                 imageLink: this.state.profileDetails.imageLink,
-                                imageName: this.state.profileDetails.imageName
+                                imageName: this.state.profileDetails.imageName,
+                                street: this.state.profileDetails.street
                             }} 
                         type='button'
                         className='btn btn-success'

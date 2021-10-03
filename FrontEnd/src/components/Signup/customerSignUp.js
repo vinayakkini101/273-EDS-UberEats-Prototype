@@ -75,7 +75,8 @@ class CustomerSignUp extends React.Component {
                                     endtime: '',
                                     country: '',
                                     state: '',
-                                    city: ''
+                                    city: '',
+                                    street: ''
                                 }}
                             validate={values => {
                                 const errors = {};
@@ -164,6 +165,10 @@ class CustomerSignUp extends React.Component {
                                 <div  className="mb-3">
                                     <label htmlFor="city">City</label>
                                     <Field type="text" name="city" className="form-control" id="city" placeholder="City" required />
+                                </div>
+                                <div  className="mb-3">
+                                    <label htmlFor="street">Street Address</label>
+                                    <Field type="text" name="street" className="form-control" id="street" placeholder="Street Address" required />
                                 </div>
                                 <div  className="mb-3">
                                     <label htmlFor="password">Password *</label>

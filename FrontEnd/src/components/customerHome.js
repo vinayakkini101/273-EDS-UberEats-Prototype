@@ -15,7 +15,8 @@ class CustomerHome extends React.Component {
             userLocation: {
                 country: localStorage.getItem('country'),
                 state: localStorage.getItem('state'),
-                city: localStorage.getItem('city')
+                city: localStorage.getItem('city'),
+                street: localStorage.getItem('street')
             },
             selectedFilter: 'location',
             defaultDishList: []
@@ -91,7 +92,7 @@ class CustomerHome extends React.Component {
         const defaultList = this.state.defaultRestaurantList;
         const notClosestList = [];
         const closestList = defaultList.filter(restaurant => {
-            if(restaurant.City !== this.state.userLocation.city) {
+            if(restaurant.city !== this.state.userLocation.city) {
                 notClosestList.push(restaurant);
             }
             else {
@@ -272,9 +273,10 @@ class RestaurantDisplayCard extends React.Component {
                 endtime: this.props.details.endtime,
                 country: this.props.details.country,
                 state: this.props.details.state,
-                city: this.props.details.City,
+                city: this.props.details.city,
                 imageLink: this.props.details.Display_Picture,
-                imageName: this.props.details.imageName
+                imageName: this.props.details.imageName,
+                street: this.props.details.street
         }
     }
 

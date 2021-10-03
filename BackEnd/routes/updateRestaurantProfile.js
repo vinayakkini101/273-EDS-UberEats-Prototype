@@ -5,6 +5,7 @@ const pool = require('../config/dbConnection.js');
 
 app.post('/updateRestaurantProfile', (req, res) => {
     console.log(req.body);
+    let dbConn = null;
 
     pool
         .catch((err) => {
@@ -16,8 +17,9 @@ app.post('/updateRestaurantProfile', (req, res) => {
         })
         .then((conn) => {
             console.log('Pool created');
+            dbConn = conn;
             let queryResult;
-            queryResult = conn.query(`UPDATE Restaurant 
+            queryResult = dbConn.query(`UPDATE Restaurant 
                                         SET
                                             name = ${mysql.escape(req.body.name)},
                                             email = ${mysql.escape(req.body.email)},
@@ -25,9 +27,6 @@ app.post('/updateRestaurantProfile', (req, res) => {
                                             contact_number = ${mysql.escape(req.body.contactno)},
                                             start_time = ${mysql.escape(req.body.starttime)},
                                             end_time = ${mysql.escape(req.body.endtime)},
-                                            country = ${mysql.escape(req.body.country)},
-                                            state = ${mysql.escape(req.body.state)},
-                                            City = ${mysql.escape(req.body.city)},
                                             Display_Picture=${mysql.escape(req.body.imageLink)},
                                             pickup = ${mysql.escape(req.body.pickup)},
                                             delivery = ${mysql.escape(req.body.delivery)},
@@ -47,12 +46,34 @@ app.post('/updateRestaurantProfile', (req, res) => {
             res.end("Error in query execution");
         })
         .then((queryResult) => {
-            console.log("queryResult ", queryResult);
+            let result;
+            result = dbConn.query(`UPDATE Address 
+                                        SET
+                                            country = ${mysql.escape(req.body.country)},
+                                            state = ${mysql.escape(req.body.state)},
+                                            city = ${mysql.escape(req.body.city)},
+                                            streetAddress = ${mysql.escape(req.body.updatedStreet)}
+                                        WHERE 
+                                            email=${mysql.escape(req.body.email)}
+                                            AND
+                                            streetAddress = ${mysql.escape(req.body.currentStreet)}
+                                    `);
+            return result;
+        })
+        .catch((err) => {
+            console.log('Error in query execution ' + err);
+            res.writeHead(400, {
+                'Content-type': 'text/plain'
+            });
+            res.end("Error in query execution");
+        })
+        .then((result) => {
+            console.log("result ", result);
             res.writeHead(200, {
                 'Content-type': 'text/plain'
             });
 
-            res.end(JSON.stringify(queryResult[0]));
+            res.end(JSON.stringify(result[0]));
             console.log("Restaurant details updated successfully");
         })
 });

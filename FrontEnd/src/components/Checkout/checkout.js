@@ -12,41 +12,33 @@ class Checkout extends React.Component {
         super(props);
         this.state = {
             cartItems: [],
-            profileDetails: {}
+            profileDetails: {},
+            addressDetails: [],
+            newStreet: '',
+            newCity: '',
+            newState: '',
+            newCountry: '',
+            combinedSelectedAddress: ''
         }
     }
 
     componentDidMount = () => {
         this.getCartItems();
+        this.getProfileDetails();
         this.getSavedAddresses();
     }
 
     getCartItems = () => {
-        axios.post('/getCartItems', {
-            userEmail: localStorage.getItem('userEmail')
-        })
-            .then((response) => {
-                if (response.status === 200) {
-                    // console.log("cart array response ", response.data.slice());
+        let cart = [];
+        console.log(sessionStorage);
+        if(sessionStorage.getItem('cartItems')) {
+            cart = JSON.parse(sessionStorage.getItem('cartItems'));
+        }
 
-                    this.setState({
-                        cartItems: response.data.slice(),
-                    });
-                    
-                    console.log('cart array state ',this.state.cartItems);
-                }
-            })
-            .catch(error => {
-                console.log("get all cart items error");
-                this.setState({
-                    // isPageUpdated: "false"
-                });
-                console.log(error);
-                alert("Unable to get all cart items, please try again!");
-            })
+        this.setState({ cartItems : cart.slice() });
     }
 
-    getSavedAddresses = () => {
+    getProfileDetails = () => {
         axios.defaults.withCredentials = true;
         axios.post('/getCustomerProfile', {
             customerEmail: localStorage.getItem('userEmail') 
@@ -66,7 +58,8 @@ class Checkout extends React.Component {
                             country: details.country,
                             state: details.state,
                             city: details.city,
-                            imageLink: details.profile_picture 
+                            imageLink: details.profile_picture,
+                            street: details.street
                         }
                     })
                 }
@@ -79,6 +72,63 @@ class Checkout extends React.Component {
                 console.log(error);
                 alert("Unable to get customer details, please try again!");
             })
+    }
+
+    getSavedAddresses = () => {
+        axios.defaults.withCredentials = true;
+        axios.post('/getCustomerAddresses', {
+            customerEmail: localStorage.getItem('userEmail') 
+        })
+            .then((response) => {
+                if (response.status === 200) {
+                    console.log("saved address response ", response.data);
+                    const details = response.data;
+                    
+                    this.setState({
+                        addressDetails: details.slice()
+                    })
+                }
+            })
+            .catch(error => {
+                console.log("get customer address details error");
+                this.setState({
+                    isPageUpdated: "false"
+                });
+                console.log(error);
+                alert("Unable to get customer address details, please try again!");
+            })
+    }
+
+    handleAddNewAddress = () => {
+        axios.defaults.withCredentials = true;
+        axios.post('/addCustomerAddress', {
+            street: this.state.newStreet,
+            city: this.state.newCity,
+            state: this.state.newState,
+            country: this.state.newCountry,
+            customerEmail: localStorage.getItem('userEmail') 
+        })
+            .then((response) => {
+                if (response.status === 200) {
+                    console.log("response ", response.data);
+                    // const details = response.data;
+                }
+            })
+            .catch(error => {
+                console.log("add customer address details error");
+                this.setState({
+                    isPageUpdated: "false"
+                });
+                console.log(error);
+                alert("Unable to add customer address details, please try again!");
+            })
+    }
+
+    handleFieldInput = (e) => {
+        // console.log(e.target.name, e.target.value);
+        this.setState({
+            [e.target.name] : e.target.value
+        });
     }
 
     render() {
@@ -146,8 +196,21 @@ class Checkout extends React.Component {
                                     <p className="mb-1">
                                         {this.state.profileDetails.city}, {this.state.profileDetails.state}, {this.state.profileDetails.country}
                                     </p> */}
-                                    <select className="form-select">
-                                        <option value="">{this.state.profileDetails.city}, {this.state.profileDetails.state}, {this.state.profileDetails.country}</option>
+                                    <select 
+                                        className="form-select"
+                                        value={this.state.combinedSelectedAddress}
+                                        onChange={this.handleFieldInput}
+                                        name="combinedSelectedAddress"
+                                    >    
+                                        <option selected>-select an option-</option>
+                                        {this.state.addressDetails.map(address => {
+                                            return (
+                                                <option>
+                                                    {address.streetAddress}, {address.city}, 
+                                                    {address.state}, {address.country}
+                                                </option>
+                                            );
+                                        })}
                                     </select>
                                 </div>
                             </div>
@@ -160,23 +223,53 @@ class Checkout extends React.Component {
                                     <form>
                                         <div className="row">
                                             <div className="col">
-                                                <label htmlFor="city" className="form-label">City</label>
-                                                <input type="text" className="form-control" name="city"/>
+                                                <label htmlFor="newStreet" className="form-label">Street</label>
+                                                <input type="text" 
+                                                    className="form-control" 
+                                                    name="newStreet"
+                                                    onChange={this.handleFieldInput}
+                                                    value={this.state.newStreet}  
+                                                />
                                             </div>
                                             <div className="col">
-                                                <label htmlFor="state" className="form-label">State</label>
-                                                <input type="text" className="form-control" name="state"/>
+                                                <label htmlFor="newCity" className="form-label">City</label>
+                                                <input type="text" 
+                                                    className="form-control" 
+                                                    name="newCity"
+                                                    onChange={this.handleFieldInput}
+                                                    value={this.state.newCity}  
+                                                />
                                             </div>
                                             <div className="col">
-                                                <label htmlFor="country" className="form-label">Country</label>
-                                                <select className="form-select" name="country">
+                                                <label htmlFor="newState" className="form-label">State</label>
+                                                <input type="text" 
+                                                    className="form-control" 
+                                                    name="newState"
+                                                    onChange={this.handleFieldInput}
+                                                    value={this.state.newState}  
+
+                                                />
+                                            </div>
+                                            <div className="col">
+                                                <label htmlFor="newCountry" className="form-label">Country</label>
+                                                <select 
+                                                        className="form-select" 
+                                                        name="newCountry"
+                                                        onChange={this.handleFieldInput}
+                                                        value={this.state.newCountry}
+                                                >
                                                     {countryList.getNames().map(name => {
                                                         return <option value={name}>{name}</option>
                                                     })}
                                                 </select>
                                             </div>
                                         </div>
-                                        <button type="submit" className="btn btn-primary">Add</button>
+                                        <button type="submit" 
+                                            className="btn btn-primary"
+                                            onClick={this.handleAddNewAddress}
+                                        >
+                                            Add
+                                        </button>
                                     </form>
                                 </div>
                             </div>
@@ -224,7 +317,7 @@ class Checkout extends React.Component {
                         </div>
                         <p></p>
                         Order will be delivered to:
-                        <p>{this.state.profileDetails.city}, {this.state.profileDetails.state}, {this.state.profileDetails.country}</p>
+                        <p>{this.state.combinedSelectedAddress}</p>
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>

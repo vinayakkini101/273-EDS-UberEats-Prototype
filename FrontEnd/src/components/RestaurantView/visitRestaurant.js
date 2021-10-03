@@ -22,7 +22,8 @@ class VisitRestaurant extends React.Component {
                 city: '',
                 imageLink: '',
                 imageName: '',
-                restaurantEmail: props.match.params.RestaurantEmail
+                restaurantEmail: props.match.params.RestaurantEmail,
+                street: ''
             },
             dishList: [],
             cartItems: []
@@ -59,8 +60,9 @@ class VisitRestaurant extends React.Component {
                             endtime: details.end_time,
                             country: details.country,
                             state: details.state,
-                            city: details.City,
-                            imageLink: details.Display_Picture 
+                            city: details.city,
+                            imageLink: details.Display_Picture,
+                            street: ''
                         }
                     })
                 }

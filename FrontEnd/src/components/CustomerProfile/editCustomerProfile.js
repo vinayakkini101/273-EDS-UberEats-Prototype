@@ -22,7 +22,8 @@ class EditCustomerProfile extends React.Component {
                 state: this.props.location.state,
                 city: this.props.location.city,
                 imageLink: this.props.location.imageLink,
-                imageName: this.props.location.imageName
+                imageName: this.props.location.imageName,
+                street: this.props.location.street
             }
         }
     }
@@ -85,7 +86,8 @@ class EditCustomerProfile extends React.Component {
                             country: details.country,
                             state: details.state,
                             city: details.City,
-                            imageLink: details.Display_Picture
+                            imageLink: details.Display_Picture,
+                            street: details.street
                         }
                     })
                 }
@@ -132,7 +134,7 @@ class EditCustomerProfile extends React.Component {
                     </input>
                     <div className="row mb-3 align-items-center">
                         <div className="col-3">
-                            <label htmlFor="" className="col-form-label">Name</label>
+                            <label htmlFor="name" className="col-form-label">Name</label>
                         </div>
                         <div className="col-6">
                             <input type="text" name="name" className="form-control" 
@@ -144,7 +146,7 @@ class EditCustomerProfile extends React.Component {
                     </div>
                     <div className="row mb-3 align-items-center">
                         <div className="col-3">
-                            <label htmlFor="" className="col-form-label">Email</label>
+                            <label htmlFor="email" className="col-form-label">Email</label>
                         </div>
                         <div className="col-6">
                             <input type="text" name="email" className="form-control" 
@@ -156,7 +158,7 @@ class EditCustomerProfile extends React.Component {
                     </div>
                     <div className="row mb-3 align-items-center">
                         <div className="col-3">
-                            <label htmlFor="" className="col-form-label">Contact Number</label>
+                            <label htmlFor="contactno" className="col-form-label">Contact Number</label>
                         </div>
                         <div className="col-6">
                             <input type="text" name="contactno" className="form-control" 
@@ -168,7 +170,7 @@ class EditCustomerProfile extends React.Component {
                     </div>
                     <div className="row mb-3 align-items-center">
                         <div className="col-3">
-                            <label htmlFor="" className="col-form-label">About</label>
+                            <label htmlFor="about" className="col-form-label">About</label>
                         </div>
                         <div className="col-6">
                             <input type="text" name="about" className="form-control" 
@@ -180,7 +182,7 @@ class EditCustomerProfile extends React.Component {
                     </div>
                     <div className="row mb-3 align-items-center">
                         <div className="col-3">
-                            <label htmlFor="" className="col-form-label">Nickname</label>
+                            <label htmlFor="nickname" className="col-form-label">Nickname</label>
                         </div>
                         <div className="col-6">
                             <input type="text" name="nickname" className="form-control" 
@@ -192,7 +194,7 @@ class EditCustomerProfile extends React.Component {
                     </div>
                     <div className="row mb-3 align-items-center">
                         <div className="col-3">
-                            <label htmlFor="" className="col-form-label">Date of Birth</label>
+                            <label htmlFor="dob" className="col-form-label">Date of Birth</label>
                         </div>
                         <div className="col-6">
                             <input type="text" name="dob" className="form-control" 
@@ -204,7 +206,19 @@ class EditCustomerProfile extends React.Component {
                     </div>
                     <div className="row mb-3 align-items-center">
                         <div className="col-3">
-                            <label htmlFor="" className="col-form-label">City</label>
+                            <label htmlFor="street" className="col-form-label">Street Address</label>
+                        </div>
+                        <div className="col-6">
+                            <input type="text" name="street" className="form-control" 
+                            // disabled 
+                            value={this.state.profileDetails.street} 
+                            onChange={this.handleChange}
+                        />
+                        </div>
+                        </div>
+                    <div className="row mb-3 align-items-center">
+                        <div className="col-3">
+                            <label htmlFor="city" className="col-form-label">City</label>
                         </div>
                         <div className="col-6">
                             <input type="text" name="city" className="form-control" 
@@ -216,7 +230,7 @@ class EditCustomerProfile extends React.Component {
                     </div>
                     <div className="row mb-3 align-items-center">
                         <div className="col-3">
-                            <label htmlFor="" className="col-form-label">State</label>
+                            <label htmlFor="state" className="col-form-label">State</label>
                         </div>
                         <div className="col-6">
                             <input type="text" name="state" className="form-control" 
@@ -228,7 +242,7 @@ class EditCustomerProfile extends React.Component {
                     </div>
                     <div className="row mb-3 align-items-center">
                         <div className="col-3">
-                            <label htmlFor="" className="col-form-label">Country</label>
+                            <label htmlFor="country" className="col-form-label">Country</label>
                         </div>
                         <div className="col-6">
                             <input type="text" name="country" className="form-control" 

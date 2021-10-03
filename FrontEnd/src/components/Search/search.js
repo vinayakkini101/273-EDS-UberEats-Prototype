@@ -72,7 +72,7 @@ class Search extends React.Component {
     filterRestaurantByLocation = (requestedLocation) => {
         const defaultList = this.state.defaultRestaurantList;
         let closestList = defaultList.filter(restaurant => {
-            if(restaurant.City.toLowerCase() === requestedLocation.toLowerCase()) {
+            if(restaurant.city.toLowerCase() === requestedLocation.toLowerCase()) {
                 return restaurant;
             }
             return null;
