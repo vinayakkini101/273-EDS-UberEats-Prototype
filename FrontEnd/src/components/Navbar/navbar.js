@@ -9,7 +9,8 @@ class NavBar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            cartItems: []
+            cartItems: [],
+            userEmail: localStorage.getItem('userEmail')
         }
     }
 
@@ -33,11 +34,11 @@ class NavBar extends React.Component {
     
         if(localStorage.getItem('isRestaurant') === 'true') {
             homeLink = '/RestaurantHome';
-            profileLink = '/RestaurantProfile';
+            profileLink = `/RestaurantProfile/${this.state.userEmail}`;
         }
         else {
             homeLink = '/CustomerHome';
-            profileLink = '/CustomerProfile';
+            profileLink = `/CustomerProfile/${this.state.userEmail}`;
             searchElement = <a className="btn btn-outline-success" href="/Search">Search</a>;
             cartLink = <Cart />;
         }

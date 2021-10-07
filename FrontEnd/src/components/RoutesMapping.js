@@ -23,10 +23,10 @@ class RoutesMapping extends React.Component {
                 <Route exact path='/RestaurantHome' component={RestaurantHome} />
                 <Route exact path='/CustomerHome' component={CustomerHome} />
                 <Route exact path='/CustomerSignUp' component={CustomerSignUp} />
-                <Route exact path='/CustomerProfile' component={CustomerProfile} />
+                <Route exact path='/CustomerProfile/:CustomerEmail' component={CustomerProfile} />
                 <Route exact path='/EditCustomerProfile' component={EditCustomerProfile} />
                 <Route exact path='/RestaurantSignUp' component={RestaurantSignUp} />
-                <Route exact path='/RestaurantProfile' component={RestaurantProfile} />
+                <Route exact path='/RestaurantProfile/:RestaurantEmail' component={RestaurantProfile} />
                 <Route exact path='/EditRestaurantProfile' component={EditRestaurantProfile} />
                 <Route exact path='/Search' component={Search} />
                 <Route exact path='/Restaurant/:RestaurantEmail' component={VisitRestaurant} />
