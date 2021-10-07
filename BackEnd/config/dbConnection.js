@@ -6,7 +6,11 @@ var connection = mysql.createPool({
     user: constants.DB.username,
     password: constants.DB.password,
     port: constants.DB.port,
-    database: constants.DB.database
+    database: constants.DB.database,
+    dateStrings: [
+        'DATE',
+        'DATETIME'
+    ]
 });
 
 module.exports = connection;

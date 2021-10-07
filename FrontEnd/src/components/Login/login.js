@@ -32,6 +32,7 @@ class LoginForm extends React.Component {
                     localStorage.setItem("state", response.data.state);
                     localStorage.setItem("city", response.data.city);
                     localStorage.setItem("street", response.data.street);
+                    sessionStorage.setItem("userName", response.data.name);
                     this.setState({
                         authFlag: true
                     })

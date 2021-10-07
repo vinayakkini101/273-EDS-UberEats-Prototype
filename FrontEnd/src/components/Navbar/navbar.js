@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import cookie from 'react-cookies';
 import Cart from '../Cart/cart.js';
+import Orders from '../Orders/orders.js';
 
 class NavBar extends React.Component {
 
@@ -19,6 +20,7 @@ class NavBar extends React.Component {
         localStorage.clear();
 
         sessionStorage.removeItem('cartItems');
+        sessionStorage.removeItem('userName');
         sessionStorage.clear();
         console.log('sessionstorage  ', sessionStorage);
     }
@@ -27,6 +29,8 @@ class NavBar extends React.Component {
         let homeLink = null;
         let profileLink = null;
         let searchElement = null;
+        let cartLink = null;
+    
         if(localStorage.getItem('isRestaurant') === 'true') {
             homeLink = '/RestaurantHome';
             profileLink = '/RestaurantProfile';
@@ -35,7 +39,7 @@ class NavBar extends React.Component {
             homeLink = '/CustomerHome';
             profileLink = '/CustomerProfile';
             searchElement = <a className="btn btn-outline-success" href="/Search">Search</a>;
-            
+            cartLink = <Cart />;
         }
         // console.log(localStorage.getItem('isRestaurant'));
         return (
@@ -47,7 +51,9 @@ class NavBar extends React.Component {
                     <a className="nav-link" href={profileLink}>Profile</a>
                     {/* <Field className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />  */}
                     {searchElement}
-                    <Cart />
+                    <a className="nav-link" href="/Orders">Orders</a>
+                    {cartLink}
+                    Hi, {sessionStorage.getItem('userName')}!
                     <a 
                         className="btn btn-outline-danger" 
                         href="/" 

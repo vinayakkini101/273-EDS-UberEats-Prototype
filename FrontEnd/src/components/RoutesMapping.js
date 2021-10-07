@@ -12,6 +12,7 @@ import EditRestaurantProfile from './RestaurantProfile/editRestaurantProfile.js'
 import Search from './Search/search.js'
 import VisitRestaurant from './RestaurantView/visitRestaurant.js';
 import Checkout from './Checkout/checkout.js';
+import Orders from './Orders/orders.js';
 
 class RoutesMapping extends React.Component {
     render() {
@@ -30,6 +31,7 @@ class RoutesMapping extends React.Component {
                 <Route exact path='/Search' component={Search} />
                 <Route exact path='/Restaurant/:RestaurantEmail' component={VisitRestaurant} />
                 <Route exact path='/Checkout' component={Checkout} />
+                <Route exact path='/Orders' component={Orders} />
             </div>
         );
     }

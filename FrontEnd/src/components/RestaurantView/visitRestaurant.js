@@ -143,6 +143,9 @@ class VisitRestaurant extends React.Component {
                                     key={dish.Dish_ID} 
                                     dishDetails={dish} 
                                     restaurantEmail={this.state.profileDetails.email}
+                                    restaurantName={this.state.profileDetails.name}
+                                    restaurantStreet={this.state.profileDetails.street}
+                                    restaurantCity={this.state.profileDetails.city}
                                     triggerToast={this.triggerToast}
                                 />;
                     })}
@@ -257,9 +260,11 @@ class DishDisplayCard extends React.Component {
                 cart.push({
                     userEmail: localStorage.getItem('userEmail'),
                     restaurantEmail: this.state.details.Restaurant_Email,
+                    restaurantName: this.props.restaurantName,
                     dishName: this.state.details.Dish_Name,
                     quantity: this.state.quantity,
-                    price: this.state.price
+                    price: this.state.price,
+                    dishImage: this.state.details.Dish_Image
                 });
                 this.setState({ isQuantityZero: false });
             }

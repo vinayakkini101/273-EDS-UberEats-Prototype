@@ -5,7 +5,6 @@ import { Redirect } from 'react-router-dom';
 import countryList from 'country-list';
 import NavBar from '../Navbar/navbar';
 
-
 class Checkout extends React.Component {
 
     constructor(props) {
@@ -121,6 +120,39 @@ class Checkout extends React.Component {
                 });
                 console.log(error);
                 alert("Unable to add customer address details, please try again!");
+            })
+    }
+
+    addOrder = () => {
+        console.log('inside addOrder');
+        console.log('cart in addOrder ', this.state.cartItems);
+
+        axios.defaults.withCredentials = true;
+        axios.post('/addOrder', {
+            userEmail: localStorage.getItem('userEmail'),
+            userName: sessionStorage.getItem('userName'),
+            cartItems: this.state.cartItems,
+            orderDateTime: new Date(),
+            combinedSelectedAddress: this.state.combinedSelectedAddress
+        })
+            .then((response) => {
+                if (response.status === 200) {
+                    console.log("response ", response.data);
+                    const details = response.data;
+                    this.setState({
+                        profileDetails: {
+
+                        }
+                    })
+                }
+            })
+            .catch(error => {
+                console.log("add order error");
+                this.setState({
+                    isPageUpdated: "false"
+                });
+                console.log(error);
+                alert("Unable to add order, please try again!");
             })
     }
 
@@ -281,6 +313,7 @@ class Checkout extends React.Component {
                         <a className="btn btn-lg btn-success" href="/" 
                             data-bs-toggle="modal" 
                             data-bs-target="#checkoutModal"
+                            onClick={this.addOrder}
                         >
                             Place Order
                         </a>
@@ -316,7 +349,7 @@ class Checkout extends React.Component {
                             })}
                         </div>
                         <p></p>
-                        Order will be delivered to:
+                        Delivery Address
                         <p>{this.state.combinedSelectedAddress}</p>
                     </div>
                     <div className="modal-footer">

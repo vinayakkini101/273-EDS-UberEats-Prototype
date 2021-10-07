@@ -25,6 +25,9 @@ const addToCart = require('./routes/addToCart.js');
 const getCartItems = require('./routes/getCartItems.js')
 const getCustomerAddresses = require('./routes/getCustomerAddress.js');
 const addCustomerAddress = require('./routes/addCustomerAddress.js');
+const addOrder = require('./routes/addOrder.js');
+const getOrders = require('./routes/getOrders.js');
+const getOrderedDishes = require('./routes/getOrderedDishes.js');
 
 app.set('view engine', 'ejs');
 app.set('views', './views');
@@ -72,6 +75,9 @@ app.use('/', addToCart);
 app.use('/', getCartItems);
 app.use('/', getCustomerAddresses);
 app.use('/', addCustomerAddress);
+app.use('/', addOrder);
+app.use('/', getOrders);
+app.use('/', getOrderedDishes);
 
 
 app.get('/test-api', function(req, res) {
