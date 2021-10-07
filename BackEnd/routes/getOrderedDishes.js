@@ -20,13 +20,21 @@ app.post('/getOrderedDishes', (req, res) => {
             dbConn = conn;
             // let restaurantID = result[0].Restaurant_ID;
             let queryResult;
-            queryResult = dbConn.query(`SELECT *
+            // if(req.body.isRestaurant) {
+            //     queryResult = dbConn.query(`SELECT *
+            //                             FROM OrderedDishes
+            //                             WHERE restaurantName=${mysql.escape(req.body.restaurantName)}
+            //     `);
+            // }
+            // else {
+                queryResult = dbConn.query(`SELECT *
                                         FROM OrderedDishes
                                         WHERE 
                                             userEmail=${mysql.escape(req.body.userEmail)}
                                             AND
                                             orderDateTime=${mysql.escape(req.body.orderDateTime)}
             `);
+            // }
             
             return queryResult;
         })

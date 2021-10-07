@@ -19,6 +19,7 @@ class Checkout extends React.Component {
             newCountry: '',
             combinedSelectedAddress: ''
         }
+        console.log('getpstdate ', getPSTDateTime());
     }
 
     componentDidMount = () => {
@@ -132,7 +133,7 @@ class Checkout extends React.Component {
             userEmail: localStorage.getItem('userEmail'),
             userName: sessionStorage.getItem('userName'),
             cartItems: this.state.cartItems,
-            orderDateTime: new Date(),
+            orderDateTime: getPSTDateTime(),
             combinedSelectedAddress: this.state.combinedSelectedAddress
         })
             .then((response) => {
@@ -363,6 +364,22 @@ class Checkout extends React.Component {
             </>
         );
     }
+}
+
+
+function getPSTDateTime() {
+    let options = {
+        year: 'numeric', month: 'numeric', day: 'numeric',
+        hour: 'numeric', minute: 'numeric', second: 'numeric',
+        hour12: false,
+        timeZone: 'America/Los_Angeles'
+      };
+    let dateTimeFormat = new Intl.DateTimeFormat('en-US', options);
+    let date = dateTimeFormat.format(new Date());
+    console.log(date);
+    date = date.replace(',', '');
+
+    return date;
 }
 
 export default Checkout;

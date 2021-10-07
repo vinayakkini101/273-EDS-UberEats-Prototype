@@ -11,23 +11,31 @@ class Orders extends React.Component {
         super(props);
         this.state = {
             isRestaurant: localStorage.getItem('isRestaurant'),
-            ordersByCustomer: [],
-            ordersForRestaurant: []
+            ordersList: []
         }
         // console.log(this.state.isRestaurant);
     }
 
     componentDidMount = () => {
+        let customerEmail = null;
+        let restaurantName = null;
+        if(this.state.isRestaurant === 'true') {
+            restaurantName = localStorage.getItem('userName');
+        }
+        else {
+            customerEmail = localStorage.getItem('userEmail');
+        }
         axios.defaults.withCredentials = true;
         axios.post('/getOrders', {
-            userEmail: localStorage.getItem('userEmail'),
+            customerEmail: customerEmail,
+            restaurantName: restaurantName
         })
             .then((response) => {
                 if (response.status === 200) {
                     console.log("getOrders response ", response.data);
                     const details = response.data;
                     this.setState({
-                        ordersByCustomer: details.slice()
+                        ordersList: details.slice()
                     })
                 }
             })
@@ -61,9 +69,9 @@ class Orders extends React.Component {
                     </div>
                 </div>
 
-                {this.state.ordersByCustomer.map(order => {
+                {this.state.ordersList.map(order => {
                     return (
-                        <EachOrder order={order} key={order.dateTime} index={this.state.ordersByCustomer.indexOf(order)} />
+                        <EachOrder order={order} key={order.dateTime} index={this.state.ordersList.indexOf(order)} />
                     )
                 })}
             </div>

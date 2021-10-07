@@ -18,12 +18,19 @@ app.post('/getOrders', (req, res) => {
         .then((conn) => {
             console.log('Pool created');
             dbConn = conn;
-            // let restaurantID = result[0].Restaurant_ID;
             let queryResult;
-            queryResult = dbConn.query(`SELECT *
+            if(req.body.customerEmail) {
+                queryResult = dbConn.query(`SELECT *
                                         FROM Orders
-                                        WHERE userEmail=${mysql.escape(req.body.userEmail)}
-            `);
+                                        WHERE userEmail=${mysql.escape(req.body.customerEmail)}
+                `);
+            }
+            else {
+                queryResult = dbConn.query(`SELECT *
+                                        FROM Orders
+                                        WHERE restaurantName=${mysql.escape(req.body.restaurantName)}
+                `);
+            }
             
             return queryResult;
         })

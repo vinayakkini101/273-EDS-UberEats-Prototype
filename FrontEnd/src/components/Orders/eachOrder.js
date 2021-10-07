@@ -20,7 +20,7 @@ class EachOrder extends React.Component {
     getOrderedDishes = () => {
         axios.defaults.withCredentials = true;
         axios.post('/getOrderedDishes', {
-            userEmail: localStorage.getItem('userEmail'),
+            userEmail: this.props.order.userEmail,
             orderDateTime: this.props.order.dateTime
         })
             .then((response) => {
@@ -49,18 +49,17 @@ class EachOrder extends React.Component {
         return (
             <>
             <div className="row">
-                <div
-                    onClick={this.getOrderedDishes}
-                    data-bs-toggle="modal" 
-                    data-bs-target={"#modalNumber"+this.props.index}
-                >
-                    <div className="col-9">
-                        <div className="card border-dark mb-3">
-                            <div className="row g-0">
-                                <div className="col">
+                <div className="col-10">
+                    <div className="card border-dark mb-3">
+                        <div
+                            onClick={this.getOrderedDishes}
+                            data-bs-toggle="modal" 
+                            data-bs-target={"#modalNumber"+this.props.index}
+                        >
+                            <div className="row g-0 align-items-center">
+                                <div className="col-10">
                                     <div className="card-body">
                                         <h5 className="card-title">{this.props.order.restaurantName}</h5>
-                                        <p className="card-text">{this.props.order.dishName}</p>
                                         <p className="card-text mb-0">
                                             <small className="text-muted">
                                                 Order Time : {this.props.order.dateTime}
@@ -68,6 +67,9 @@ class EachOrder extends React.Component {
                                         </p>
                                         <small className="text-muted">Delivery Address : {this.props.order.address}</small>
                                     </div>
+                                </div>
+                                <div className="col-2">
+                                    <p className="text-center fw-bold">Status </p>
                                 </div>
                             </div>
                         </div>
