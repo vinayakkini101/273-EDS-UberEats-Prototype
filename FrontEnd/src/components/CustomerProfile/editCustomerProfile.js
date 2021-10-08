@@ -115,7 +115,7 @@ class EditCustomerProfile extends React.Component {
             errorMessage = <div className='alert alert-danger'>Update failed</div>;
         }
         else if(this.state.updateOperation === 'success') {
-            redirectVar = <Redirect to='/CustomerProfile' />;
+            redirectVar = <Redirect to={`/CustomerProfile/${this.props.location.email}`} />;
         }
 
         return (

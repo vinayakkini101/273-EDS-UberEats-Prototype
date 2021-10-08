@@ -46,7 +46,7 @@ class CustomerProfile extends React.Component {
     getProfileDetails = () => {
         axios.defaults.withCredentials = true;
         axios.post('/getCustomerProfile', {
-            customerEmail: localStorage.getItem('userEmail') 
+            customerEmail: this.props.match.params.CustomerEmail
         })
         .then((response) => {
             if (response.status === 200) {
@@ -86,6 +86,31 @@ class CustomerProfile extends React.Component {
             console.log('hello');
             authenticate = <Redirect to='/login' />;
         }
+
+        let EditButton = null;
+        if(localStorage.getItem('isRestaurant') === 'false') {
+            EditButton = <Link 
+                            to={{pathname: '/EditCustomerProfile', 
+                                    name: this.state.profileDetails.name,
+                                    about: this.state.profileDetails.about,
+                                    email: this.state.profileDetails.email,
+                                    contactno: this.state.profileDetails.contactno,
+                                    dob: this.state.profileDetails.dob,
+                                    nickname: this.state.profileDetails.nickname,
+                                    country: this.state.profileDetails.country,
+                                    state: this.state.profileDetails.state,
+                                    city: this.state.profileDetails.city,
+                                    imageLink: this.state.profileDetails.imageLink,
+                                    imageName: this.state.profileDetails.imageName,
+                                    street: this.state.profileDetails.street
+                                }} 
+                            type='button'
+                            className='btn btn-success'
+                        > 
+                            Edit
+                        </Link>;
+        }
+
 
         return (
             <>
@@ -218,26 +243,7 @@ class CustomerProfile extends React.Component {
                             </div>
                         </div>
                     </form>
-                    <Link 
-                        to={{pathname: '/EditCustomerProfile', 
-                                name: this.state.profileDetails.name,
-                                about: this.state.profileDetails.about,
-                                email: this.state.profileDetails.email,
-                                contactno: this.state.profileDetails.contactno,
-                                dob: this.state.profileDetails.dob,
-                                nickname: this.state.profileDetails.nickname,
-                                country: this.state.profileDetails.country,
-                                state: this.state.profileDetails.state,
-                                city: this.state.profileDetails.city,
-                                imageLink: this.state.profileDetails.imageLink,
-                                imageName: this.state.profileDetails.imageName,
-                                street: this.state.profileDetails.street
-                            }} 
-                        type='button'
-                        className='btn btn-success'
-                    > 
-                        Edit
-                    </Link>
+                    {EditButton}
                 </div>
                 
                 

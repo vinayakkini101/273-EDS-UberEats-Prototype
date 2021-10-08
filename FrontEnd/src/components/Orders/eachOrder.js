@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import cookie from 'react-cookies';
+import { Link } from 'react-router-dom';
 import UpdateOrderOptions from './updateOrderOptions';
 
 class EachOrder extends React.Component {
@@ -45,6 +46,17 @@ class EachOrder extends React.Component {
 
     render() {
         const isRestaurant = this.state.isRestaurant === 'true';
+        let orderTitle = null;
+        let userProfile = null;
+        if(isRestaurant) {
+            orderTitle = <h5 className="card-title">{this.props.order.userName}</h5>;
+            userProfile = <Link to={{pathname: `/CustomerProfile/${this.props.order.userEmail}`}}>
+                            View {this.props.order.userName}'s profile
+                        </Link>;
+        }
+        else {
+            orderTitle = <h5 className="card-title">{this.props.order.restaurantName}</h5>;
+        }
         let orderTotal = 0;
         return (
             <>
@@ -59,7 +71,7 @@ class EachOrder extends React.Component {
                             <div className="row g-0 align-items-center">
                                 <div className="col-10">
                                     <div className="card-body">
-                                        <h5 className="card-title">{this.props.order.restaurantName}</h5>
+                                        {orderTitle}
                                         <p className="card-text mb-0">
                                             <small className="text-muted">
                                                 Order Time : {this.props.order.dateTime}
@@ -72,6 +84,10 @@ class EachOrder extends React.Component {
                                     <p className="text-center fw-bold">Status </p>
                                 </div>
                             </div>
+                        </div>
+                        
+                        <div className="card-footer">
+                                {userProfile}
                         </div>
                     </div>
                 </div>
@@ -126,6 +142,7 @@ class EachOrder extends React.Component {
                                         <p>{this.props.order.userEmail}</p>
                                     </div>
                                 </div>
+                                
                             </div>
                         </div>
                     <div className="modal-footer">

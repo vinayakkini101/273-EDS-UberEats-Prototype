@@ -61,7 +61,7 @@ class RestaurantProfile extends React.Component {
     getProfileDetails = () => {
         axios.defaults.withCredentials = true;
         axios.post('/getRestaurantProfile', {
-            restaurantEmail: localStorage.getItem('userEmail') 
+            restaurantEmail: this.props.match.params.RestaurantEmail
         })
         .then((response) => {
             if (response.status === 200) {
