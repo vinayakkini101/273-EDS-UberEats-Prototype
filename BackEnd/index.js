@@ -28,6 +28,8 @@ const addCustomerAddress = require('./routes/addCustomerAddress.js');
 const addOrder = require('./routes/addOrder.js');
 const getOrders = require('./routes/getOrders.js');
 const getOrderedDishes = require('./routes/getOrderedDishes.js');
+const updateOrderStatus = require('./routes/updateOrderStatus.js');
+const getOrderStatus = require('./routes/getOrderStatus.js');
 
 app.set('view engine', 'ejs');
 app.set('views', './views');
@@ -78,6 +80,8 @@ app.use('/', addCustomerAddress);
 app.use('/', addOrder);
 app.use('/', getOrders);
 app.use('/', getOrderedDishes);
+app.use('/', updateOrderStatus);
+app.use('/', getOrderStatus);
 
 
 app.get('/test-api', function(req, res) {

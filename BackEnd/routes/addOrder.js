@@ -19,6 +19,9 @@ app.post('/addOrder', (req, res) => {;
         .then(conn => {
             console.log('Pool created');
             dbConn = conn;
+            if(req.body.deliveryType === 'pickup') {
+                req.body.combinedSelectedAddress = 'Pickup';
+            }
             let queryResult;
             queryResult = dbConn.query(`INSERT INTO Orders (
                                             userEmail,
@@ -39,13 +42,13 @@ app.post('/addOrder', (req, res) => {;
             );
             return queryResult;
         })
-        .catch(error => {
-            console.log('add order insert to Orders error ',error);
-            res.writeHead(400, {
-                'Content-type': 'text/plain'
-            });
-            res.end("Error in query execution");
-        })
+        // .catch(error => {
+        //     console.log('add order insert to Orders error ',error);
+        //     res.writeHead(400, {
+        //         'Content-type': 'text/plain'
+        //     });
+        //     res.end("Error in query execution");
+        // })
         .then((prevResult) => {
             let queryResult;
             let sqlString = `INSERT INTO OrderedDishes (userEmail, orderDateTime, dishName,

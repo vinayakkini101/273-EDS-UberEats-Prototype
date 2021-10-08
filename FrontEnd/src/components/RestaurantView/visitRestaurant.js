@@ -23,7 +23,9 @@ class VisitRestaurant extends React.Component {
                 imageLink: '',
                 imageName: '',
                 restaurantEmail: props.match.params.RestaurantEmail,
-                street: ''
+                street: '',
+                pickup: '',
+                delivery: ''
             },
             dishList: [],
             cartItems: []
@@ -144,8 +146,10 @@ class VisitRestaurant extends React.Component {
                                     dishDetails={dish} 
                                     restaurantEmail={this.state.profileDetails.email}
                                     restaurantName={this.state.profileDetails.name}
-                                    restaurantStreet={this.state.profileDetails.street}
-                                    restaurantCity={this.state.profileDetails.city}
+                                    pickup={this.state.profileDetails.pickup}
+                                    delivery={this.state.profileDetails.delivery}
+                                    // restaurantStreet={this.state.profileDetails.street}
+                                    // restaurantCity={this.state.profileDetails.city}
                                     triggerToast={this.triggerToast}
                                 />;
                     })}
@@ -264,7 +268,9 @@ class DishDisplayCard extends React.Component {
                     dishName: this.state.details.Dish_Name,
                     quantity: this.state.quantity,
                     price: this.state.price,
-                    dishImage: this.state.details.Dish_Image
+                    dishImage: this.state.details.Dish_Image,
+                    pickup: this.props.pickup,
+                    delivery: this.props.delivery
                 });
                 this.setState({ isQuantityZero: false });
             }

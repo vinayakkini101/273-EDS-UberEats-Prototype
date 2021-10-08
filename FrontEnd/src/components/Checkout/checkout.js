@@ -17,7 +17,8 @@ class Checkout extends React.Component {
             newCity: '',
             newState: '',
             newCountry: '',
-            combinedSelectedAddress: ''
+            combinedSelectedAddress: '',
+            deliveryType: ''
         }
         console.log('getpstdate ', getPSTDateTime());
     }
@@ -134,17 +135,12 @@ class Checkout extends React.Component {
             userName: sessionStorage.getItem('userName'),
             cartItems: this.state.cartItems,
             orderDateTime: getPSTDateTime(),
-            combinedSelectedAddress: this.state.combinedSelectedAddress
+            combinedSelectedAddress: this.state.combinedSelectedAddress,
+            deliveryType: this.state.deliveryType 
         })
             .then((response) => {
                 if (response.status === 200) {
                     console.log("response ", response.data);
-                    const details = response.data;
-                    this.setState({
-                        profileDetails: {
-
-                        }
-                    })
                 }
             })
             .catch(error => {
@@ -162,6 +158,12 @@ class Checkout extends React.Component {
         this.setState({
             [e.target.name] : e.target.value
         });
+    }
+
+    handleRadioButton = (event) => {
+        this.setState({
+            deliveryType: event.target.value
+        })
     }
 
     render() {
@@ -182,6 +184,21 @@ class Checkout extends React.Component {
                 </>
             );
         }
+
+        let Address = null;
+        if(this.state.deliveryType === 'delivery') {
+            Address = <SelectAddress 
+                        addressDetails={this.state.addressDetails}
+                        newStreet={this.state.newStreet}
+                        newCity={this.state.newCity}
+                        newState={this.state.newState}
+                        newCountry={this.state.newCountry}
+                        combinedSelectedAddress={this.state.combinedSelectedAddress}
+                        handleFieldInput={this.handleFieldInput}
+                        handleAddNewAddress={this.handleAddNewAddress}
+                    />
+        }
+
 
         let totalCost = 0;
 
@@ -221,93 +238,34 @@ class Checkout extends React.Component {
                             </tbody>
                         </table>
 
-                        <div className="row">
-                            Select Address
-                            <div className="list-group">
-                                <div className="list-group-item">
-                                    {/* <input className="form-check-input mb-3" type="checkbox" value=""/>
-                                    <p className="mb-1">
-                                        {this.state.profileDetails.city}, {this.state.profileDetails.state}, {this.state.profileDetails.country}
-                                    </p> */}
-                                    <select 
-                                        className="form-select"
-                                        value={this.state.combinedSelectedAddress}
-                                        onChange={this.handleFieldInput}
-                                        name="combinedSelectedAddress"
-                                    >    
-                                        <option selected>-select an option-</option>
-                                        {this.state.addressDetails.map(address => {
-                                            return (
-                                                <option>
-                                                    {address.streetAddress}, {address.city}, 
-                                                    {address.state}, {address.country}
-                                                </option>
-                                            );
-                                        })}
-                                    </select>
-                                </div>
+                        <div className="row my-3">
+                            <div class="form-check">
+                                <input class="form-check-input" 
+                                    type="radio" name="deliveryType" 
+                                    onChange={this.handleRadioButton}
+                                    value="pickup"
+                                    required
+                                />
+                                <label class="form-check-label" for="flexRadioDefault1">
+                                    I'll Pickup
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" 
+                                    type="radio" name="deliveryType" 
+                                    onChange={this.handleRadioButton}
+                                    value="delivery"
+                                    required
+                                />
+                                <label class="form-check-label" for="flexRadioDefault2">
+                                    I'd Like It Delivered
+                                </label>
                             </div>
                         </div>
-                        - OR -
-                        <div className="row">
-                            <div className="list-group g-3">
-                            Add New Address
-                                <div className="list-group-item">
-                                    <form>
-                                        <div className="row">
-                                            <div className="col">
-                                                <label htmlFor="newStreet" className="form-label">Street</label>
-                                                <input type="text" 
-                                                    className="form-control" 
-                                                    name="newStreet"
-                                                    onChange={this.handleFieldInput}
-                                                    value={this.state.newStreet}  
-                                                />
-                                            </div>
-                                            <div className="col">
-                                                <label htmlFor="newCity" className="form-label">City</label>
-                                                <input type="text" 
-                                                    className="form-control" 
-                                                    name="newCity"
-                                                    onChange={this.handleFieldInput}
-                                                    value={this.state.newCity}  
-                                                />
-                                            </div>
-                                            <div className="col">
-                                                <label htmlFor="newState" className="form-label">State</label>
-                                                <input type="text" 
-                                                    className="form-control" 
-                                                    name="newState"
-                                                    onChange={this.handleFieldInput}
-                                                    value={this.state.newState}  
-
-                                                />
-                                            </div>
-                                            <div className="col">
-                                                <label htmlFor="newCountry" className="form-label">Country</label>
-                                                <select 
-                                                        className="form-select" 
-                                                        name="newCountry"
-                                                        onChange={this.handleFieldInput}
-                                                        value={this.state.newCountry}
-                                                >
-                                                    {countryList.getNames().map(name => {
-                                                        return <option value={name}>{name}</option>
-                                                    })}
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <button type="submit" 
-                                            className="btn btn-primary"
-                                            onClick={this.handleAddNewAddress}
-                                        >
-                                            Add
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-
+                        
+                        {Address}
+                        
+                        
                     </div>
 
                     <div className="col-4">
@@ -380,6 +338,100 @@ function getPSTDateTime() {
     date = date.replace(',', '');
 
     return date;
+}
+
+
+function SelectAddress(props) {
+    return (
+        <>
+        <div className="row">
+            Select Address
+            <div className="list-group">
+                <div className="list-group-item">
+                    {/* <input className="form-check-input mb-3" type="checkbox" value=""/>
+                    <p className="mb-1">
+                        {this.state.profileDetails.city}, {this.state.profileDetails.state}, {this.state.profileDetails.country}
+                    </p> */}
+                    <select 
+                        className="form-select"
+                        value={props.combinedSelectedAddress}
+                        onChange={props.handleFieldInput}
+                        name="combinedSelectedAddress"
+                    >    
+                        <option selected>-select an option-</option>
+                        {props.addressDetails.map(address => {
+                            return (
+                                <option>
+                                    {address.streetAddress}, {address.city}, 
+                                    {address.state}, {address.country}
+                                </option>
+                            );
+                        })}
+                    </select>
+                </div>
+            </div>
+        </div>
+        - OR -
+        <div className="row">
+            <div className="list-group g-3">
+            Add New Address
+                <div className="list-group-item">
+                    <form>
+                        <div className="row">
+                            <div className="col">
+                                <label htmlFor="newStreet" className="form-label">Street</label>
+                                <input type="text" 
+                                    className="form-control" 
+                                    name="newStreet"
+                                    onChange={props.handleFieldInput}
+                                    value={props.newStreet}  
+                                />
+                            </div>
+                            <div className="col">
+                                <label htmlFor="newCity" className="form-label">City</label>
+                                <input type="text" 
+                                    className="form-control" 
+                                    name="newCity"
+                                    onChange={props.handleFieldInput}
+                                    value={props.newCity}  
+                                />
+                            </div>
+                            <div className="col">
+                                <label htmlFor="newState" className="form-label">State</label>
+                                <input type="text" 
+                                    className="form-control" 
+                                    name="newState"
+                                    onChange={props.handleFieldInput}
+                                    value={props.newState}  
+
+                                />
+                            </div>
+                            <div className="col">
+                                <label htmlFor="newCountry" className="form-label">Country</label>
+                                <select 
+                                        className="form-select" 
+                                        name="newCountry"
+                                        onChange={props.handleFieldInput}
+                                        value={props.newCountry}
+                                >
+                                    {countryList.getNames().map(name => {
+                                        return <option value={name}>{name}</option>
+                                    })}
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" 
+                            className="btn btn-primary"
+                            onClick={props.handleAddNewAddress}
+                        >
+                            Add
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        </>
+    );
 }
 
 export default Checkout;

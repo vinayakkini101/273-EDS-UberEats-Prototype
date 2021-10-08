@@ -1,12 +1,34 @@
 function UpdateOrderOptions(props) {
+    let Options = null;
+    if(props.address === 'Pickup') {
+        Options =  
+            <>
+            <button className="dropdown-item" onClick={props.handleUpdateClick} name="Pickup Ready">Pickup Ready</button>
+            <button className="dropdown-item" onClick={props.handleUpdateClick} name="Picked Up" >Picked Up</button>
+            </>;
+    }
+    else if(props.address === 'customer') {
+        Options =  
+            <>
+            <button className="dropdown-item" onClick={props.handleUpdateClick} name="On The Way" >On The Way</button>
+            <button className="dropdown-item" onClick={props.handleUpdateClick} name="Delivered" >Delivered</button>
+            <button className="dropdown-item" onClick={props.handleUpdateClick} name="Pickup Ready" >Pickup Ready</button>
+            <button className="dropdown-item" onClick={props.handleUpdateClick} name="Picked Up" >Picked Up</button>
+            </>;
+    }
+    else {
+        Options =  
+            <>
+            <button className="dropdown-item" onClick={props.handleUpdateClick} name="On The Way" >On The Way</button>
+            <button className="dropdown-item" onClick={props.handleUpdateClick} name="Delivered" >Delivered</button>
+            </>;
+    }
+
     return (
         <>
-        <li><a className="dropdown-item" href="#">Order Received</a></li>
-        <li><a className="dropdown-item" href="#">Preparing</a></li>
-        <li><a className="dropdown-item" href="#">On The Way</a></li>
-        <li><a className="dropdown-item" href="#">Delivered</a></li>
-        <li><a className="dropdown-item" href="#">Pick Up Ready</a></li>
-        <li><a className="dropdown-item" href="#">Picked Up</a></li>
+        <button className="dropdown-item" onClick={props.handleUpdateClick} name="Order Received">Order Received</button>
+        <button className="dropdown-item" onClick={props.handleUpdateClick} name="Preparing">Preparing</button>
+        {Options}
         </>
     );
 }

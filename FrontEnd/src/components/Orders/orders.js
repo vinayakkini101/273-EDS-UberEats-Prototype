@@ -63,7 +63,7 @@ class Orders extends React.Component {
                                 Filter Orders
                             </button>
                                 <ul className="dropdown-menu">
-                                    {isRestaurant ? <RestaurantFilter /> : <CustomerFilter />}
+                                    {isRestaurant ? <RestaurantFilter /> : <CustomerFilter address={'customer'} />}
                                 </ul>
                         </div>
                     </div>
@@ -71,7 +71,11 @@ class Orders extends React.Component {
 
                 {this.state.ordersList.map(order => {
                     return (
-                        <EachOrder order={order} key={order.dateTime} index={this.state.ordersList.indexOf(order)} />
+                        <EachOrder 
+                            order={order} 
+                            key={order.dateTime} 
+                            index={this.state.ordersList.indexOf(order)} 
+                        />
                     )
                 })}
             </div>
@@ -93,7 +97,7 @@ function RestaurantFilter(props) {
 function CustomerFilter(props) {
     return (
         <>
-        <UpdateOrderOptions />
+        <UpdateOrderOptions address={props.address} />
         </>
     );
 }

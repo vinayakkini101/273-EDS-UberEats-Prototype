@@ -10,12 +10,13 @@ class EachOrder extends React.Component {
         super(props);
         this.state = {
             isRestaurant: localStorage.getItem('isRestaurant'),
-            dishDetails: []
+            dishDetails: [],
+            orderStatus: ''
         }
     }
 
     componentDidMount = () => {
-        
+        this.getOrderStatus();
     }
 
     getOrderedDishes = () => {
@@ -41,6 +42,62 @@ class EachOrder extends React.Component {
                 });
                 console.log(error);
                 alert("Unable to get ordered dishes, please try again!");
+            })
+    }
+
+    handleUpdateClick = (event)  => {
+        // console.log(event.target.name);
+        this.updateOrderStatus(event.target.name);
+    }
+
+    updateOrderStatus = (newStatus) => {
+        axios.defaults.withCredentials = true;
+        axios.post('/updateOrderStatus', {
+            userEmail: this.props.order.userEmail,
+            orderDateTime: this.props.order.dateTime,
+            newStatus: newStatus
+        })
+            .then((response) => {
+                if (response.status === 200) {
+                    console.log("updateOrderStatus response ", response.data);
+                    // const details = response.data;
+                    this.setState({
+                        orderStatus: newStatus
+                    })
+                }
+            })
+            .catch(error => {
+                console.log("updateOrderStatus error");
+                this.setState({
+                    isPageUpdated: "false"
+                });
+                console.log(error);
+                alert("Unable to updateOrderStatus, please try again!");
+            })
+    }
+
+    getOrderStatus = () => {
+        axios.defaults.withCredentials = true;
+        axios.post('/getOrderStatus', {
+            userEmail: this.props.order.userEmail,
+            orderDateTime: this.props.order.dateTime
+        })
+            .then((response) => {
+                if (response.status === 200) {
+                    console.log("getOrderStatus response ", response.data);
+                    const details = response.data;
+                    this.setState({
+                        orderStatus: details.status
+                    })
+                }
+            })
+            .catch(error => {
+                console.log("getOrderStatus error");
+                this.setState({
+                    isPageUpdated: "false"
+                });
+                console.log(error);
+                alert("Unable to getOrderStatus, please try again!");
             })
     }
 
@@ -81,7 +138,7 @@ class EachOrder extends React.Component {
                                     </div>
                                 </div>
                                 <div className="col-2">
-                                    <p className="text-center fw-bold">Status </p>
+                                    <p className="text-center fw-bold">Status : {this.state.orderStatus}</p>
                                 </div>
                             </div>
                         </div>
@@ -91,7 +148,10 @@ class EachOrder extends React.Component {
                         </div>
                     </div>
                 </div>
-                {isRestaurant ? <UpdateOrderDropdown /> : null}
+                {isRestaurant ? <UpdateOrderDropdown 
+                                        address={this.props.order.address} 
+                                        handleUpdateClick={this.handleUpdateClick}
+                                        /> : null}
             </div>
 
 
@@ -109,7 +169,7 @@ class EachOrder extends React.Component {
                                         <h6>Time : {this.props.order.dateTime}</h6>
                                     </div>
                                     <div className="col-6">
-                                        <h6 className="text-end fw-bold">Order Status : {this.props.order.status}</h6>
+                                        <h6 className="text-end fw-bold">Order Status : {this.state.orderStatus}</h6>
                                     </div>
                                 </div>
                                 <div className="row">
@@ -160,7 +220,7 @@ class EachOrder extends React.Component {
 }
 
 
-function UpdateOrderDropdown() {
+function UpdateOrderDropdown(props) {
     return (
         <>
         <div className="col-2">
@@ -169,7 +229,7 @@ function UpdateOrderDropdown() {
                 <button type="button" className="btn btn-success dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">
                 </button>
                 <ul className="dropdown-menu">
-                    <UpdateOrderOptions />
+                    <UpdateOrderOptions address={props.address} handleUpdateClick={props.handleUpdateClick} />
                 </ul>
             </div>
         </div>
