@@ -31,6 +31,7 @@ class NavBar extends React.Component {
         let profileLink = null;
         let searchElement = null;
         let cartLink = null;
+        let favouriteLink = null;
     
         if(localStorage.getItem('isRestaurant') === 'true') {
             homeLink = '/RestaurantHome';
@@ -41,6 +42,7 @@ class NavBar extends React.Component {
             profileLink = `/CustomerProfile/${this.state.userEmail}`;
             searchElement = <a className="btn btn-outline-success" href="/Search">Search</a>;
             cartLink = <Cart />;
+            favouriteLink = <a className="nav-link" href="/Favourites">Favourites</a>;
         }
         // console.log(localStorage.getItem('isRestaurant'));
         return (
@@ -52,6 +54,7 @@ class NavBar extends React.Component {
                     <a className="nav-link" href={profileLink}>Profile</a>
                     {/* <Field className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />  */}
                     {searchElement}
+                    {favouriteLink}
                     <a className="nav-link" href="/Orders">Orders</a>
                     {cartLink}
                     Hi, {sessionStorage.getItem('userName')}!

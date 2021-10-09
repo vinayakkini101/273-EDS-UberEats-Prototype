@@ -276,33 +276,85 @@ class RestaurantDisplayCard extends React.Component {
                 city: this.props.details.city,
                 imageLink: this.props.details.Display_Picture,
                 imageName: this.props.details.imageName,
-                street: this.props.details.street
+                street: this.props.details.street,
+                favourites: []
         }
+    }
+
+    handleClickFavourite = (event) => {
+        console.log(event.currentTarget.name);
+        axios.defaults.withCredentials = true;
+
+        axios.post('/addFavourite', {
+            favourite: {
+                userEmail: localStorage.getItem('userEmail'),
+                restaurantEmail: event.currentTarget.name
+            }
+        })
+            .then((response) => {
+                if (response.status === 200) {
+                    console.log("addFavourite response ", response.data);
+
+                    // this.setState({
+                    //     defaultRestaurantList: response.data,
+                    //     currentRestaurantList: response.data
+                    // });
+                    
+                    // this.sortRestaurantByLocation();
+                    // console.log('resto list state ',this.state.currentRestaurantList);
+                    // console.log(this.state.userLocation);
+                }
+            })
+            .catch(error => {
+                console.log("add favourite error");
+                this.setState({
+                    // isPageUpdated: "false"
+                });
+                console.log(error);
+                alert("Unable to add favourite, please try again!");
+            })
     }
 
     render() {
         return (
                 <div className="card col-lg-3 col-md-6 col-12" style={{width: '3rem;'}}>
-                    <Link to={`/Restaurant/${this.state.name}`} >
-                        <img src={this.state.imageLink} className="card-img-top" alt="..."/>
-                    </Link>
-                        <div className="card-body">
-                            <Link 
-                                to={{
-                                    pathname: `/Restaurant/${this.state.email}`,
-                                    // details: this.props.details
-                                }}
+                    <div className="card-header">
+                        <button 
+                            className="btn btn-outline-danger"
+                            name={this.state.email}
+                            onClick={this.handleClickFavourite}
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" 
+                                width="16" height="16" fill="currentColor" 
+                                class="bi bi-heart-fill" viewBox="0 0 16 16"
                             >
-                                <h5 className="card-title">{this.state.name}</h5>
-                            </Link>
-                            <p className="card-text">{this.state.description}</p>
-                            <a href="" className="btn btn-primary">{this.state.city}</a>
-                        </div>
+                                <path fill-rule="evenodd" 
+                                    d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
+                                />
+                            </svg>
+                        </button>
+                        <Link to={`/Restaurant/${this.state.email}`} >
+                            <img src={this.state.imageLink} className="card-img-top" alt="..."/>
+                        </Link>
+                    </div>
+
+                    <div className="card-body">
+                        <Link 
+                            to={{
+                                pathname: `/Restaurant/${this.state.email}`,
+                                // details: this.props.details
+                            }}
+                        >
+                            <h5 className="card-title">{this.state.name}</h5>
+                        </Link>
+                        <p className="card-text">{this.state.description}</p>
+                        <a href="" className="btn btn-primary">{this.state.city}</a>
+                    </div>
+                    <div className="card-footer text-muted">
+                    </div>
                 </div>
         );
     }
 }
-
-
 
 export default CustomerHome;

@@ -30,6 +30,8 @@ const getOrders = require('./routes/getOrders.js');
 const getOrderedDishes = require('./routes/getOrderedDishes.js');
 const updateOrderStatus = require('./routes/updateOrderStatus.js');
 const getOrderStatus = require('./routes/getOrderStatus.js');
+const addFavourite = require('./routes/addFavourite.js');
+const getFavourites = require('./routes/getFavourites.js');
 
 app.set('view engine', 'ejs');
 app.set('views', './views');
@@ -82,6 +84,8 @@ app.use('/', getOrders);
 app.use('/', getOrderedDishes);
 app.use('/', updateOrderStatus);
 app.use('/', getOrderStatus);
+app.use('/', addFavourite);
+app.use('/', getFavourites);
 
 
 app.get('/test-api', function(req, res) {
