@@ -11,7 +11,8 @@ class Orders extends React.Component {
         super(props);
         this.state = {
             isRestaurant: localStorage.getItem('isRestaurant'),
-            ordersList: []
+            ordersList: [],
+            filteredOrdersList: []
         }
         // console.log(this.state.isRestaurant);
     }
@@ -35,7 +36,8 @@ class Orders extends React.Component {
                     console.log("getOrders response ", response.data);
                     const details = response.data;
                     this.setState({
-                        ordersList: details.slice()
+                        ordersList: details.slice(),
+                        filteredOrdersList: details.slice()
                     })
                 }
             })
@@ -47,6 +49,28 @@ class Orders extends React.Component {
                 console.log(error);
                 alert("Unable to add order, please try again!");
             })
+    }
+
+    filterOrdersList = (status) => {
+        console.log('in filter orders list ');
+        let filteredOrdersList = this.state.ordersList.filter(order => {
+            if(order.status === status) {
+                return order;
+            }
+        });
+
+        if(status === 'All' || filteredOrdersList.length === this.state.ordersList.length) {
+            filteredOrdersList = this.state.ordersList.slice();
+        }
+
+        this.setState({
+            filteredOrdersList: filteredOrdersList
+        });
+    }
+
+    handleFilterClick = (event) => {
+        console.log(event.target.name);
+        this.filterOrdersList(event.target.name);
     }
 
     render() {
@@ -63,18 +87,29 @@ class Orders extends React.Component {
                                 Filter Orders
                             </button>
                                 <ul className="dropdown-menu">
-                                    {isRestaurant ? <RestaurantFilter /> : <CustomerFilter address={'customer'} />}
+                                    {
+                                        isRestaurant ? 
+                                        <RestaurantFilter handleFilterClick={this.handleFilterClick}/> : 
+                                        <CustomerFilter address={'customer'} handleFilterClick={this.handleFilterClick} />
+                                    }
                                 </ul>
                         </div>
                     </div>
                 </div>
+                                
+                {(() => {
+                    if(this.state.filteredOrdersList.length === 0) {
+                        return <div className="alert alert-secondary">No orders for this filter value!</div>;
+                    }
+                })()}
 
-                {this.state.ordersList.map(order => {
+                {this.state.filteredOrdersList.map(order => {
                     return (
                         <EachOrder 
                             order={order} 
                             key={order.dateTime} 
                             index={this.state.ordersList.indexOf(order)} 
+                            filterOrdersList={this.filterOrdersList}
                         />
                     )
                 })}
@@ -87,9 +122,10 @@ class Orders extends React.Component {
 function RestaurantFilter(props) {
     return (
         <>
-            <li><a className="dropdown-item" href="#">New</a></li>
-            <li><a className="dropdown-item" href="#">Delivered</a></li>
-            <li><a className="dropdown-item" href="#">Cancelled</a></li>
+            <button className="dropdown-item" onClick={props.handleFilterClick} name="Order Received">New</button>
+            <button className="dropdown-item" onClick={props.handleFilterClick} name="Delivered">Delivered</button>
+            <button className="dropdown-item" onClick={props.handleFilterClick}>Cancelled</button>
+            <button className="dropdown-item" onClick={props.handleFilterClick} name="All">All</button>
         </>
     );
 }
@@ -97,7 +133,7 @@ function RestaurantFilter(props) {
 function CustomerFilter(props) {
     return (
         <>
-        <UpdateOrderOptions address={props.address} />
+        <UpdateOrderOptions address={props.address} handleFilterClick={props.handleFilterClick} />
         </>
     );
 }

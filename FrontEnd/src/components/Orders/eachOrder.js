@@ -46,7 +46,7 @@ class EachOrder extends React.Component {
     }
 
     handleUpdateClick = (event)  => {
-        // console.log(event.target.name);
+        // console.log('in handleupdateclick');
         this.updateOrderStatus(event.target.name);
     }
 
@@ -229,7 +229,7 @@ function UpdateOrderDropdown(props) {
                 <button type="button" className="btn btn-success dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">
                 </button>
                 <ul className="dropdown-menu">
-                    <UpdateOrderOptions address={props.address} handleUpdateClick={props.handleUpdateClick} />
+                    <UpdateOrderOptions address={props.address} handleUpdateClick={props.handleUpdateClick}/>
                 </ul>
             </div>
         </div>
