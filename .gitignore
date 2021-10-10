@@ -13,7 +13,7 @@ npm-debug.log
 
 node_modules
 package-lock.json
-config.json
+# config.json
 UberEats.dbs
 UberEatsDBSQL.sql
 UberEatsDBModel.db.mwb

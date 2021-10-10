@@ -1,0 +1,11 @@
+{
+    "DB": {
+        "host": "ubereatsdb.cp7vqehegypm.us-east-2.rds.amazonaws.com",
+        "username": "admin",
+        "password": "UberEatsDB",
+        "port": 3306,
+        "database": "UberEats_Schema"
+    },
+    "secret": "UberEatsClone",
+    "frontEnd": "http://localhost:3001"
+}
