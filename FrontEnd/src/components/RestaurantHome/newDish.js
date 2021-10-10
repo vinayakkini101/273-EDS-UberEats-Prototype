@@ -154,6 +154,7 @@ class NewDish extends React.Component {
                         <div className="col-2">
                             <label htmlFor="dishimage" className="form-label">Image</label>
                             <input type="file" name="dishimage" className="form-control" 
+                                accept="image/*"
                                 ref={this.imageRef}
                                 onChange={this.handleImageUpload} 
                             />

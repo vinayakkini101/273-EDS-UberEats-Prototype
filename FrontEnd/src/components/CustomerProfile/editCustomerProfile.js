@@ -162,6 +162,7 @@ class EditCustomerProfile extends React.Component {
                 <form encType="multipart/form-data">
                     <input 
                         type='file'
+                        accept='image/*'
                         ref={this.imageRef}
                         onChange={this.handleUpload}
                     >
