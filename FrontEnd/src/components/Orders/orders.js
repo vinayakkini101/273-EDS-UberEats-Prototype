@@ -54,7 +54,7 @@ class Orders extends React.Component {
     filterOrdersList = (status) => {
         console.log('in filter orders list ');
         let filteredOrdersList = this.state.ordersList.filter(order => {
-            if(order.status === status) {
+            if(status.includes(order.status)) {
                 return order;
             }
         });
@@ -122,7 +122,7 @@ class Orders extends React.Component {
 function RestaurantFilter(props) {
     return (
         <>
-            <button className="dropdown-item" onClick={props.handleFilterClick} name="Order Received">New</button>
+            <button className="dropdown-item" onClick={props.handleFilterClick} name="Order Received New">New</button>
             <button className="dropdown-item" onClick={props.handleFilterClick} name="Delivered">Delivered</button>
             <button className="dropdown-item" onClick={props.handleFilterClick}>Cancelled</button>
             <button className="dropdown-item" onClick={props.handleFilterClick} name="All">All</button>
