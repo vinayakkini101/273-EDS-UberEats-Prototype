@@ -1,3 +1,3 @@
-const rootURL = 'http://3.144.29.162:3000';
+const rootURL = 'http://18.189.195.213:3000';
 
 export default rootURL;
