@@ -18,7 +18,8 @@ class Checkout extends React.Component {
             newState: '',
             newCountry: '',
             combinedSelectedAddress: '',
-            deliveryType: ''
+            deliveryType: '',
+            showPlaceOrderButton: true
         }
         console.log('getpstdate ', getPSTDateTime());
     }
@@ -158,12 +159,37 @@ class Checkout extends React.Component {
         this.setState({
             [e.target.name] : e.target.value
         });
+
+        if(e.target.name === 'combinedSelectedAddress') {
+            if(e.target.value === '-select an option-') {
+                this.setState({
+                    showPlaceOrderButton: false
+                })
+            }
+            else {
+                this.setState({
+                    showPlaceOrderButton: true
+                })
+            }
+        }
     }
 
     handleRadioButton = (event) => {
         this.setState({
             deliveryType: event.target.value
         })
+
+        if(event.target.value === 'delivery') {
+            this.setState({
+                showPlaceOrderButton: false
+            })
+        }
+        else if(event.target.value === 'pickup') {
+            this.setState({
+                combinedSelectedAddress: 'Pickup',
+                showPlaceOrderButton: true
+            })
+        }
     }
 
     render() {
@@ -184,6 +210,16 @@ class Checkout extends React.Component {
                 </>
             );
         }
+        
+        let PlaceOrderButton = <div className="col-4">
+                                    <a className="btn btn-lg btn-success" href="/" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#checkoutModal"
+                                        onClick={this.addOrder}
+                                    >
+                                        Place Order
+                                    </a>
+                                </div>;
 
         let Address = null;
         if(this.state.deliveryType === 'delivery') {
@@ -198,7 +234,6 @@ class Checkout extends React.Component {
                         handleAddNewAddress={this.handleAddNewAddress}
                     />
         }
-
 
         let totalCost = 0;
 
@@ -244,7 +279,7 @@ class Checkout extends React.Component {
                                     type="radio" name="deliveryType" 
                                     onChange={this.handleRadioButton}
                                     value="pickup"
-                                    required
+                                    defaultChecked
                                 />
                                 <label class="form-check-label" for="flexRadioDefault1">
                                     I'll Pickup
@@ -268,15 +303,7 @@ class Checkout extends React.Component {
                         
                     </div>
 
-                    <div className="col-4">
-                        <a className="btn btn-lg btn-success" href="/" 
-                            data-bs-toggle="modal" 
-                            data-bs-target="#checkoutModal"
-                            onClick={this.addOrder}
-                        >
-                            Place Order
-                        </a>
-                    </div>
+                    {this.state.showPlaceOrderButton ? PlaceOrderButton : null}
                 </div>
             </div>
 
@@ -309,7 +336,10 @@ class Checkout extends React.Component {
                         </div>
                         <p></p>
                         Delivery Address
-                        <p>{this.state.combinedSelectedAddress}</p>
+                        <p>{
+                            this.state.combinedSelectedAddress 
+                            }
+                        </p>
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -376,38 +406,40 @@ function SelectAddress(props) {
             <div className="list-group g-3">
             Add New Address
                 <div className="list-group-item">
-                    <form>
+                    <form onSubmit={props.handleAddNewAddress}>
                         <div className="row">
                             <div className="col">
-                                <label htmlFor="newStreet" className="form-label">Street</label>
+                                <label htmlFor="newStreet" className="form-label">Street *</label>
                                 <input type="text" 
                                     className="form-control" 
                                     name="newStreet"
                                     onChange={props.handleFieldInput}
                                     value={props.newStreet}  
+                                    required
                                 />
                             </div>
                             <div className="col">
-                                <label htmlFor="newCity" className="form-label">City</label>
+                                <label htmlFor="newCity" className="form-label">City *</label>
                                 <input type="text" 
                                     className="form-control" 
                                     name="newCity"
                                     onChange={props.handleFieldInput}
                                     value={props.newCity}  
+                                    required
                                 />
                             </div>
                             <div className="col">
-                                <label htmlFor="newState" className="form-label">State</label>
+                                <label htmlFor="newState" className="form-label">State *</label>
                                 <input type="text" 
                                     className="form-control" 
                                     name="newState"
                                     onChange={props.handleFieldInput}
                                     value={props.newState}  
-
+                                    required
                                 />
                             </div>
                             <div className="col">
-                                <label htmlFor="newCountry" className="form-label">Country</label>
+                                <label htmlFor="newCountry" className="form-label">Country *</label>
                                 <select 
                                         className="form-select" 
                                         name="newCountry"
@@ -422,7 +454,6 @@ function SelectAddress(props) {
                         </div>
                         <button type="submit" 
                             className="btn btn-primary"
-                            onClick={props.handleAddNewAddress}
                         >
                             Add
                         </button>
