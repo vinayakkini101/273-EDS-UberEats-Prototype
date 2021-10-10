@@ -1,6 +1,7 @@
 const express = require('express');
 const mysql = require('mysql');
 const app = express.Router();
+const bcrypt = require('bcrypt');
 const pool = require('../config/dbConnection.js');
 
 app.post('/signup', (req, res) => {
@@ -15,9 +16,13 @@ app.post('/signup', (req, res) => {
             });
             res.end("Error while creating pool");
         })
-        .then((conn) => {
-            dbConn = conn;
+        .then(conn => {
             console.log('Pool created');
+            dbConn = conn;
+            let saltRounds = 10;
+            return bcrypt.hash(req.body.password, saltRounds);
+        })
+        .then(hash => {
             let queryResult;
             // console.log("localStorage.isRestaurant ", localStorage.getItem("isRestaurant"));
             if(req.body.isRestaurant) {
@@ -37,7 +42,7 @@ app.post('/signup', (req, res) => {
                     ${mysql.escape(req.body.contactno)},
                     ${mysql.escape(req.body.starttime)},
                     ${mysql.escape(req.body.endtime)},
-                    ${mysql.escape(req.body.password)}
+                    ${mysql.escape(hash)}
                 )`);
             }
             else {
@@ -57,7 +62,7 @@ app.post('/signup', (req, res) => {
                     ${mysql.escape(req.body.nickname)},
                     ${mysql.escape(req.body.dob)},
                     ${mysql.escape(req.body.contactno)},
-                    ${mysql.escape(req.body.password)}
+                    ${mysql.escape(hash)}
                 )
             `);
             }
