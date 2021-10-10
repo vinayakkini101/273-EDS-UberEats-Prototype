@@ -19,7 +19,7 @@ class RestaurantHome extends React.Component {
     }
 
     handleGetAllDishes = () => {
-        axios.get('http://localhost:3000/getAllDishes', {
+        axios.get('/getAllDishes', {
             params: {
                 restaurantEmail: localStorage.getItem('userEmail')
             }
@@ -45,7 +45,7 @@ class RestaurantHome extends React.Component {
 
     handleDeleteDish = (e) => {
         console.log('delete dish e target ', e.target.name);
-        axios.post('http://localhost:3000/deleteDish', {
+        axios.post('/deleteDish', {
             dishcode: [e.target.name],
             restaurantEmail: localStorage.getItem('userEmail') 
         })

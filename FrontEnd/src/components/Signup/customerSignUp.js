@@ -19,7 +19,7 @@ class CustomerSignUp extends React.Component {
         console.log('inside handleSignUp react');
         console.log(details);
         axios.defaults.withCredentials = true;
-        axios.post('http://localhost:3000/signup', details)
+        axios.post('/signup', details)
             .then((response) => {
                 if (response.status === 200) {
                     console.log("response ", response)

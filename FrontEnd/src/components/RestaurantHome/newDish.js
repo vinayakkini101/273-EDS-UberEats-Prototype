@@ -27,7 +27,7 @@ class NewDish extends React.Component {
         event.preventDefault();
         
         axios.defaults.withCredentials = true;
-        axios.post('http://localhost:3000/addNewDish', {
+        axios.post('/addNewDish', {
                 ...this.state.dishDetails, 
                 restaurantEmail: localStorage.getItem('userEmail'),
             })

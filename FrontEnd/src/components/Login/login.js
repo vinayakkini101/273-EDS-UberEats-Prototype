@@ -20,7 +20,7 @@ class LoginForm extends React.Component {
     handleLogin = (details) => {
         console.log('inside handleLogin react');
         axios.defaults.withCredentials = true;
-        axios.post('http://localhost:3000/login', details)
+        axios.post('/login', details)
             .then((response) => {
                 if (response.status === 200) {
                     console.log("response ", response)
