@@ -19,7 +19,8 @@ class Checkout extends React.Component {
             newCountry: '',
             combinedSelectedAddress: '',
             deliveryType: '',
-            showPlaceOrderButton: true
+            showPlaceOrderButton: false,
+            orderComplete: false
         }
         console.log('getpstdate ', getPSTDateTime());
     }
@@ -69,7 +70,7 @@ class Checkout extends React.Component {
             .catch(error => {
                 console.log("get customer details error");
                 this.setState({
-                    isPageUpdated: "false"
+                    isPageUpdated: false
                 });
                 console.log(error);
                 alert("Unable to get customer details, please try again!");
@@ -94,7 +95,7 @@ class Checkout extends React.Component {
             .catch(error => {
                 console.log("get customer address details error");
                 this.setState({
-                    isPageUpdated: "false"
+                    isPageUpdated: false
                 });
                 console.log(error);
                 alert("Unable to get customer address details, please try again!");
@@ -119,7 +120,7 @@ class Checkout extends React.Component {
             .catch(error => {
                 console.log("add customer address details error");
                 this.setState({
-                    isPageUpdated: "false"
+                    isPageUpdated: false
                 });
                 console.log(error);
                 alert("Unable to add customer address details, please try again!");
@@ -142,12 +143,13 @@ class Checkout extends React.Component {
             .then((response) => {
                 if (response.status === 200) {
                     console.log("response ", response.data);
+                    sessionStorage.removeItem('cartItems');
                 }
             })
             .catch(error => {
                 console.log("add order error");
                 this.setState({
-                    isPageUpdated: "false"
+                    isPageUpdated: false
                 });
                 console.log(error);
                 alert("Unable to add order, please try again!");
@@ -190,6 +192,12 @@ class Checkout extends React.Component {
                 showPlaceOrderButton: true
             })
         }
+    }
+
+    handleCloseOrderPlacedModal = () => {
+        this.setState({
+            orderComplete: true
+        })
     }
 
     render() {
@@ -235,12 +243,19 @@ class Checkout extends React.Component {
                     />
         }
 
+        let OrderCompleteRedirect = null;
+        if(this.state.orderComplete === true) {
+            OrderCompleteRedirect = <Redirect to='/' />;
+        }
+
         let totalCost = 0;
 
         return (
             <>
             {authenticate}
             <NavBar />
+            {OrderCompleteRedirect}
+
             <div className="container">
                 Checkout
                 <div className="row">
@@ -279,7 +294,6 @@ class Checkout extends React.Component {
                                     type="radio" name="deliveryType" 
                                     onChange={this.handleRadioButton}
                                     value="pickup"
-                                    defaultChecked
                                 />
                                 <label class="form-check-label" for="flexRadioDefault1">
                                     I'll Pickup
@@ -342,7 +356,14 @@ class Checkout extends React.Component {
                         </p>
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button 
+                            type="button" 
+                            className="btn btn-secondary" 
+                            data-bs-dismiss="modal"
+                            onClick={this.handleCloseOrderPlacedModal}
+                        >
+                            Close
+                        </button>
                     </div>
                     </div>
                 </div>
