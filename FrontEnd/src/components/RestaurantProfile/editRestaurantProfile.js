@@ -53,7 +53,7 @@ class EditRestaurantProfile extends React.Component {
                         profileDetails: {
                             ...this.state.profileDetails,
                             imageName: imageFile.name,
-                            imageLink: rootURL + '/items/download-image/' + imageFile.name
+                            imageLink: '/items/download-image/' + imageFile.name
                         }
                     })
                     console.log('restaurant pic link state ', this.state.profileDetails.imageLink);
