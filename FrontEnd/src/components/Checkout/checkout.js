@@ -380,7 +380,7 @@ function getPSTDateTime() {
     let options = {
         year: 'numeric', month: 'numeric', day: 'numeric',
         hour: 'numeric', minute: 'numeric', second: 'numeric',
-        hour12: false,
+        hourCycle: 'h23',
         timeZone: 'America/Los_Angeles'
       };
     let dateTimeFormat = new Intl.DateTimeFormat('en-US', options);
