@@ -127,15 +127,15 @@ class RestaurantSignUp extends React.Component {
                                     <ErrorMessage name="contactno" component="div" />
                                 </div>
                                 <div  className="mb-3">
-                                    <label htmlFor="description">Description</label>
+                                    <label htmlFor="description">Description *</label>
                                     <Field type="text" name="description" className="form-control" id="description" placeholder="Description" required />
                                 </div>
                                 <div  className="mb-3">
-                                    <label htmlFor="starttime">Start Time</label>
+                                    <label htmlFor="starttime">Start Time *</label>
                                     <Field type="time" name="starttime" className="form-control" id="starttime" placeholder="Start Time" required />
                                 </div>
                                 <div  className="mb-3">
-                                    <label htmlFor="endtime">End Time</label>
+                                    <label htmlFor="endtime">End Time *</label>
                                     <Field type="time" name="endtime" className="form-control" id="endtime" placeholder="End Time" required />
                                 </div>
                                 <div className="mb-3">
@@ -153,15 +153,15 @@ class RestaurantSignUp extends React.Component {
                                     </Field>
                                 </div>
                                 <div  className="mb-3">
-                                    <label htmlFor="street">Street</label>
+                                    <label htmlFor="street">Street *</label>
                                     <Field type="text" name="street" className="form-control" id="street" placeholder="Street" required />
                                 </div>
                                 <div  className="mb-3">
-                                    <label htmlFor="state">State</label>
+                                    <label htmlFor="state">State *</label>
                                     <Field type="text" name="state" className="form-control" id="state" placeholder="State" required />
                                 </div>
                                 <div  className="mb-3">
-                                    <label htmlFor="city">City</label>
+                                    <label htmlFor="city">City *</label>
                                     <Field type="text" name="city" className="form-control" id="city" placeholder="City" required />
                                 </div>
                                 <div  className="mb-3">

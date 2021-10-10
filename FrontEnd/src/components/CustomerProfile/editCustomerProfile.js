@@ -23,7 +23,9 @@ class EditCustomerProfile extends React.Component {
                 city: this.props.location.city,
                 imageLink: this.props.location.imageLink,
                 imageName: this.props.location.imageName,
-                street: this.props.location.street
+                street: this.props.location.street,
+                currentEmail: this.props.location.email,
+                currentStreet: this.props.location.street
             }
         }
     }
@@ -64,31 +66,32 @@ class EditCustomerProfile extends React.Component {
         })
     }
 
-    handleUpdate = (event) => {
+    handleDetailsUpdate = (event) => {
         event.preventDefault();
         
         axios.defaults.withCredentials = true;
         axios.post('/updateCustomerProfile', this.state.profileDetails)
             .then((response) => {
                 if (response.status === 200) {
-                    console.log("response ", response.data);
+                    console.log("cust details update response ", response.data);
                     const details = response.data;
+                    localStorage.setItem('userEmail', this.state.profileDetails.email);
                     this.setState({
                         updateOperation: 'success',
-                        profileDetails: {
-                            id: details.Customer_ID,
-                            name: details.name,
-                            description: details.description,
-                            email: details.email,
-                            contactno: details.contact_number,
-                            starttime: details.start_time,
-                            endtime: details.end_time,
-                            country: details.country,
-                            state: details.state,
-                            city: details.City,
-                            imageLink: details.Display_Picture,
-                            street: details.street
-                        }
+                        // profileDetails: {
+                        //     id: details.Customer_ID,
+                        //     name: details.name,
+                        //     description: details.description,
+                        //     email: details.email,
+                        //     contactno: details.contact_number,
+                        //     starttime: details.start_time,
+                        //     endtime: details.end_time,
+                        //     country: details.country,
+                        //     state: details.state,
+                        //     city: details.City,
+                        //     imageLink: details.Display_Picture,
+                        //     street: details.street
+                        // }
                     })
                 }
             })
@@ -99,6 +102,37 @@ class EditCustomerProfile extends React.Component {
                 });
                 console.log(error);
                 alert("Unable to update Customer details, please try again!");
+            })
+    }
+
+    handleAddressUpdate = (event) => {
+        event.preventDefault();
+        
+        axios.defaults.withCredentials = true;
+        axios.post('/updateCustomerAddress', this.state.profileDetails)
+            .then((response) => {
+                if (response.status === 200) {
+                    console.log("handleaddressupdate response ", response.data);
+                    const details = response.data;
+                    localStorage.setItem('userEmail', this.state.profileDetails.email);
+                    this.setState({
+                        updateOperation: 'success',
+                        // profileDetails: {
+                        //     country: details.country,
+                        //     state: details.state,
+                        //     city: details.City,
+                        //     street: details.street
+                        // }
+                    })
+                }
+            })
+            .catch(error => {
+                console.log("Update Customer address error");
+                this.setState({
+                    updateOperation: 'failure'
+                });
+                console.log(error);
+                alert("Unable to update Customer address, please try again!");
             })
     }
 
@@ -115,7 +149,7 @@ class EditCustomerProfile extends React.Component {
             errorMessage = <div className='alert alert-danger'>Update failed</div>;
         }
         else if(this.state.updateOperation === 'success') {
-            redirectVar = <Redirect to={`/CustomerProfile/${this.props.location.email}`} />;
+            redirectVar = <Redirect to={`/CustomerProfile/${this.state.profileDetails.email}`} />;
         }
 
         return (
@@ -134,13 +168,14 @@ class EditCustomerProfile extends React.Component {
                     </input>
                     <div className="row mb-3 align-items-center">
                         <div className="col-3">
-                            <label htmlFor="name" className="col-form-label">Name</label>
+                            <label htmlFor="name" className="col-form-label">Name *</label>
                         </div>
                         <div className="col-6">
                             <input type="text" name="name" className="form-control" 
                             // disabled 
                             value={this.state.profileDetails.name} 
                             onChange={this.handleChange}
+                            required
                         />
                         </div>
                     </div>
@@ -204,6 +239,18 @@ class EditCustomerProfile extends React.Component {
                         />
                         </div>
                     </div>
+                </form>
+                <button 
+                        type='button'
+                        className='btn btn-success'
+                        onClick={this.handleDetailsUpdate}
+                    > 
+                        Update Details
+                </button>
+                
+                
+
+                <form>
                     <div className="row mb-3 align-items-center">
                         <div className="col-3">
                             <label htmlFor="street" className="col-form-label">Street Address</label>
@@ -215,7 +262,7 @@ class EditCustomerProfile extends React.Component {
                             onChange={this.handleChange}
                         />
                         </div>
-                        </div>
+                    </div>
                     <div className="row mb-3 align-items-center">
                         <div className="col-3">
                             <label htmlFor="city" className="col-form-label">City</label>
@@ -252,15 +299,15 @@ class EditCustomerProfile extends React.Component {
                         />
                         </div>
                     </div>
+                    <button 
+                            type='button'
+                            className='btn btn-success'
+                            onClick={this.handleAddressUpdate}
+                        > 
+                            Update Address
+                    </button>
                 </form>
-                <button 
-                        type='button'
-                        className='btn btn-success'
-                        onClick={this.handleUpdate}
-                    > 
-                        Update
-                </button>
-                
+
                 {errorMessage}
 
                 {redirectVar}

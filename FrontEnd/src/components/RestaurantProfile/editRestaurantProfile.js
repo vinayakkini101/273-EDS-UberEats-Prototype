@@ -30,7 +30,8 @@ class EditRestaurantProfile extends React.Component {
                 nonveg: this.props.location.nonveg,
                 vegan: this.props.location.vegan,
                 currentStreet: this.props.location.street,
-                updatedStreet: this.props.location.street
+                updatedStreet: this.props.location.street,
+                currentEmail: this.props.location.email
             }
         }
     }
@@ -80,34 +81,35 @@ class EditRestaurantProfile extends React.Component {
         }) 
     }
 
-    handleUpdate = (event) => {
+    handleDetailsUpdate = (event) => {
         event.preventDefault();
         
         axios.defaults.withCredentials = true;
-        axios.post('http://localhost:3000/updateRestaurantProfile', this.state.profileDetails)
+        axios.post('/updateRestaurantProfile', this.state.profileDetails)
             .then((response) => {
                 if (response.status === 200) {
                     console.log("response ", response.data);
                     const details = response.data;
+                    localStorage.setItem('userEmail', this.state.profileDetails.email);
                     this.setState({
-                        updateOperation: 'success',
-                        profileDetails: {
-                            id: details.Restaurant_ID,
-                            name: details.name,
-                            description: details.description,
-                            email: details.email,
-                            contactno: details.contact_number,
-                            starttime: details.start_time,
-                            endtime: details.end_time,
-                            country: details.country,
-                            state: details.state,
-                            city: details.city,
-                            imageLink: details.Display_Picture,
-                            pickup: details.pickup === 1 ? true : false,
-                            delivery: details.delivery === 1 ? true : false,
-                            currentStreet: details.updatedStreet,
-                            updatedStreet: details.updatedStreet
-                        }
+                        updateOperation: 'success'
+                        // profileDetails: {
+                        //     id: details.Restaurant_ID,
+                        //     name: details.name,
+                        //     description: details.description,
+                        //     email: details.email,
+                        //     contactno: details.contact_number,
+                        //     starttime: details.start_time,
+                        //     endtime: details.end_time,
+                        //     country: details.country,
+                        //     state: details.state,
+                        //     city: details.city,
+                        //     imageLink: details.Display_Picture,
+                        //     pickup: details.pickup === 1 ? true : false,
+                        //     delivery: details.delivery === 1 ? true : false,
+                        //     currentStreet: details.updatedStreet,
+                        //     updatedStreet: details.updatedStreet
+                        // }
                     })
                 }
             })
@@ -118,6 +120,31 @@ class EditRestaurantProfile extends React.Component {
                 });
                 console.log(error);
                 alert("Unable to update restaurant details, please try again!");
+            })
+    }
+
+    handleAddressUpdate = (event) => {
+        event.preventDefault();
+        
+        axios.defaults.withCredentials = true;
+        axios.post('/updateRestaurantAddress', this.state.profileDetails)
+            .then((response) => {
+                if (response.status === 200) {
+                    console.log("handleaddressupdate response ", response.data);
+                    const details = response.data;
+                    localStorage.setItem('userEmail', this.state.profileDetails.email);
+                    this.setState({
+                        updateOperation: 'success'
+                    })
+                }
+            })
+            .catch(error => {
+                console.log("Update Restaurant address error");
+                this.setState({
+                    updateOperation: 'failure'
+                });
+                console.log(error);
+                alert("Unable to update Restaurant address, please try again!");
             })
     }
 
@@ -134,7 +161,7 @@ class EditRestaurantProfile extends React.Component {
             errorMessage = <div className='alert alert-danger'>Update failed</div>;
         }
         else if(this.state.updateOperation === 'success') {
-            redirectVar = <Redirect to='/RestaurantProfile' />;
+            redirectVar = <Redirect to={`/RestaurantProfile/${this.state.profileDetails.email}`} />;
         }
 
         return (
@@ -144,14 +171,15 @@ class EditRestaurantProfile extends React.Component {
             <div>Edit Restaurant profile</div>
             <div className='container'>
                 <img src={this.state.profileDetails.imageLink || ''} className='img-fluid' alt='Display' />
-                <form encType="multipart/form-data">
+                <form encType="multipart/form-data" onSubmit={this.handleDetailsUpdate}>
                     <input 
                         type='file'
+                        accept="image/*"
                         ref={this.imageRef}
                         onChange={this.handleUpload}
                     >
                     </input>
-                    <div className="row mb-3 align-items-center">
+                    {/* <div className="row mb-3 align-items-center">
                         <div className="col-3">
                             <label htmlFor="" className="col-form-label">Restaurant ID</label>
                         </div>
@@ -161,14 +189,14 @@ class EditRestaurantProfile extends React.Component {
                             onChange={this.handleChange}
                         />
                         </div>
-                    </div>
+                    </div> */}
                     <div className="row mb-3 align-items-center">
                         <div className="col-3">
                             <label htmlFor="" className="col-form-label">Name</label>
                         </div>
                         <div className="col-6">
                             <input type="text" name="name" className="form-control" 
-                            // disabled 
+                            required
                             value={this.state.profileDetails.name} 
                             onChange={this.handleChange}
                         />
@@ -180,7 +208,7 @@ class EditRestaurantProfile extends React.Component {
                         </div>
                         <div className="col-6">
                             <input type="text" name="description" className="form-control" 
-                            // disabled 
+                            required
                             value={this.state.profileDetails.description} 
                             onChange={this.handleChange}
                         />
@@ -192,7 +220,7 @@ class EditRestaurantProfile extends React.Component {
                         </div>
                         <div className="col-6">
                             <input type="text" name="email" className="form-control" 
-                            // disabled 
+                            required
                             value={this.state.profileDetails.email} 
                             onChange={this.handleChange}
                         />
@@ -204,7 +232,7 @@ class EditRestaurantProfile extends React.Component {
                         </div>
                         <div className="col-6">
                             <input type="text" name="contactno" className="form-control" 
-                            // disabled 
+                            required
                             value={this.state.profileDetails.contactno} 
                             onChange={this.handleChange}
                         />
@@ -216,7 +244,7 @@ class EditRestaurantProfile extends React.Component {
                         </div>
                         <div className="col-6">
                             <input type="text" name="starttime" className="form-control" 
-                            // disabled 
+                            required
                             value={this.state.profileDetails.starttime} 
                             onChange={this.handleChange}
                         />
@@ -228,56 +256,8 @@ class EditRestaurantProfile extends React.Component {
                         </div>
                         <div className="col-6">
                             <input type="text" name="endtime" className="form-control" 
-                            // disabled 
+                            required
                             value={this.state.profileDetails.endtime} 
-                            onChange={this.handleChange}
-                        />
-                        </div>
-                    </div>
-                    <div className="row mb-3 align-items-center">
-                            <div className="col-3">
-                                <label htmlFor="street" className="col-form-label">Street Address</label>
-                            </div>
-                            <div className="col-6">
-                                <input type="text" name="updatedStreet" className="form-control" 
-                                // disabled 
-                                value={this.state.profileDetails.updatedStreet} 
-                                onChange={this.handleChange}
-                            />
-                            </div>
-                        </div>
-                    <div className="row mb-3 align-items-center">
-                        <div className="col-3">
-                            <label htmlFor="" className="col-form-label">City</label>
-                        </div>
-                        <div className="col-6">
-                            <input type="text" name="city" className="form-control" 
-                            // disabled 
-                            value={this.state.profileDetails.city} 
-                            onChange={this.handleChange}
-                        />
-                        </div>
-                    </div>
-                    <div className="row mb-3 align-items-center">
-                        <div className="col-3">
-                            <label htmlFor="" className="col-form-label">State</label>
-                        </div>
-                        <div className="col-6">
-                            <input type="text" name="state" className="form-control" 
-                            // disabled 
-                            value={this.state.profileDetails.state} 
-                            onChange={this.handleChange}
-                        />
-                        </div>
-                    </div>
-                    <div className="row mb-3 align-items-center">
-                        <div className="col-3">
-                            <label htmlFor="" className="col-form-label">Country</label>
-                        </div>
-                        <div className="col-6">
-                            <input type="text" name="country" className="form-control" 
-                            // disabled 
-                            value={this.state.profileDetails.country} 
                             onChange={this.handleChange}
                         />
                         </div>
@@ -327,15 +307,71 @@ class EditRestaurantProfile extends React.Component {
                             />
                                 Atleast 1 item available in vegan
                         </div>
+                        <button 
+                                type='submit'
+                                className='btn btn-success'
+                            > 
+                                Update details
+                        </button>
                 </form>
-                <button 
-                        type='button'
-                        className='btn btn-success'
-                        onClick={this.handleUpdate}
-                    > 
-                        Update
-                </button>
                 
+                <form onSubmit={this.handleAddressUpdate}>
+                    <div className="row mb-3 align-items-center">
+                        <div className="col-3">
+                            <label htmlFor="street" className="col-form-label">Street Address</label>
+                        </div>
+                        <div className="col-6">
+                            <input type="text" name="updatedStreet" className="form-control" 
+                            required
+                            value={this.state.profileDetails.updatedStreet} 
+                            onChange={this.handleChange}
+                        />
+                        </div>
+                    </div>
+                    <div className="row mb-3 align-items-center">
+                        <div className="col-3">
+                            <label htmlFor="" className="col-form-label">City</label>
+                        </div>
+                        <div className="col-6">
+                            <input type="text" name="city" className="form-control" 
+                            required
+                            value={this.state.profileDetails.city} 
+                            onChange={this.handleChange}
+                        />
+                        </div>
+                    </div>
+                    <div className="row mb-3 align-items-center">
+                        <div className="col-3">
+                            <label htmlFor="" className="col-form-label">State</label>
+                        </div>
+                        <div className="col-6">
+                            <input type="text" name="state" className="form-control" 
+                            required 
+                            value={this.state.profileDetails.state} 
+                            onChange={this.handleChange}
+                        />
+                        </div>
+                    </div>
+                    <div className="row mb-3 align-items-center">
+                        <div className="col-3">
+                            <label htmlFor="" className="col-form-label">Country</label>
+                        </div>
+                        <div className="col-6">
+                            <input type="text" name="country" className="form-control" 
+                            required
+                            value={this.state.profileDetails.country} 
+                            onChange={this.handleChange}
+                        />
+                        </div>
+                    </div>
+                    <button 
+                        type='submit'
+                        className='btn btn-success'
+                    > 
+                        Update Address
+                    </button>
+                </form>
+
                 {errorMessage}
 
                 {redirectVar}

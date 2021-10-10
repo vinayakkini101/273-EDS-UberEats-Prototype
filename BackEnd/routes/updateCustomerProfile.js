@@ -29,39 +29,39 @@ app.post('/updateCustomerProfile', (req, res) => {
                                             dob = ${mysql.escape(req.body.dob)},
                                             profile_picture = ${mysql.escape(req.body.imageLink)}
                                         WHERE 
-                                            email=${mysql.escape(req.body.email)}
+                                            email=${mysql.escape(req.body.currentEmail)}
                                     `);
             return queryResult;
         })
         .catch((err) => {
-            console.log('Error in query execution ' + err);
+            console.log('Error in query execution in customer details update ' + err);
             res.writeHead(400, {
                 'Content-type': 'text/plain'
             });
-            res.end("Error in query execution");
+            res.end("Error in query executionin customer details update ");
         })
         .then((queryResult) => {
-            let result;
-            result = dbConn.query(`UPDATE Address 
+            let result = queryResult;
+            if(req.body.currentEmail !== req.body.email) {
+                result = dbConn.query(`UPDATE Address 
                                         SET
-                                            country = ${mysql.escape(req.body.country)},
-                                            state = ${mysql.escape(req.body.state)},
-                                            city = ${mysql.escape(req.body.city)},
-                                            streetAddress = ${mysql.escape(req.body.street)}
-                                        WHERE 
                                             email=${mysql.escape(req.body.email)}
+                                        WHERE 
+                                            email=${mysql.escape(req.body.currentEmail)}
                                     `);
+            }
+            
             return result;
         })
         .catch((err) => {
-            console.log('Error in query execution ' + err);
+            console.log('Error in query execution in customer address update ' + err);
             res.writeHead(400, {
                 'Content-type': 'text/plain'
             });
-            res.end("Error in query execution");
+            res.end("Error in query execution in customer address update");
         })
         .then((result) => {
-            console.log("queryResult ", result);
+            console.log("update customer details queryResult ", result);
             res.writeHead(200, {
                 'Content-type': 'text/plain'
             });

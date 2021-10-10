@@ -45,6 +45,13 @@ app.post('/login', (req, res) => {
         //     return bcrypt.hash(req.body.password, 10);
         // })
         .then(result => {
+            if(result.length === 0) {
+                res.writeHead(402, {
+                    'Content-type': 'text/plain'
+                });
+                console.log("Invalid credentials db");
+                res.end("Invalid credentials");
+            }
             let passwordFromDB = result[0].password;
             // console.log('hashed pass ', result);
             // console.log(passwordFromDB);

@@ -34,38 +34,33 @@ app.post('/updateRestaurantProfile', (req, res) => {
                                             nonveg = ${mysql.escape(req.body.nonveg)},
                                             vegan = ${mysql.escape(req.body.vegan)}
                                         WHERE 
-                                            email=${mysql.escape(req.body.email)}
+                                            email=${mysql.escape(req.body.currentEmail)}
                                     `);
             return queryResult;
         })
         .catch((err) => {
-            console.log('Error in query execution ' + err);
+            console.log('Error in query execution in restaurant details update ' + err);
             res.writeHead(400, {
                 'Content-type': 'text/plain'
             });
-            res.end("Error in query execution");
+            res.end("Error in query execution in restaurant details update ");
         })
         .then((queryResult) => {
             let result;
             result = dbConn.query(`UPDATE Address 
                                         SET
-                                            country = ${mysql.escape(req.body.country)},
-                                            state = ${mysql.escape(req.body.state)},
-                                            city = ${mysql.escape(req.body.city)},
-                                            streetAddress = ${mysql.escape(req.body.updatedStreet)}
-                                        WHERE 
                                             email=${mysql.escape(req.body.email)}
-                                            AND
-                                            streetAddress = ${mysql.escape(req.body.currentStreet)}
+                                        WHERE 
+                                            email=${mysql.escape(req.body.currentEmail)}
                                     `);
             return result;
         })
         .catch((err) => {
-            console.log('Error in query execution ' + err);
+            console.log('Error in query execution in restaurant details update ' + err);
             res.writeHead(400, {
                 'Content-type': 'text/plain'
             });
-            res.end("Error in query execution");
+            res.end("Error in query execution in restaurant details update ");
         })
         .then((result) => {
             console.log("result ", result);

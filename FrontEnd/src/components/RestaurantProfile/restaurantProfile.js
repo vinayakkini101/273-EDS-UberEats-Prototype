@@ -120,7 +120,7 @@ class RestaurantProfile extends React.Component {
                     {/* <label className="form-label">Display picture</label> */}
                     
                     <form encType="multipart/form-data">
-                        <div className="row mb-3 align-items-center">
+                        {/* <div className="row mb-3 align-items-center">
                             <div className="col-3">
                                 <label htmlFor="" className="col-form-label">Restaurant ID</label>
                             </div>
@@ -130,7 +130,7 @@ class RestaurantProfile extends React.Component {
                                 readOnly
                             />
                             </div>
-                        </div>
+                        </div> */}
                         <div className="row mb-3 align-items-center">
                             <div className="col-3">
                                 <label htmlFor="" className="col-form-label">Name</label>

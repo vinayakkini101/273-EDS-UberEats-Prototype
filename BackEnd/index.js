@@ -17,10 +17,12 @@ const addNewDish = require('./routes/addNewDish.js');
 const deleteDish = require('./routes/deleteDish.js');
 const getRestaurantProfile = require('./routes/getRestaurantProfile.js');
 const updateRestaurantProfile = require('./routes/updateRestaurantProfile.js');
+const updateRestaurantAddress = require('./routes/updateRestaurantAddress.js');
 const getAllRestaurants = require('./routes/getAllRestaurants.js');
 const { uploadDownload } = require('./routes/uploadDownload.js');
 const getCustomerProfile = require('./routes/getCustomerProfile.js');
 const updateCustomerProfile = require('./routes/updateCustomerProfile.js');
+const updateCustomerAddress = require('./routes/updateCustomerAddress.js');
 const addToCart = require('./routes/addToCart.js');
 const getCartItems = require('./routes/getCartItems.js')
 const getCustomerAddresses = require('./routes/getCustomerAddress.js');
@@ -74,6 +76,7 @@ app.use('/', updateRestaurantProfile);
 app.use('/', uploadDownload);
 app.use('/', getCustomerProfile);
 app.use('/', updateCustomerProfile);
+app.use('/', updateCustomerAddress);
 app.use('/', getAllRestaurants);
 app.use('/', addToCart);
 app.use('/', getCartItems);
@@ -86,6 +89,7 @@ app.use('/', updateOrderStatus);
 app.use('/', getOrderStatus);
 app.use('/', addFavourite);
 app.use('/', getFavourites);
+app.use('/', updateRestaurantAddress);
 
 
 app.get('/test-api', function(req, res) {
