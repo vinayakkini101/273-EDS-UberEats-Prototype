@@ -188,14 +188,14 @@ class DishDisplayCard extends React.Component {
 
     }
 
-    handleAddToCart = (event) => {
-        event.preventDefault();
+    handleAddToCart = () => {
+        // event.preventDefault();
         let cart = [];
         console.log(sessionStorage);
         if(sessionStorage.getItem('cartItems')) {
             cart = JSON.parse(sessionStorage.getItem('cartItems'));
         }
-
+        debugger
         let itemStatus = '';
         itemStatus = this.ensureItemsFromSameRestaurant(cart);
         if(itemStatus === 'NOTADDED') {
@@ -296,12 +296,18 @@ class DishDisplayCard extends React.Component {
         return 'ADDED';
     }
 
+    acceptOtherRestaurantItem = () => {
+        sessionStorage.removeItem('cartItems');
+        this.handleAddToCart();
+    }
+
     render() {
         let errorMessage = null;
         if(this.state.isQuantityZero === true) {
             errorMessage = <div className="alert alert-danger">Add atleast 1 quantity</div>;
         }
         return (
+            <>
                 <div className="card col-lg-3 col-md-6 col-12 g-4 m-2" style={{width: '3rem;'}}>
                     <img src={this.state.details.Dish_Image} className="card-img-top" alt="..."/>
                     <div className="card-body">
@@ -322,6 +328,27 @@ class DishDisplayCard extends React.Component {
                         {errorMessage}
                     </div>
                 </div>
+
+
+                {/* Cart Modal */}
+                <div className="modal fade" tabIndex="-1" id="cartModal">
+                <div className="modal-dialog modal-lg">
+                    <div className="modal-content">
+                    <div className="modal-header">
+                        <h5 className="modal-title" id="exampleModalLabel">Create New Order?</h5>
+                        <button type="button" className="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div className="modal-body">
+                        Your order contains items from another restaurant. Create a new order?
+                    </div>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" className="btn btn-secondary" onClick={this.acceptOtherRestaurantItem}>Okay</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            </>
         );
     }
 }

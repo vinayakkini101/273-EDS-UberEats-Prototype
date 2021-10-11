@@ -68,25 +68,6 @@ class Cart extends React.Component {
                     </div>
                 </div>
             </div>
-
-
-            
-            <div className="modal fade" tabIndex="-1" id="cartModal">
-                <div className="modal-dialog modal-lg">
-                    <div className="modal-content">
-                    <div className="modal-header">
-                        <h5 className="modal-title" id="exampleModalLabel">Create New Order?</h5>
-                        <button type="button" className="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div className="modal-body">
-                        Your order contains items from . Create a new order to add items from RestY.
-                    </div>
-                    <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    </div>
-                    </div>
-                </div>
-            </div>
             </>
         );
     }

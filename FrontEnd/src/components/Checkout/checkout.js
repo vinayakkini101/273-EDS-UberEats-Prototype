@@ -270,7 +270,7 @@ class Checkout extends React.Component {
                             </thead>
                             <tbody>
                                 {this.state.cartItems.map(item => {
-                                    totalCost += parseInt(item.price) * parseInt(item.quantity);
+                                    totalCost += parseFloat(item.price) * parseFloat(item.quantity);
                                     return (
                                         <tr>
                                             <td>{item.dishName}</td>
@@ -354,6 +354,8 @@ class Checkout extends React.Component {
                             this.state.combinedSelectedAddress 
                             }
                         </p>
+                        <p>Order Total : ${totalCost}</p>
+
                     </div>
                     <div className="modal-footer">
                         <button 
