@@ -107,7 +107,7 @@ class RestaurantHome extends React.Component {
                                             src={dish.Dish_Image} 
                                             className='img-fluid img-thumbnail' 
                                             alt=''
-                                            style={{width: '30rem', height: '7rem'}}
+                                            style={{width: '10rem', height: '7rem'}}
                                         >
                                         </img>
                                     </td>
