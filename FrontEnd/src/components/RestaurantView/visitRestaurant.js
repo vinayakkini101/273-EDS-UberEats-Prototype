@@ -118,41 +118,54 @@ class VisitRestaurant extends React.Component {
             <>
             {authenticate}
             <NavBar />
-            <div>VisitRestaurant</div>
 
-            <div className='container'>
-                <img src={this.state.profileDetails.imageLink || ''} className='img-fluid' alt='Display' />
-                <div className="">{this.state.profileDetails.description}</div>
-                <div>{this.state.profileDetails.city}, {this.state.profileDetails.state}, {this.state.profileDetails.country}</div>
-                <div>Contact: {this.state.profileDetails.contactno}</div>
-
-                <div className="position-fixed bottom-0 end-0 p-3" style={{zIndex: '11', color: 'green' }}>
-                    <div id="successToast" className="toast" role="alert">
-                        <div className="toast-header">
-                        <strong className="me-auto">Awesome!</strong>
-                        <small>Just now</small>
-                        <button type="button" className="btn-close" data-bs-dismiss="toast"></button>
-                        </div>
-                        <div className="toast-body">
-                        Added item to cart
-                        </div>
+            <div className='container my-4'>
+                <h2>{this.state.profileDetails.name}</h2>
+                <div className="row">
+                    <div className="col-3 my-2">
+                        <img 
+                            src={this.state.profileDetails.imageLink || ''}
+                            className='img-fluid img-thumbnail rounded-circle z-depth-5' 
+                            alt='Display' 
+                            style={{width: '15rem', height: '15rem'}}
+                        />
+                    </div>
+                    <div className="col-9">
+                        <div className="">{this.state.profileDetails.description}</div>
+                        <br /><div>{this.state.profileDetails.city}, {this.state.profileDetails.state}, {this.state.profileDetails.country}</div>
+                        <br /><div>Contact: {this.state.profileDetails.contactno}</div>
                     </div>
                 </div>
 
                 <div className="row">
-                    {this.state.dishList.map(dish => {
-                        return <DishDisplayCard 
-                                    key={dish.Dish_ID} 
-                                    dishDetails={dish} 
-                                    restaurantEmail={this.state.profileDetails.email}
-                                    restaurantName={this.state.profileDetails.name}
-                                    pickup={this.state.profileDetails.pickup}
-                                    delivery={this.state.profileDetails.delivery}
-                                    // restaurantStreet={this.state.profileDetails.street}
-                                    // restaurantCity={this.state.profileDetails.city}
-                                    triggerToast={this.triggerToast}
-                                />;
-                    })}
+                    <div className="position-fixed bottom-0 end-0 p-3" style={{zIndex: '11', color: 'green' }}>
+                        <div id="successToast" className="toast" role="alert">
+                            <div className="toast-header">
+                            <strong className="me-auto">Awesome!</strong>
+                            <small>Just now</small>
+                            <button type="button" className="btn-close" data-bs-dismiss="toast"></button>
+                            </div>
+                            <div className="toast-body">
+                            Added item to cart
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="row">
+                        {this.state.dishList.map(dish => {
+                            return <DishDisplayCard 
+                                        key={dish.Dish_ID} 
+                                        dishDetails={dish} 
+                                        restaurantEmail={this.state.profileDetails.email}
+                                        restaurantName={this.state.profileDetails.name}
+                                        pickup={this.state.profileDetails.pickup}
+                                        delivery={this.state.profileDetails.delivery}
+                                        // restaurantStreet={this.state.profileDetails.street}
+                                        // restaurantCity={this.state.profileDetails.city}
+                                        triggerToast={this.triggerToast}
+                                    />;
+                        })}
+                    </div>
                 </div>
             </div>
             </>

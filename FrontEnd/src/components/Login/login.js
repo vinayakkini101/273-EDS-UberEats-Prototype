@@ -62,11 +62,11 @@ class LoginForm extends React.Component {
             }
         }
         else{
-            console.log('cookie did not load');
+            // console.log('cookie did not load');
         }
 
         return (
-            <div className="container">
+            <div className="container my-5" style={{maxWidth: '30rem'}}>
             {redirectVar}
                 <div className="col card">
                     <div className="card-body">
@@ -130,8 +130,16 @@ class LoginForm extends React.Component {
                             )}
                         </Formik>
                     </div>
-                    <Link to="/CustomerSignUp">New Customer? Sign up here</Link>
-                    <Link to="/RestaurantSignUp">New Restaurant? Sign up here</Link>
+                    <div className="row justify-content-center">
+                        <div className="col-8">
+                            <Link to="/CustomerSignUp">New Customer? Sign up here</Link>
+                        </div>
+                    </div>
+                    <div className="row justify-content-center">
+                        <div className="col-8">
+                            <Link to="/RestaurantSignUp">New Restaurant? Sign up here</Link>
+                        </div>
+                    </div>
                 </div>
             </div>
         );

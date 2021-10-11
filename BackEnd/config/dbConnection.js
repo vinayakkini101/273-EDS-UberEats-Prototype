@@ -1,7 +1,7 @@
 var mysql = require('promise-mysql');
 const constants = require('./config.json');
 
-var connection = mysql.createConnection({
+var connection = mysql.createPool({
     host: constants.DB.host,
     user: constants.DB.username,
     password: constants.DB.password,

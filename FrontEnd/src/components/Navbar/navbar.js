@@ -40,22 +40,22 @@ class NavBar extends React.Component {
         else {
             homeLink = '/CustomerHome';
             profileLink = `/CustomerProfile/${this.state.userEmail}`;
-            searchElement = <a className="btn btn-outline-success" href="/Search">Search</a>;
+            searchElement = <a className="nav-link fs-5 fw-bold" href="/Search">Search</a>;
             cartLink = <Cart />;
-            favouriteLink = <a className="nav-link" href="/Favourites">Favourites</a>;
+            favouriteLink = <a className="nav-link fs-5 fw-bold" href="/Favourites">Favourites</a>;
         }
         // console.log(localStorage.getItem('isRestaurant'));
         return (
             <>
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <div className="container-fluid">
-                    <a className="navbar-brand" href="/">Navbar</a>
-                    <a className="nav-link active" href={homeLink}>Home</a>
-                    <a className="nav-link" href={profileLink}>Profile</a>
+                    <a className="navbar-brand fw-bold fs-1" href="/">UberEats</a>
+                    <a className="nav-link fs-5 fw-bold" href={homeLink}>Home</a>
+                    <a className="nav-link fs-5 fw-bold" href={profileLink}>Profile</a>
                     {/* <Field className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />  */}
                     {searchElement}
                     {favouriteLink}
-                    <a className="nav-link" href="/Orders">Orders</a>
+                    <a className="nav-link fs-5 fw-bold" href="/Orders">Orders</a>
                     {cartLink}
                     Hi, {sessionStorage.getItem('userName')}!
                     <a 

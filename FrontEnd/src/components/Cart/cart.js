@@ -24,7 +24,7 @@ class Cart extends React.Component {
 
         return (
             <>
-            <a className="nav-link" href="/Cart" 
+            <a className="nav-link fs-5 fw-bold" href="/Cart" 
                 data-bs-toggle="modal" 
                 data-bs-target="#exampleModal"
                 onClick={this.getCartItems}

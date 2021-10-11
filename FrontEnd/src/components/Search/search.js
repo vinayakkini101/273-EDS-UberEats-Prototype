@@ -179,50 +179,55 @@ class Search extends React.Component {
             <>
             <NavBar />
             {authenticate}
-            <div>Search page</div>
-            <div className="container">
+
+            <div className="container my-4">
+                <h3>Search</h3>
                 {/* <span className="nav-link" href="#"></span> */}
                 <input 
                     type="radio" 
                     name="filter"
                     value="dishname"
+                    className="mx-2"
                     checked={this.state.selectedFilter === "dishname"}
                     onChange={this.handleRadioButtons}    
-                />Dish Name
+                /><span>Dish Name</span>
                 <input 
                     type="radio" 
                     name="filter"
                     value="location"
+                    className="mx-2"
                     checked={this.state.selectedFilter === "location"}
                     onChange={this.handleRadioButtons}
-                />Location
+                /><span>Location</span>
                 <input 
                     type="radio" 
                     name="filter"
                     value="pickup"
+                    className="mx-2"
                     checked={this.state.selectedFilter === "pickup"}
                     onChange={this.handleRadioButtons}
-                />Pickup
+                /><span>Pickup</span>
                 <input 
                     type="radio" 
                     name="filter"
                     value="delivery"
+                    className="mx-2"
                     checked={this.state.selectedFilter === "delivery"}
                     onChange={this.handleRadioButtons}
-                />Delivery
+                /><span>Delivery</span>
                 <input type="search" 
                     value={this.state.searchText}  
                     onChange={this.handleSearchInput}
-                    className="form-control ds-input" 
+                    className="form-control ds-input my-2" 
                     placeholder="Search Restaurants..."     
                 />
                 <button 
-                    className="btn btn-success"
-                    name="search"
-                    onClick={this.handleSearch}
-                > Search
+                        className="btn btn-success my-2"
+                        name="search"
+                        onClick={this.handleSearch}
+                    ><span>Search</span>
                 </button>
-                <div className="row">
+                <div className="row my-1">
                     {this.state.currentSearchResult.map(item => {
                         return <SearchResult 
                                     key={item.Restaurant_ID} 

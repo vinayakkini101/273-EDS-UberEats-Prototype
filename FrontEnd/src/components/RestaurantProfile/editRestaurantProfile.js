@@ -168,210 +168,228 @@ class EditRestaurantProfile extends React.Component {
             <>
             {authenticate}
             <NavBar />
-            <div>Edit Restaurant profile</div>
-            <div className='container'>
-                <img src={this.state.profileDetails.imageLink || ''} className='img-fluid' alt='Display' />
-                <form encType="multipart/form-data" onSubmit={this.handleDetailsUpdate}>
-                    <input 
-                        type='file'
-                        accept="image/*"
-                        ref={this.imageRef}
-                        onChange={this.handleUpload}
-                    >
-                    </input>
-                    {/* <div className="row mb-3 align-items-center">
-                        <div className="col-3">
-                            <label htmlFor="" className="col-form-label">Restaurant ID</label>
-                        </div>
-                        <div className="col-6">
-                            <input type="text" name="id" className="form-control" 
-                            value={this.state.profileDetails.id} 
-                            onChange={this.handleChange}
+            <div className='container my-4'>
+                <h3>Edit Profile</h3>
+                <div className="row">
+                    <div className="col-3">
+                        <img 
+                            src={this.state.profileDetails.imageLink || ''} 
+                            className='img-fluid img-thumbnail rounded-circle z-depth-5'
+                            alt='Display' 
+                            style={{width: '15rem', height: '15rem'}}
                         />
-                        </div>
-                    </div> */}
-                    <div className="row mb-3 align-items-center">
-                        <div className="col-3">
-                            <label htmlFor="" className="col-form-label">Name</label>
-                        </div>
-                        <div className="col-6">
-                            <input type="text" name="name" className="form-control" 
-                            required
-                            value={this.state.profileDetails.name} 
-                            onChange={this.handleChange}
-                        />
-                        </div>
                     </div>
-                    <div className="row mb-3 align-items-center">
-                        <div className="col-3">
-                            <label htmlFor="" className="col-form-label">Description</label>
-                        </div>
-                        <div className="col-6">
-                            <input type="text" name="description" className="form-control" 
-                            required
-                            value={this.state.profileDetails.description} 
-                            onChange={this.handleChange}
-                        />
-                        </div>
-                    </div>
-                    <div className="row mb-3 align-items-center">
-                        <div className="col-3">
-                            <label htmlFor="" className="col-form-label">Email</label>
-                        </div>
-                        <div className="col-6">
-                            <input type="text" name="email" className="form-control" 
-                            required
-                            value={this.state.profileDetails.email} 
-                            onChange={this.handleChange}
-                        />
-                        </div>
-                    </div>
-                    <div className="row mb-3 align-items-center">
-                        <div className="col-3">
-                            <label htmlFor="" className="col-form-label">Contact Number</label>
-                        </div>
-                        <div className="col-6">
-                            <input type="text" name="contactno" className="form-control" 
-                            required
-                            value={this.state.profileDetails.contactno} 
-                            onChange={this.handleChange}
-                        />
-                        </div>
-                    </div>
-                    <div className="row mb-3 align-items-center">
-                        <div className="col-3">
-                            <label htmlFor="" className="col-form-label">Start Time</label>
-                        </div>
-                        <div className="col-6">
-                            <input type="text" name="starttime" className="form-control" 
-                            required
-                            value={this.state.profileDetails.starttime} 
-                            onChange={this.handleChange}
-                        />
-                        </div>
-                    </div>
-                    <div className="row mb-3 align-items-center">
-                        <div className="col-3">
-                            <label htmlFor="" className="col-form-label">End Time</label>
-                        </div>
-                        <div className="col-6">
-                            <input type="text" name="endtime" className="form-control" 
-                            required
-                            value={this.state.profileDetails.endtime} 
-                            onChange={this.handleChange}
-                        />
-                        </div>
-                    </div>
-                    <div className="row mb-3 align-items-center">
-                            <input className="form-check-input mt-0" 
-                                name="pickup" 
-                                type="checkbox" 
-                                checked={this.state.profileDetails.pickup} 
-                                onChange={this.handleCheckbox}
-                            />
-                            Atleast 1 item available for pickup
-                        </div>
-                        <div className="row mb-3 align-items-center">
-                            <input className="form-check-input mt-0" 
-                                name="delivery" 
-                                type="checkbox" 
-                                checked={this.state.profileDetails.delivery} 
-                                onChange={this.handleCheckbox}
-                            />
-                                Atleast 1 item available for delivery
-                        </div>
-                        <div className="row mb-3 align-items-center">
-                            <input className="form-check-input mt-0" 
-                                name="veg" 
-                                type="checkbox" 
-                                checked={this.state.profileDetails.veg} 
-                                onChange={this.handleCheckbox}
-                            />
-                                Atleast 1 item available in veg
-                        </div>
-                        <div className="row mb-3 align-items-center">
-                            <input className="form-check-input mt-0" 
-                                name="nonveg" 
-                                type="checkbox" 
-                                checked={this.state.profileDetails.nonveg} 
-                                onChange={this.handleCheckbox}
-                            />
-                                Atleast 1 item available in nonveg 
-                        </div>
-                        <div className="row mb-3 align-items-center">
-                            <input className="form-check-input mt-0" 
-                                name="vegan" 
-                                type="checkbox" 
-                                checked={this.state.profileDetails.vegan} 
-                                onChange={this.handleCheckbox}
-                            />
-                                Atleast 1 item available in vegan
-                        </div>
-                        <button 
+                    <div className="col-9">
+                        <form encType="multipart/form-data" onSubmit={this.handleDetailsUpdate}>
+                            <div className="row mb-3 align-items-center">
+                                <div className="col-3">
+                                    <label htmlFor="" className="col-form-label">Choose Picture</label>
+                                </div>
+                                <div className="col-6">
+                                    <input 
+                                        type='file'
+                                        accept="image/*"
+                                        ref={this.imageRef}
+                                        onChange={this.handleUpload}
+                                    >
+                                    </input>
+                                </div>
+                                {/* <div className="row mb-3 align-items-center">
+                                    <div className="col-3">
+                                        <label htmlFor="" className="col-form-label">Restaurant ID</label>
+                                    </div>
+                                    <div className="col-6">
+                                        <input type="text" name="id" className="form-control" 
+                                        value={this.state.profileDetails.id} 
+                                        onChange={this.handleChange}
+                                    />
+                                    </div>
+                                </div> */}
+                            </div>
+                            <div className="row mb-3 align-items-center">
+                                <div className="col-3">
+                                    <label htmlFor="" className="col-form-label">Name</label>
+                                </div>
+                                <div className="col-6">
+                                    <input type="text" name="name" className="form-control" 
+                                    required
+                                    value={this.state.profileDetails.name} 
+                                    onChange={this.handleChange}
+                                />
+                                </div>
+                            </div>
+                            <div className="row mb-3 align-items-center">
+                                <div className="col-3">
+                                    <label htmlFor="" className="col-form-label">Description</label>
+                                </div>
+                                <div className="col-6">
+                                    <input type="text" name="description" className="form-control" 
+                                    required
+                                    value={this.state.profileDetails.description} 
+                                    onChange={this.handleChange}
+                                />
+                                </div>
+                            </div>
+                            <div className="row mb-3 align-items-center">
+                                <div className="col-3">
+                                    <label htmlFor="" className="col-form-label">Email</label>
+                                </div>
+                                <div className="col-6">
+                                    <input type="text" name="email" className="form-control" 
+                                    required
+                                    value={this.state.profileDetails.email} 
+                                    onChange={this.handleChange}
+                                />
+                                </div>
+                            </div>
+                            <div className="row mb-3 align-items-center">
+                                <div className="col-3">
+                                    <label htmlFor="" className="col-form-label">Contact Number</label>
+                                </div>
+                                <div className="col-6">
+                                    <input type="text" name="contactno" className="form-control" 
+                                    required
+                                    value={this.state.profileDetails.contactno} 
+                                    onChange={this.handleChange}
+                                />
+                                </div>
+                            </div>
+                            <div className="row mb-3 align-items-center">
+                                <div className="col-3">
+                                    <label htmlFor="" className="col-form-label">Start Time</label>
+                                </div>
+                                <div className="col-6">
+                                    <input type="text" name="starttime" className="form-control" 
+                                    required
+                                    value={this.state.profileDetails.starttime} 
+                                    onChange={this.handleChange}
+                                />
+                                </div>
+                            </div>
+                            <div className="row mb-3 align-items-center">
+                                <div className="col-3">
+                                    <label htmlFor="" className="col-form-label">End Time</label>
+                                </div>
+                                <div className="col-6">
+                                    <input type="text" name="endtime" className="form-control" 
+                                    required
+                                    value={this.state.profileDetails.endtime} 
+                                    onChange={this.handleChange}
+                                />
+                                </div>
+                            </div>
+                            <div className="row mb-3 align-items-center">
+                                    <input className="form-check-input mt-0" 
+                                        name="pickup" 
+                                        type="checkbox" 
+                                        checked={this.state.profileDetails.pickup} 
+                                        onChange={this.handleCheckbox}
+                                    />
+                                    Atleast 1 item available for pickup
+                                </div>
+                                <div className="row mb-3 align-items-center">
+                                    <input className="form-check-input mt-0" 
+                                        name="delivery" 
+                                        type="checkbox" 
+                                        checked={this.state.profileDetails.delivery} 
+                                        onChange={this.handleCheckbox}
+                                    />
+                                        Atleast 1 item available for delivery
+                                </div>
+                                <div className="row mb-3 align-items-center">
+                                    <input className="form-check-input mt-0" 
+                                        name="veg" 
+                                        type="checkbox" 
+                                        checked={this.state.profileDetails.veg} 
+                                        onChange={this.handleCheckbox}
+                                    />
+                                        Atleast 1 item available in veg
+                                </div>
+                                <div className="row mb-3 align-items-center">
+                                    <input className="form-check-input mt-0" 
+                                        name="nonveg" 
+                                        type="checkbox" 
+                                        checked={this.state.profileDetails.nonveg} 
+                                        onChange={this.handleCheckbox}
+                                    />
+                                        Atleast 1 item available in nonveg 
+                                </div>
+                                <div className="row mb-3 align-items-center">
+                                    <input className="form-check-input mt-0" 
+                                        name="vegan" 
+                                        type="checkbox" 
+                                        checked={this.state.profileDetails.vegan} 
+                                        onChange={this.handleCheckbox}
+                                    />
+                                        Atleast 1 item available in vegan
+                                </div>
+                                <button 
+                                        type='submit'
+                                        className='btn btn-success'
+                                    > 
+                                        Update details
+                                </button>
+                        </form>
+                        
+                        <form onSubmit={this.handleAddressUpdate}>
+                            <div className="row mb-3 align-items-center">
+                                <div className="col-3">
+                                    <label htmlFor="street" className="col-form-label">Street Address</label>
+                                </div>
+                                <div className="col-6">
+                                    <input type="text" name="updatedStreet" className="form-control" 
+                                    required
+                                    value={this.state.profileDetails.updatedStreet} 
+                                    onChange={this.handleChange}
+                                />
+                                </div>
+                            </div>
+                            <div className="row mb-3 align-items-center">
+                                <div className="col-3">
+                                    <label htmlFor="" className="col-form-label">City</label>
+                                </div>
+                                <div className="col-6">
+                                    <input type="text" name="city" className="form-control" 
+                                    required
+                                    value={this.state.profileDetails.city} 
+                                    onChange={this.handleChange}
+                                />
+                                </div>
+                            </div>
+                            <div className="row mb-3 align-items-center">
+                                <div className="col-3">
+                                    <label htmlFor="" className="col-form-label">State</label>
+                                </div>
+                                <div className="col-6">
+                                    <input type="text" name="state" className="form-control" 
+                                    required 
+                                    value={this.state.profileDetails.state} 
+                                    onChange={this.handleChange}
+                                />
+                                </div>
+                            </div>
+                            <div className="row mb-3 align-items-center">
+                                <div className="col-3">
+                                    <label htmlFor="" className="col-form-label">Country</label>
+                                </div>
+                                <div className="col-6">
+                                    <input type="text" name="country" className="form-control" 
+                                    required
+                                    value={this.state.profileDetails.country} 
+                                    onChange={this.handleChange}
+                                />
+                                </div>
+                            </div>
+                            <button 
                                 type='submit'
                                 className='btn btn-success'
                             > 
-                                Update details
-                        </button>
-                </form>
+                                Update Address
+                            </button>
+                        </form>
+                    </div>
+                </div>
                 
-                <form onSubmit={this.handleAddressUpdate}>
-                    <div className="row mb-3 align-items-center">
-                        <div className="col-3">
-                            <label htmlFor="street" className="col-form-label">Street Address</label>
-                        </div>
-                        <div className="col-6">
-                            <input type="text" name="updatedStreet" className="form-control" 
-                            required
-                            value={this.state.profileDetails.updatedStreet} 
-                            onChange={this.handleChange}
-                        />
-                        </div>
-                    </div>
-                    <div className="row mb-3 align-items-center">
-                        <div className="col-3">
-                            <label htmlFor="" className="col-form-label">City</label>
-                        </div>
-                        <div className="col-6">
-                            <input type="text" name="city" className="form-control" 
-                            required
-                            value={this.state.profileDetails.city} 
-                            onChange={this.handleChange}
-                        />
-                        </div>
-                    </div>
-                    <div className="row mb-3 align-items-center">
-                        <div className="col-3">
-                            <label htmlFor="" className="col-form-label">State</label>
-                        </div>
-                        <div className="col-6">
-                            <input type="text" name="state" className="form-control" 
-                            required 
-                            value={this.state.profileDetails.state} 
-                            onChange={this.handleChange}
-                        />
-                        </div>
-                    </div>
-                    <div className="row mb-3 align-items-center">
-                        <div className="col-3">
-                            <label htmlFor="" className="col-form-label">Country</label>
-                        </div>
-                        <div className="col-6">
-                            <input type="text" name="country" className="form-control" 
-                            required
-                            value={this.state.profileDetails.country} 
-                            onChange={this.handleChange}
-                        />
-                        </div>
-                    </div>
-                    <button 
-                        type='submit'
-                        className='btn btn-success'
-                    > 
-                        Update Address
-                    </button>
-                </form>
-
                 {errorMessage}
 
                 {redirectVar}

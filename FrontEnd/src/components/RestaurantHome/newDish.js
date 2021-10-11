@@ -96,39 +96,43 @@ class NewDish extends React.Component {
     render() {
         return (
             <>
-            <div className="container-fluid">
-                <form encType="multipart/form-data">
+            {/* <div className="container"> */}
+                <form encType="multipart/form-data" onSubmit={this.handleAddNewDish} className="mb-5">
                     <div className="row align-items-end">
                         <div className="col-1">
-                            <label htmlFor="inputEmail4" className="form-label">Code</label>
+                            <label htmlFor="inputEmail4" className="form-label">Code *</label>
                             <input type="number" name="dishcode" className="form-control" 
                                 value={this.state.dishDetails.dishcode} 
                                 onChange={this.handleFieldInput} 
+                                required
                             />
                         </div> 
                         <div className="col-2">
-                            <label htmlFor="inputEmail4" className="form-label">Dish Name</label>
+                            <label htmlFor="inputEmail4" className="form-label">Dish Name *</label>
                             <input type="text" name="dishname" className="form-control" 
                                 value={this.state.dishDetails.dishname} 
                                 onChange={this.handleFieldInput} 
+                                required
                             />
                         </div> 
                         <div className="col-2">
-                            <label htmlFor="inputPassword4" className="form-label">Ingredients</label>
+                            <label htmlFor="inputPassword4" className="form-label">Ingredients *</label>
                             <input type="text" name="ingredients" className="form-control" 
                                 value={this.state.dishDetails.ingredients} 
                                 onChange={this.handleFieldInput} 
+                                required
                             />
                         </div>
                         <div className="col-2">
-                            <label htmlFor="inputEmail4" className="form-label">Description</label>
+                            <label htmlFor="inputEmail4" className="form-label">Description *</label>
                             <input type="text" name="description" className="form-control" 
                                 value={this.state.dishDetails.description} 
                                 onChange={this.handleFieldInput}  
+                                required
                             />
                         </div>
                         <div className="col-1">
-                            <label htmlFor="inputPassword4" className="form-label">Category</label>
+                            <label htmlFor="inputPassword4" className="form-label">Category *</label>
                             <select 
                                 type="dropdown"
                                 id="category" 
@@ -145,10 +149,11 @@ class NewDish extends React.Component {
                             </select>
                         </div>
                         <div className="col-1">
-                            <label htmlFor="inputEmail4" className="form-label">Price</label>
-                            <input type="text" name="price" className="form-control" 
+                            <label htmlFor="inputEmail4" className="form-label">Price *</label>
+                            <input type="number" step="any" name="price" className="form-control" 
                                 value={this.state.dishDetails.price} 
-                                onChange={this.handleFieldInput} 
+                                onChange={this.handleFieldInput}
+                                required 
                             />
                         </div>
                         <div className="col-2">
@@ -163,14 +168,13 @@ class NewDish extends React.Component {
                             <button 
                                 type="submit" 
                                 className="btn btn-success"
-                                onClick={this.handleAddNewDish}
                             >
                                 Add Dish
                             </button>
                         </div>
                     </div>
                 </form>
-            </div>
+            {/* </div> */}
             </>
         );
     }

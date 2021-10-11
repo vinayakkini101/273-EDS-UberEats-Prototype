@@ -2,6 +2,7 @@ import React from 'react';
 import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import NavBar from '../Navbar/navbar';
 
 class Favourites extends React.Component {
@@ -103,14 +104,16 @@ class Favourites extends React.Component {
                     {this.state.favouritesList.map(restaurant => {
                         return (
                             <div className="col-3" key={restaurant.restaurantEmail}>
-                                <div className="card my-2" style={{width: "15rem"}}>
-                                    <img src={restaurant.imageLink} className="card-img-top" alt="..." />
-                                    <div className="card-body">
-                                        <h5 className="card-title">{restaurant.name}</h5>
-                                        <p>{restaurant.restaurantEmail}</p>
-                                        {restaurant.city}, {restaurant.state}
+                                <Link to={`/Restaurant/${restaurant.restaurantEmail}`} >
+                                    <div className="card my-2" style={{width: "15rem"}}>
+                                        <img src={restaurant.imageLink} className="card-img-top" alt="..." />
+                                        <div className="card-body">
+                                            <h5 className="card-title">{restaurant.name}</h5>
+                                            <p>{restaurant.restaurantEmail}</p>
+                                            {restaurant.city}, {restaurant.state}
+                                        </div>
                                     </div>
-                                </div>
+                                </Link>
                             </div>
                         );
                     })}

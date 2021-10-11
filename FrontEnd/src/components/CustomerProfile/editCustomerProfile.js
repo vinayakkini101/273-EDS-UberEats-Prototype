@@ -156,158 +156,186 @@ class EditCustomerProfile extends React.Component {
             <>
             {authenticate}
             <NavBar />
-            <div>Edit Customer profile</div>
-            <div className='container'>
-                <img src={(rootURL + this.state.profileDetails.imageLink) || ''} className='img-fluid' alt='Display' />
-                <form encType="multipart/form-data">
-                    <input 
-                        type='file'
-                        accept='image/*'
-                        ref={this.imageRef}
-                        onChange={this.handleUpload}
-                    >
-                    </input>
-                    <div className="row mb-3 align-items-center">
-                        <div className="col-3">
-                            <label htmlFor="name" className="col-form-label">Name *</label>
-                        </div>
-                        <div className="col-6">
-                            <input type="text" name="name" className="form-control" 
-                            // disabled 
-                            value={this.state.profileDetails.name} 
-                            onChange={this.handleChange}
-                            required
-                        />
-                        </div>
-                    </div>
-                    <div className="row mb-3 align-items-center">
-                        <div className="col-3">
-                            <label htmlFor="email" className="col-form-label">Email</label>
-                        </div>
-                        <div className="col-6">
-                            <input type="text" name="email" className="form-control" 
-                            // disabled 
-                            value={this.state.profileDetails.email} 
-                            onChange={this.handleChange}
-                        />
-                        </div>
-                    </div>
-                    <div className="row mb-3 align-items-center">
-                        <div className="col-3">
-                            <label htmlFor="contactno" className="col-form-label">Contact Number</label>
-                        </div>
-                        <div className="col-6">
-                            <input type="text" name="contactno" className="form-control" 
-                            // disabled 
-                            value={this.state.profileDetails.contactno} 
-                            onChange={this.handleChange}
-                        />
-                        </div>
-                    </div>
-                    <div className="row mb-3 align-items-center">
-                        <div className="col-3">
-                            <label htmlFor="about" className="col-form-label">About</label>
-                        </div>
-                        <div className="col-6">
-                            <input type="text" name="about" className="form-control" 
-                            // disabled 
-                            value={this.state.profileDetails.about} 
-                            onChange={this.handleChange}
-                        />
-                        </div>
-                    </div>
-                    <div className="row mb-3 align-items-center">
-                        <div className="col-3">
-                            <label htmlFor="nickname" className="col-form-label">Nickname</label>
-                        </div>
-                        <div className="col-6">
-                            <input type="text" name="nickname" className="form-control" 
-                            // disabled 
-                            value={this.state.profileDetails.nickname} 
-                            onChange={this.handleChange}
-                        />
-                        </div>
-                    </div>
-                    <div className="row mb-3 align-items-center">
-                        <div className="col-3">
-                            <label htmlFor="dob" className="col-form-label">Date of Birth</label>
-                        </div>
-                        <div className="col-6">
-                            <input type="text" name="dob" className="form-control" 
-                            // disabled 
-                            value={this.state.profileDetails.dob} 
-                            onChange={this.handleChange}
-                        />
-                        </div>
-                    </div>
-                </form>
-                <button 
-                        type='button'
-                        className='btn btn-success'
-                        onClick={this.handleDetailsUpdate}
-                    > 
-                        Update Details
-                </button>
-                
-                
 
-                <form>
-                    <div className="row mb-3 align-items-center">
-                        <div className="col-3">
-                            <label htmlFor="street" className="col-form-label">Street Address</label>
-                        </div>
-                        <div className="col-6">
-                            <input type="text" name="street" className="form-control" 
-                            // disabled 
-                            value={this.state.profileDetails.street} 
-                            onChange={this.handleChange}
+            <div className='container my-4'>
+                <h3>Edit Profile</h3>
+                <div className="row">
+                    <div className="col-3">
+                        <img 
+                            src={(this.state.profileDetails.imageLink) || ''} 
+                            className='img-fluid img-thumbnail rounded-circle z-depth-5'
+                            alt='Display' 
+                            style={{width: '15rem', height: '15rem'}}
                         />
-                        </div>
                     </div>
-                    <div className="row mb-3 align-items-center">
-                        <div className="col-3">
-                            <label htmlFor="city" className="col-form-label">City</label>
-                        </div>
-                        <div className="col-6">
-                            <input type="text" name="city" className="form-control" 
-                            // disabled 
-                            value={this.state.profileDetails.city} 
-                            onChange={this.handleChange}
-                        />
-                        </div>
+                    <div className="col-9">
+                        <form encType="multipart/form-data">
+                            <div className="row mb-3 align-items-center">
+                                <div className="col-3">
+                                    <label htmlFor="" className="col-form-label">Choose Picture</label>
+                                </div>
+                                <div className="col-6">
+                                    <input 
+                                        type='file'
+                                        accept="image/*"
+                                        ref={this.imageRef}
+                                        onChange={this.handleUpload}
+                                    >
+                                    </input>
+                                </div>
+                            </div>
+                            {/* <input 
+                                type='file'
+                                accept='image/*'
+                                ref={this.imageRef}
+                                onChange={this.handleUpload}
+                            >
+                            </input> */}
+                            <div className="row mb-3 align-items-center">
+                                <div className="col-3">
+                                    <label htmlFor="name" className="col-form-label">Name *</label>
+                                </div>
+                                <div className="col-6">
+                                    <input type="text" name="name" className="form-control" 
+                                    // disabled 
+                                    value={this.state.profileDetails.name} 
+                                    onChange={this.handleChange}
+                                    required
+                                />
+                                </div>
+                            </div>
+                            <div className="row mb-3 align-items-center">
+                                <div className="col-3">
+                                    <label htmlFor="email" className="col-form-label">Email</label>
+                                </div>
+                                <div className="col-6">
+                                    <input type="text" name="email" className="form-control" 
+                                    // disabled 
+                                    value={this.state.profileDetails.email} 
+                                    onChange={this.handleChange}
+                                />
+                                </div>
+                            </div>
+                            <div className="row mb-3 align-items-center">
+                                <div className="col-3">
+                                    <label htmlFor="contactno" className="col-form-label">Contact Number</label>
+                                </div>
+                                <div className="col-6">
+                                    <input type="text" name="contactno" className="form-control" 
+                                    // disabled 
+                                    value={this.state.profileDetails.contactno} 
+                                    onChange={this.handleChange}
+                                />
+                                </div>
+                            </div>
+                            <div className="row mb-3 align-items-center">
+                                <div className="col-3">
+                                    <label htmlFor="about" className="col-form-label">About</label>
+                                </div>
+                                <div className="col-6">
+                                    <input type="text" name="about" className="form-control" 
+                                    // disabled 
+                                    value={this.state.profileDetails.about} 
+                                    onChange={this.handleChange}
+                                />
+                                </div>
+                            </div>
+                            <div className="row mb-3 align-items-center">
+                                <div className="col-3">
+                                    <label htmlFor="nickname" className="col-form-label">Nickname</label>
+                                </div>
+                                <div className="col-6">
+                                    <input type="text" name="nickname" className="form-control" 
+                                    // disabled 
+                                    value={this.state.profileDetails.nickname} 
+                                    onChange={this.handleChange}
+                                />
+                                </div>
+                            </div>
+                            <div className="row mb-3 align-items-center">
+                                <div className="col-3">
+                                    <label htmlFor="dob" className="col-form-label">Date of Birth</label>
+                                </div>
+                                <div className="col-6">
+                                    <input type="text" name="dob" className="form-control" 
+                                    // disabled 
+                                    value={this.state.profileDetails.dob} 
+                                    onChange={this.handleChange}
+                                />
+                                </div>
+                            </div>
+                        </form>
+                        <button 
+                                type='button'
+                                className='btn btn-success'
+                                onClick={this.handleDetailsUpdate}
+                            > 
+                                Update Details
+                        </button>
+                    
+                    
+
+                        <form>
+                            <div className="row mb-3 align-items-center">
+                                <div className="col-3">
+                                    <label htmlFor="street" className="col-form-label">Street Address</label>
+                                </div>
+                                <div className="col-6">
+                                    <input type="text" name="street" className="form-control" 
+                                    // disabled 
+                                    value={this.state.profileDetails.street} 
+                                    onChange={this.handleChange}
+                                />
+                                </div>
+                            </div>
+                            <div className="row mb-3 align-items-center">
+                                <div className="col-3">
+                                    <label htmlFor="city" className="col-form-label">City</label>
+                                </div>
+                                <div className="col-6">
+                                    <input type="text" name="city" className="form-control" 
+                                    // disabled 
+                                    value={this.state.profileDetails.city} 
+                                    onChange={this.handleChange}
+                                />
+                                </div>
+                            </div>
+                            <div className="row mb-3 align-items-center">
+                                <div className="col-3">
+                                    <label htmlFor="state" className="col-form-label">State</label>
+                                </div>
+                                <div className="col-6">
+                                    <input type="text" name="state" className="form-control" 
+                                    // disabled 
+                                    value={this.state.profileDetails.state} 
+                                    onChange={this.handleChange}
+                                />
+                                </div>
+                            </div>
+                            <div className="row mb-3 align-items-center">
+                                <div className="col-3">
+                                    <label htmlFor="country" className="col-form-label">Country</label>
+                                </div>
+                                <div className="col-6">
+                                    <input type="text" name="country" className="form-control" 
+                                    // disabled 
+                                    value={this.state.profileDetails.country} 
+                                    onChange={this.handleChange}
+                                />
+                                </div>
+                            </div>
+                            <button 
+                                    type='button'
+                                    className='btn btn-success'
+                                    onClick={this.handleAddressUpdate}
+                                > 
+                                    Update Address
+                            </button>
+                        </form>
                     </div>
-                    <div className="row mb-3 align-items-center">
-                        <div className="col-3">
-                            <label htmlFor="state" className="col-form-label">State</label>
-                        </div>
-                        <div className="col-6">
-                            <input type="text" name="state" className="form-control" 
-                            // disabled 
-                            value={this.state.profileDetails.state} 
-                            onChange={this.handleChange}
-                        />
-                        </div>
-                    </div>
-                    <div className="row mb-3 align-items-center">
-                        <div className="col-3">
-                            <label htmlFor="country" className="col-form-label">Country</label>
-                        </div>
-                        <div className="col-6">
-                            <input type="text" name="country" className="form-control" 
-                            // disabled 
-                            value={this.state.profileDetails.country} 
-                            onChange={this.handleChange}
-                        />
-                        </div>
-                    </div>
-                    <button 
-                            type='button'
-                            className='btn btn-success'
-                            onClick={this.handleAddressUpdate}
-                        > 
-                            Update Address
-                    </button>
-                </form>
+                </div>
+                
+                
 
                 {errorMessage}
 

@@ -116,134 +116,149 @@ class CustomerProfile extends React.Component {
             <>
                 <NavBar />
                 {authenticate}
-                <div className='container'>
-                
-                    <img src={this.state.profileDetails.imageLink || ''} className='img-fluid' alt='Display' />
-                    {/* <label className="form-label">Display picture</label> */}
+                <div className='container my-4'>
+                    <h3>My profile</h3>
+                    <div className="row">
+                        <div className="col-3">
+                            <img 
+                                src={this.state.profileDetails.imageLink || ''} 
+                                className='img-fluid img-thumbnail rounded-circle z-depth-5'
+                                alt='Display'
+                                style={{width: '15rem', height: '15rem'}}
+                            />
+                            {/* <label className="form-label">Display picture</label> */}
+                        </div>
+                        <div className="col-9">
+                            <form encType="multipart/form-data">
+                                <div className="row mb-3 align-items-center">
+                                    <div className="col-3">
+                                        <label htmlFor="" className="col-form-label">Name</label>
+                                    </div>
+                                    <div className="col-6">
+                                        <input type="text" name="name" className="form-control" 
+                                        // disabled 
+                                        value={this.state.profileDetails.name} 
+                                        readOnly
+                                    />
+                                    </div>
+                                </div>
+                                <div className="row mb-3 align-items-center">
+                                    <div className="col-3">
+                                        <label htmlFor="" className="col-form-label">Email</label>
+                                    </div>
+                                    <div className="col-6">
+                                        <input type="text" name="email" className="form-control" 
+                                        // disabled 
+                                        value={this.state.profileDetails.email} 
+                                        readOnly
+                                    />
+                                    </div>
+                                </div>
+                                <div className="row mb-3 align-items-center">
+                                    <div className="col-3">
+                                        <label htmlFor="" className="col-form-label">Contact Number</label>
+                                    </div>
+                                    <div className="col-6">
+                                        <input type="text" name="contactno" className="form-control" 
+                                        // disabled 
+                                        value={this.state.profileDetails.contactno} 
+                                        readOnly
+                                    />
+                                    </div>
+                                </div>
+                                <div className="row mb-3 align-items-center">
+                                    <div className="col-3">
+                                        <label htmlFor="" className="col-form-label">About</label>
+                                    </div>
+                                    <div className="col-6">
+                                        <input type="text" name="about" className="form-control" 
+                                        // disabled 
+                                        value={this.state.profileDetails.about} 
+                                        readOnly
+                                    />
+                                    </div>
+                                </div>
+                                <div className="row mb-3 align-items-center">
+                                    <div className="col-3">
+                                        <label htmlFor="nickname" className="col-form-label">Nickname</label>
+                                    </div>
+                                    <div className="col-6">
+                                        <input type="text" name="nickname" className="form-control" 
+                                        // disabled 
+                                        value={this.state.profileDetails.nickname} 
+                                        readOnly
+                                    />
+                                    </div>
+                                </div>
+                                <div className="row mb-3 align-items-center">
+                                    <div className="col-3">
+                                        <label htmlFor="dob" className="col-form-label">Date of Birth</label>
+                                    </div>
+                                    <div className="col-6">
+                                        <input type="date" name="dob" className="form-control" 
+                                        // disabled 
+                                        value={this.state.profileDetails.dob} 
+                                        readOnly
+                                    />
+                                    </div>
+                                </div>
+                                <div className="row mb-3 align-items-center">
+                                    <div className="col-3">
+                                        <label htmlFor="street" className="col-form-label">Street Address</label>
+                                    </div>
+                                    <div className="col-6">
+                                        <input type="text" name="street" className="form-control" 
+                                        // disabled 
+                                        value={this.state.profileDetails.street} 
+                                        readOnly
+                                    />
+                                    </div>
+                                </div>
+                                <div className="row mb-3 align-items-center">
+                                    <div className="col-3">
+                                        <label htmlFor="" className="col-form-label">City</label>
+                                    </div>
+                                    <div className="col-6">
+                                        <input type="text" name="city" className="form-control" 
+                                        // disabled 
+                                        value={this.state.profileDetails.city} 
+                                        readOnly
+                                    />
+                                    </div>
+                                </div>
+                                <div className="row mb-3 align-items-center">
+                                    <div className="col-3">
+                                        <label htmlFor="" className="col-form-label">State</label>
+                                    </div>
+                                    <div className="col-6">
+                                        <input type="text" name="state" className="form-control" 
+                                        // disabled 
+                                        value={this.state.profileDetails.state} 
+                                        readOnly
+                                    />
+                                    </div>
+                                </div>
+                                <div className="row mb-3 align-items-center">
+                                    <div className="col-3">
+                                        <label htmlFor="" className="col-form-label">Country</label>
+                                    </div>
+                                    <div className="col-6">
+                                        <input type="text" name="country" className="form-control" 
+                                        // disabled 
+                                        value={this.state.profileDetails.country} 
+                                        readOnly
+                                    />
+                                    </div>
+                                </div>
+                            </form>
+
+                            {EditButton}
+                            
+                        </div>
+                    </div>
                     
-                    <form encType="multipart/form-data">
-                        <div className="row mb-3 align-items-center">
-                            <div className="col-3">
-                                <label htmlFor="" className="col-form-label">Name</label>
-                            </div>
-                            <div className="col-6">
-                                <input type="text" name="name" className="form-control" 
-                                // disabled 
-                                value={this.state.profileDetails.name} 
-                                readOnly
-                            />
-                            </div>
-                        </div>
-                        <div className="row mb-3 align-items-center">
-                            <div className="col-3">
-                                <label htmlFor="" className="col-form-label">Email</label>
-                            </div>
-                            <div className="col-6">
-                                <input type="text" name="email" className="form-control" 
-                                // disabled 
-                                value={this.state.profileDetails.email} 
-                                readOnly
-                            />
-                            </div>
-                        </div>
-                        <div className="row mb-3 align-items-center">
-                            <div className="col-3">
-                                <label htmlFor="" className="col-form-label">Contact Number</label>
-                            </div>
-                            <div className="col-6">
-                                <input type="text" name="contactno" className="form-control" 
-                                // disabled 
-                                value={this.state.profileDetails.contactno} 
-                                readOnly
-                            />
-                            </div>
-                        </div>
-                        <div className="row mb-3 align-items-center">
-                            <div className="col-3">
-                                <label htmlFor="" className="col-form-label">About</label>
-                            </div>
-                            <div className="col-6">
-                                <input type="text" name="about" className="form-control" 
-                                // disabled 
-                                value={this.state.profileDetails.about} 
-                                readOnly
-                            />
-                            </div>
-                        </div>
-                        <div className="row mb-3 align-items-center">
-                            <div className="col-3">
-                                <label htmlFor="nickname" className="col-form-label">Nickname</label>
-                            </div>
-                            <div className="col-6">
-                                <input type="text" name="nickname" className="form-control" 
-                                // disabled 
-                                value={this.state.profileDetails.nickname} 
-                                readOnly
-                            />
-                            </div>
-                        </div>
-                        <div className="row mb-3 align-items-center">
-                            <div className="col-3">
-                                <label htmlFor="dob" className="col-form-label">Date of Birth</label>
-                            </div>
-                            <div className="col-6">
-                                <input type="date" name="dob" className="form-control" 
-                                // disabled 
-                                value={this.state.profileDetails.dob} 
-                                readOnly
-                            />
-                            </div>
-                        </div>
-                        <div className="row mb-3 align-items-center">
-                            <div className="col-3">
-                                <label htmlFor="street" className="col-form-label">Street Address</label>
-                            </div>
-                            <div className="col-6">
-                                <input type="text" name="street" className="form-control" 
-                                // disabled 
-                                value={this.state.profileDetails.street} 
-                                readOnly
-                            />
-                            </div>
-                        </div>
-                        <div className="row mb-3 align-items-center">
-                            <div className="col-3">
-                                <label htmlFor="" className="col-form-label">City</label>
-                            </div>
-                            <div className="col-6">
-                                <input type="text" name="city" className="form-control" 
-                                // disabled 
-                                value={this.state.profileDetails.city} 
-                                readOnly
-                            />
-                            </div>
-                        </div>
-                        <div className="row mb-3 align-items-center">
-                            <div className="col-3">
-                                <label htmlFor="" className="col-form-label">State</label>
-                            </div>
-                            <div className="col-6">
-                                <input type="text" name="state" className="form-control" 
-                                // disabled 
-                                value={this.state.profileDetails.state} 
-                                readOnly
-                            />
-                            </div>
-                        </div>
-                        <div className="row mb-3 align-items-center">
-                            <div className="col-3">
-                                <label htmlFor="" className="col-form-label">Country</label>
-                            </div>
-                            <div className="col-6">
-                                <input type="text" name="country" className="form-control" 
-                                // disabled 
-                                value={this.state.profileDetails.country} 
-                                readOnly
-                            />
-                            </div>
-                        </div>
-                    </form>
-                    {EditButton}
+                    
+                    
                 </div>
                 
                 

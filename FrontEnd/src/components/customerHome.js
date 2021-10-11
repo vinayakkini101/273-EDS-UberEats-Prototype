@@ -85,7 +85,7 @@ class CustomerHome extends React.Component {
         this.setState({
             currentRestaurantList: this.state.defaultRestaurantList
         });
-        console.log('sorted by default ', this.state.currentRestaurantList);
+        // console.log('sorted by default ', this.state.currentRestaurantList);
     }
 
     sortRestaurantByLocation = () => {
@@ -156,7 +156,7 @@ class CustomerHome extends React.Component {
     render() {
         let authenticate = null;
         if( !cookie.load('cookie')) {
-            console.log('hello');
+            // console.log('hello');
             authenticate = <Redirect to='/login' />;
         }
 
@@ -164,77 +164,109 @@ class CustomerHome extends React.Component {
             <>
             <NavBar />
             {authenticate}
-            <div>Customer home</div>
              
             <div className="container-fluid">
-                <h1 className="text-primary pt-1">Welcome to UberEats!</h1>
+                {/* <h1 className="text-primary pt-1">Welcome to UberEats!</h1> */}
                 <div className="row flex-nowrap">
                     <div className="col-2 sidebar">
-                        <div className="card card-body p-2">
+                        <div className="card card-body p-2 my-4">
                             <h4>Filters</h4>
                             <ul className="nav nav-pills flex-column">
-                                <li className="nav-item">
-                                    <input 
-                                        type="radio" 
-                                        name="filter"
-                                        value="location"
-                                        checked={this.state.selectedFilter === "location"}
-                                        onChange={this.handleRadioButtons}
-                                    />By Nearest Location<br/>
+                                <li className="nav-item my-1 mx-1">
+                                    <div className="form-check">
+                                        <input 
+                                            type="radio" 
+                                            name="filter"
+                                            value="location"
+                                            className="form-check-input"
+                                            checked={this.state.selectedFilter === "location"}
+                                            onChange={this.handleRadioButtons}
+                                        />
+                                        <label class="form-check-label">Nearest Location</label>
+                                    </div>
                                 </li>
-                                <li className="nav-item mb-4">
-                                    <input 
-                                        type="radio" 
-                                        name="filter"
-                                        value="veg"
-                                        checked={this.state.selectedFilter === "veg"}
-                                        onChange={this.handleRadioButtons}
-                                        className="mb-2"
-                                    />Veg<br/>
-                                    <input 
-                                        type="radio" 
-                                        name="filter"
-                                        value="nonveg"
-                                        checked={this.state.selectedFilter === "nonveg"}
-                                        onChange={this.handleRadioButtons}
-                                        className="mb-2"
-                                    />Non-Veg<br/>
-                                    <input 
-                                        type="radio" 
-                                        name="filter"
-                                        value="vegan"
-                                        checked={this.state.selectedFilter === "vegan"}
-                                        onChange={this.handleRadioButtons}
-                                        className="mb-2"
-                                    />Vegan<br/>
-                                    <input 
-                                        type="radio" 
-                                        name="filter"
-                                        value="pickup"
-                                        checked={this.state.selectedFilter === "pickup"}
-                                        onChange={this.handleRadioButtons}
-                                        className="mb-2"
-                                    />Pickup<br/>
-                                    <input 
-                                        type="radio" 
-                                        name="filter"
-                                        value="delivery"
-                                        checked={this.state.selectedFilter === "delivery"}
-                                        onChange={this.handleRadioButtons}
-                                    />Delivery
+                                <li className="nav-item my-1 mx-1">
+                                    <div className="form-check">
+                                        <input 
+                                            type="radio" 
+                                            name="filter"
+                                            value="veg"
+                                            className="form-check-input"
+                                            checked={this.state.selectedFilter === "veg"}
+                                            onChange={this.handleRadioButtons}
+                                            // className="mb-2"
+                                        />
+                                        <label class="form-check-label">Veg</label>
+                                    </div>
+                                    
+                                </li>
+                                <li className="nav-item mx-1">
+                                    <div className="form-check">
+                                        <input 
+                                            type="radio" 
+                                            name="filter"
+                                            value="nonveg"
+                                            className="form-check-input"
+                                            checked={this.state.selectedFilter === "nonveg"}
+                                            onChange={this.handleRadioButtons}
+                                            // className="mb-2"
+                                        />
+                                        <label class="form-check-label">Non-Veg</label>
+                                    </div>
+                                    
+                                </li>
+                                <li className="nav-item my-1 mx-1">
+                                    <div className="form-check">
+                                        <input 
+                                            type="radio" 
+                                            name="filter"
+                                            value="vegan"
+                                            className="form-check-input"
+                                            checked={this.state.selectedFilter === "vegan"}
+                                            onChange={this.handleRadioButtons}
+                                            // className="mb-2"
+                                        />
+                                        <label class="form-check-label">Vegan</label>
+                                    </div>
+                                </li>
+                                <li className="nav-item my-1 mx-1">
+                                    <div className="form-check">
+                                        <input 
+                                            type="radio" 
+                                            name="filter"
+                                            value="pickup"
+                                            className="form-check-input"
+                                            checked={this.state.selectedFilter === "pickup"}
+                                            onChange={this.handleRadioButtons}
+                                            // className="mb-2"
+                                        />
+                                        <label class="form-check-label">Pickup</label>
+                                    </div>
+                                </li>
+                                <li className="nav-item my-1 mx-1">
+                                    <div className="form-check">
+                                        <input 
+                                            type="radio" 
+                                            name="filter"
+                                            className="form-check-input"
+                                            value="delivery"
+                                            checked={this.state.selectedFilter === "delivery"}
+                                            onChange={this.handleRadioButtons}
+                                        />
+                                        <label class="form-check-label">Delivery</label>
+                                    </div>
                                 </li>
                             </ul>
                             <button 
-                                className='btn btn-sm btn-outline-danger'
+                                className='btn btn-sm btn-outline-danger my-2'
                                 onClick={this.handleClearFilter}
                             >
                                 Clear All Filters
                             </button>
                         </div>
                     </div>
-                    <div className="col-md col-12 main pa-1">
-                        <h2>Restaurants</h2>
-                        <p>This column is fluid width.</p>
+                    <div className="col-md col-12 main pa-1 my-4">
+                        <h4>Restaurants</h4>
 
                         <div className="row">
                             {/* <div className="col-lg-3 col-md-6 col-12">
@@ -319,25 +351,11 @@ class RestaurantDisplayCard extends React.Component {
         return (
                 <div className="card col-lg-3 col-md-6 col-12" style={{width: '3rem;'}}>
                     <div className="card-header">
-                        <button 
-                            className="btn btn-outline-danger"
-                            name={this.state.email}
-                            onClick={this.handleClickFavourite}
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" 
-                                width="16" height="16" fill="currentColor" 
-                                class="bi bi-heart-fill" viewBox="0 0 16 16"
-                            >
-                                <path fill-rule="evenodd" 
-                                    d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
-                                />
-                            </svg>
-                        </button>
+                        
                         <Link to={`/Restaurant/${this.state.email}`} >
                             <img src={this.state.imageLink} className="card-img-top" alt="..."/>
                         </Link>
                     </div>
-
                     <div className="card-body">
                         <Link 
                             to={{
@@ -348,7 +366,21 @@ class RestaurantDisplayCard extends React.Component {
                             <h5 className="card-title">{this.state.name}</h5>
                         </Link>
                         <p className="card-text">{this.state.description}</p>
-                        <a href="" className="btn btn-primary">{this.state.city}</a>
+                        <div className="btn btn-primary">{this.state.city}</div>
+                        <button 
+                                className="btn btn-outline-danger"
+                                name={this.state.email}
+                                onClick={this.handleClickFavourite}
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" 
+                                    width="16" height="16" fill="currentColor" 
+                                    className="bi bi-heart-fill" viewBox="0 0 16 16"
+                                >
+                                    <path fillRule="evenodd" 
+                                        d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
+                                    />
+                                </svg>
+                        </button>
                     </div>
                     <div className="card-footer text-muted">
                     </div>
