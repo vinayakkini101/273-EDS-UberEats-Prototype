@@ -270,7 +270,7 @@ class Checkout extends React.Component {
                             </thead>
                             <tbody>
                                 {this.state.cartItems.map(item => {
-                                    totalCost += parseFloat(item.price) * parseFloat(item.quantity);
+                                    totalCost += parseFloat(item.price).toFixed(2) * parseFloat(item.quantity).toFixed(2);
                                     return (
                                         <tr>
                                             <td>{item.dishName}</td>
@@ -283,7 +283,7 @@ class Checkout extends React.Component {
                                 <tr>
                                     <th scope="col">Item Total</th>
                                     <th scope="col"></th>
-                                    <th scope="col">${totalCost}</th>
+                                    <th scope="col">${parseFloat(totalCost).toFixed(2)}</th>
                                 </tr>
                             </tbody>
                         </table>
