@@ -206,7 +206,7 @@ class EachOrder extends React.Component {
                             </div>
                         </div>
                     <div className="modal-footer">
-                        Order Total : ${orderTotal}
+                        Order Total : ${parseFloat(orderTotal).toFixed(2)}
                         <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                     </div>

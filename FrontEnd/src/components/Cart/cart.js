@@ -63,7 +63,7 @@ class Cart extends React.Component {
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <a className="btn btn-primary" href="/Checkout">Checkout - ${cartTotal}</a>
+                        <a className="btn btn-primary" href="/Checkout">Checkout - ${parseFloat(cartTotal).toFixed(2)}</a>
                     </div>
                     </div>
                 </div>
