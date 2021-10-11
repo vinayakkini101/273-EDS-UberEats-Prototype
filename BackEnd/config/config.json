@@ -7,5 +7,5 @@
         "database": "UberEats_Schema"
     },
     "secret": "UberEatsClone",
-    "frontEnd": "http://localhost:3001"
+    "frontEnd": "http://http://18.189.195.213/:3001"
 }
