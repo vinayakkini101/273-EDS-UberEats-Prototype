@@ -91,6 +91,47 @@ app.use('/', addFavourite);
 app.use('/', getFavourites);
 app.use('/', updateRestaurantAddress);
 
+// const Restaurants = require('./Models/Restaurant.js');
+// const restaurant = new Restaurants({
+//     'email': 'paradise.sanfrancisco@paradise.com',
+//     'name': 'Paradise',
+//     'password': '$2b$10$a9o8dhyOj5KejKKW0plm7.fmYkdD.TNcJkgaRSUQYLbEsXjd05TV.',
+//     'contactNumber': '8772341322',
+//     'startTime': '11:00',
+//     'endTime': '23:30',
+//     'description': `Paradise Restaurant`,
+//     'profilePicture': '/items/download-image/paradise.webp',
+//     'pickup': '1',
+//     'delivery': '1',
+//     'veg': '1',
+//     'nonVeg': '1',
+//     'vegan': '0'
+// });
+// restaurant.save((err, res) => {
+//     if(err)
+//         console.log(err);
+//     else
+//         console.log(res);
+// });
+
+// const Customers = require('./Models/Customer.js');
+// const customer = new Customers({
+//     'email': 'johnsmith@gmail.com',
+//     'name': 'John Smith',
+//     'password': '$2b$10$swk0CS4us4Lj1oGrQZI.S.29RYdNUHL6wQghPaw5q5BUtsiOk2nxK',
+//     'contactNumber': '8872384387',
+//     'dob': '2/17/1987',
+//     'nickname': 'john',
+//     'about': 'Bibliophile and Foodie!',
+//     'profilePicture': '/items/download-image/john-smith-profile.jpeg',
+//     'favourites': []
+// });
+// customer.save((err, res) => {
+//     if(err)
+//         console.log(err);
+//     else
+//         console.log(res);
+// });
 
 app.get('/test-api', function(req, res) {
 

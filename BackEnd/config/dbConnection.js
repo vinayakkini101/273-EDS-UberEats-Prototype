@@ -1,16 +1,15 @@
-var mysql = require('promise-mysql');
-const constants = require('./config.json');
+const mongoose = require('mongoose');
+const connectionString = 'mongodb+srv://admin:admin%40123@cluster0.mp3pk.mongodb.net/Cluster0?retryWrites=true&w=majority';
 
-var connection = mysql.createPool({
-    host: constants.DB.host,
-    user: constants.DB.username,
-    password: constants.DB.password,
-    port: constants.DB.port,
-    database: constants.DB.database,
-    dateStrings: [
-        'DATE',
-        'DATETIME'
-    ]
-});
+let options = {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    maxPoolSize: 500
+}
 
-module.exports = connection;
+mongoose.connect(connectionString, options, (err, res) => {
+    if(err)
+        console.log(err);
+    else
+        console.log('connected to mongodb');
+})

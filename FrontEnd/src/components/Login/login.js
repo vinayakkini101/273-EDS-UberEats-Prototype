@@ -28,10 +28,10 @@ class LoginForm extends React.Component {
                     localStorage.setItem("isRestaurant", details.isRestaurant);
                     localStorage.setItem("userName", response.data.name);
                     localStorage.setItem("userEmail", response.data.email);
-                    localStorage.setItem("country", response.data.country);
-                    localStorage.setItem("state", response.data.state);
-                    localStorage.setItem("city", response.data.city);
-                    localStorage.setItem("street", response.data.street);
+                    localStorage.setItem("country", response.data.address[0].country);
+                    localStorage.setItem("state", response.data.address[0].state);
+                    localStorage.setItem("city", response.data.address[0].city);
+                    localStorage.setItem("street", response.data.address[0].street);
                     sessionStorage.setItem("userName", response.data.name);
                     this.setState({
                         authFlag: true
