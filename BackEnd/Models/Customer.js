@@ -7,9 +7,10 @@ let customerSchema = new mongoose.Schema({
     contactNumber: {type: Number, required: true},
     dob: {type: Date, required: true},
     nickname: {type: String, required: true},
-    about: {type: String},
+    about: {type: String, required: true},
     profilePicture: {type: String},
-    favourites: {type: Array}
+    favourites: {type: Array},
+    address: {type: Array}
 },
 {
     versionKey: false

@@ -9,11 +9,12 @@ const restaurantSchema = new mongoose.Schema({
     endTime: {type: String, required: true},
     description: {type: String},
     profilePicture: {type: String},
-    pickup: {type: Number, required: true},
-    delivery: {type: Number, required: true},
-    veg: {type: Number, required: true},
-    nonVeg: {type: Number, required: true},
-    vegan: {type: Number, required: true},
+    pickup: {type: Number},
+    delivery: {type: Number},
+    veg: {type: Number},
+    nonVeg: {type: Number},
+    vegan: {type: Number},
+    address: {type: Array}
 },
 {
     versionKey: false
