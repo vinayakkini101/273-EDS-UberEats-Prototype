@@ -29,7 +29,7 @@ class RestaurantProfile extends React.Component {
                 pickup: false,
                 delivery: false,
                 veg: false,
-                nonveg: false,
+                nonVeg: false,
                 vegan: false,
                 street: ''
             }
@@ -70,23 +70,23 @@ class RestaurantProfile extends React.Component {
                 this.setState({
                     // isPageUpdated: true,
                     profileDetails: {
-                        id: details.Restaurant_ID,
+                        // id: details.Restaurant_ID,
                         name: details.name,
                         description: details.description,
                         email: details.email,
-                        contactno: details.contact_number,
-                        starttime: details.start_time,
-                        endtime: details.end_time,
-                        country: details.country,
-                        state: details.state,
-                        city: details.city,
-                        imageLink: details.Display_Picture,
+                        contactno: details.contactNumber,
+                        starttime: details.startTime,
+                        endtime: details.endTime,
+                        country: details.address[0].country,
+                        state: details.address[0].state,
+                        city: details.address[0].city,
+                        imageLink: details.profilePicture,
                         pickup: details.pickup === 1 ? true : false,
                         delivery: details.delivery === 1 ? true : false,
                         veg: details.veg === 1 ? true : false,
-                        nonveg: details.nonveg === 1 ? true : false,
+                        nonVeg: details.nonVeg === 1 ? true : false,
                         vegan: details.vegan === 1 ? true : false,
-                        street: details.street
+                        street: details.address[0].street
                     }
                 })
             }
@@ -291,13 +291,13 @@ class RestaurantProfile extends React.Component {
                                     </div>
                                     <div className="row mb-3 align-items-center">
                                         <input className="form-check-input mt-0" 
-                                            name="nonveg" 
+                                            name="nonVeg" 
                                             type="checkbox" 
-                                            checked={this.state.profileDetails.nonveg} 
+                                            checked={this.state.profileDetails.nonVeg} 
                                             disabled
                                             onChange={this.handleCheckbox}
                                         />
-                                            Atleast 1 item available in nonveg 
+                                            Atleast 1 item available in non-veg 
                                     </div>
                                     <div className="row mb-3 align-items-center">
                                         <input className="form-check-input mt-0" 
@@ -327,7 +327,7 @@ class RestaurantProfile extends React.Component {
                                         pickup: this.state.profileDetails.pickup,
                                         delivery: this.state.profileDetails.delivery,
                                         veg: this.state.profileDetails.veg,
-                                        nonveg: this.state.profileDetails.nonveg,
+                                        nonVeg: this.state.profileDetails.nonVeg,
                                         vegan: this.state.profileDetails.vegan,
                                         street: this.state.profileDetails.street
                                     }} 

@@ -64,7 +64,7 @@ class CustomerHome extends React.Component {
                     this.sortRestaurantByLocation();
                     break;
                 case 'veg':
-                case 'nonveg':
+                case 'nonVeg':
                 case 'vegan':
                     this.filterRestaurantsByFoodType();
                     break;
@@ -92,7 +92,7 @@ class CustomerHome extends React.Component {
         const defaultList = this.state.defaultRestaurantList;
         const notClosestList = [];
         const closestList = defaultList.filter(restaurant => {
-            if(restaurant.city !== this.state.userLocation.city) {
+            if(restaurant.address[0].city !== this.state.userLocation.city) {
                 notClosestList.push(restaurant);
             }
             else {
@@ -112,8 +112,8 @@ class CustomerHome extends React.Component {
             switch(foodType) {
                 case 'veg':
                     return restaurant.veg;
-                case 'nonveg':
-                    return restaurant.nonveg;
+                case 'nonVeg':
+                    return restaurant.nonVeg;
                 case 'vegan':
                     return restaurant.vegan;
                 default:
@@ -205,9 +205,9 @@ class CustomerHome extends React.Component {
                                         <input 
                                             type="radio" 
                                             name="filter"
-                                            value="nonveg"
+                                            value="nonVeg"
                                             className="form-check-input"
-                                            checked={this.state.selectedFilter === "nonveg"}
+                                            checked={this.state.selectedFilter === "nonVeg"}
                                             onChange={this.handleRadioButtons}
                                             // className="mb-2"
                                         />
@@ -277,7 +277,7 @@ class CustomerHome extends React.Component {
                             </div> */}
                             {this.state.currentRestaurantList.map(restaurant => {
                                 return <RestaurantDisplayCard
-                                            key={restaurant.Restaurant_ID} 
+                                            key={restaurant._id} 
                                             details={restaurant}   
                                         />;
                             })}
@@ -296,19 +296,19 @@ class RestaurantDisplayCard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-                id: this.props.details.Restaurant_ID,
+                id: this.props.details._id,
                 name: this.props.details.name,
                 description: this.props.details.description,
                 email: this.props.details.email,
-                contactno: this.props.details.contactno,
-                starttime: this.props.details.starttime,
-                endtime: this.props.details.endtime,
-                country: this.props.details.country,
-                state: this.props.details.state,
-                city: this.props.details.city,
-                imageLink: this.props.details.Display_Picture,
-                imageName: this.props.details.imageName,
-                street: this.props.details.street,
+                contactno: this.props.details.contactNumber,
+                starttime: this.props.details.startTime,
+                endtime: this.props.details.endTime,
+                country: this.props.details.address[0].country,
+                state: this.props.details.address[0].state,
+                city: this.props.details.address[0].city,
+                imageLink: this.props.details.profilePicture,
+                // imageName: this.props.details.imageName,
+                street: this.props.details.address[0].street,
                 favourites: []
         }
     }
@@ -320,21 +320,16 @@ class RestaurantDisplayCard extends React.Component {
         axios.post('/addFavourite', {
             favourite: {
                 userEmail: localStorage.getItem('userEmail'),
-                restaurantEmail: event.currentTarget.name
+                restaurantEmail: event.currentTarget.name,
+                restaurantName: this.state.name,
+                restaurantPicture: this.state.imageLink,
+                restaurantCity: this.state.city,
+                restaurantState: this.state.state 
             }
         })
             .then((response) => {
                 if (response.status === 200) {
                     console.log("addFavourite response ", response.data);
-
-                    // this.setState({
-                    //     defaultRestaurantList: response.data,
-                    //     currentRestaurantList: response.data
-                    // });
-                    
-                    // this.sortRestaurantByLocation();
-                    // console.log('resto list state ',this.state.currentRestaurantList);
-                    // console.log(this.state.userLocation);
                 }
             })
             .catch(error => {

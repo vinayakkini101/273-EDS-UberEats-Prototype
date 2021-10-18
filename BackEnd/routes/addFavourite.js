@@ -1,49 +1,39 @@
 const express = require('express');
-const mysql = require('mysql');
 const app = express.Router();
-const pool = require('../config/dbConnection.js');
+const Customer = require('../Models/Customer.js');
 
 app.post('/addFavourite', (req, res) => {;
-    console.log(req.body);
-    let dbConn;
+    console.log('req.body ', req.body);
 
-    pool
-        .catch((err) => {
-            console.log('Error in creating pool ' + err);
-            res.writeHead(500, {
+    Customer.updateOne({
+        email: req.body.favourite.userEmail
+    }, {
+        $addToSet: {
+            favourites: {
+                name: req.body.favourite.restaurantName,
+                email: req.body.favourite.restaurantEmail,
+                city: req.body.favourite.restaurantCity,
+                state: req.body.favourite.restaurantState,
+                profilePicture: req.body.favourite.restaurantPicture
+            }
+        }
+    }, (err, result) => {
+        if(err) {
+            console.log('Error in query execution (adding favourite)' + err);
+            res.writeHead(400, {
                 'Content-type': 'text/plain'
             });
-            res.end("Error while creating pool");
-        })
-        .then(conn => {
-            console.log('Pool created');
-            dbConn = conn;
-            let queryResult;
-
-            let sqlString = `INSERT INTO 
-                            Favourites (userEmail, restaurantEmail) 
-                            VALUES (
-                                ${mysql.escape(req.body.favourite.userEmail)},
-                                ${mysql.escape(req.body.favourite.restaurantEmail)}
-                            )`;
-
-            console.log('sqlString ', sqlString);
-
-            queryResult = dbConn.query(sqlString);
-            return queryResult;
-        })
-        .catch(error => {
-            console.log('addFavourite error ',error);
-        })
-        .then((queryResult) => {
-            console.log("queryResult ", queryResult);
-            res.writeHead(200, {
-                'Content-type': 'text/plain'
-            });
-
-            res.end();
-            console.log("favourite added successfully");
-        })
+            res.end("Error in adding favourite");
+        }
+        else {
+            console.log('result ', result);
+            res
+                .writeHead(200, {
+                    'Content-Type': 'text/plain'
+                })
+                .end();
+        }
+    })
 });
 
 module.exports = app;

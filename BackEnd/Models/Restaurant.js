@@ -14,7 +14,8 @@ const restaurantSchema = new mongoose.Schema({
     veg: {type: Number},
     nonVeg: {type: Number},
     vegan: {type: Number},
-    address: {type: Array}
+    address: {type: Array},
+    dishes: {type: Array}
 },
 {
     versionKey: false

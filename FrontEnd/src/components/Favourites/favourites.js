@@ -27,16 +27,14 @@ class Favourites extends React.Component {
                     console.log("response ", response.data);
 
                     this.setState({
-                        favouritesList: response.data.slice()
+                        favouritesList: response.data.favourites.slice()
                     });
                     
-                    for(let restaurant of this.state.favouritesList) {
-                        this.getProfileDetails(this.state.favouritesList.indexOf(restaurant));
-                    }
+                    // for(let restaurant of this.state.favouritesList) {
+                        // this.getProfileDetails(this.state.favouritesList.indexOf(restaurant));
+
+                    // }
                     console.log(this.state.favouritesList);
-                    // this.sortRestaurantByLocation();
-                    // console.log('resto list state ',this.state.currentRestaurantList);
-                    // console.log(this.state.userLocation);
                 }
             })
             .catch(error => {
@@ -49,43 +47,43 @@ class Favourites extends React.Component {
             })
     }
 
-    getProfileDetails = (favouriteIndex) => {
-        console.log('getprofiledetails ', favouriteIndex);
-        let currentFavourite = this.state.favouritesList[favouriteIndex];
+    // getProfileDetails = (favouriteIndex) => {
+    //     console.log('getprofiledetails ', favouriteIndex);
+    //     let currentFavourite = this.state.favouritesList[favouriteIndex];
 
-        axios.post('/getRestaurantProfile', {
-            restaurantEmail: currentFavourite.restaurantEmail
-        })
-        .then((response) => {
-            if (response.status === 200) {
-                console.log("response ", response.data);
-                const details = response.data;
-                this.setState(state => {
-                    let newFavouritesList = state.favouritesList.slice();
-                    newFavouritesList[favouriteIndex] = {
-                        ...newFavouritesList[favouriteIndex],
-                        id: details.Restaurant_ID,
-                        name: details.name,
-                        description: details.description,
-                        state: details.state,
-                        city: details.city,
-                        imageLink: details.Display_Picture,
-                        street: details.street
-                    }
-                    return {favouritesList: newFavouritesList};
-                })
+    //     axios.post('/getRestaurantProfile', {
+    //         restaurantEmail: currentFavourite.restaurantEmail
+    //     })
+    //     .then((response) => {
+    //         if (response.status === 200) {
+    //             console.log("response ", response.data);
+    //             const details = response.data;
+    //             this.setState(state => {
+    //                 let newFavouritesList = state.favouritesList.slice();
+    //                 newFavouritesList[favouriteIndex] = {
+    //                     ...newFavouritesList[favouriteIndex],
+    //                     // id: details._id,
+    //                     name: details.name,
+    //                     description: details.description,
+    //                     state: details.address[0].state,
+    //                     city: details.address[0].city,
+    //                     imageLink: details.profilePicture,
+    //                     street: details.address[0].street
+    //                 }
+    //                 return {favouritesList: newFavouritesList};
+    //             })
 
-            }
-        })
-        .catch(error => {
-            console.log("get restaurant details error");
-            this.setState({
-                isPageUpdated: "false"
-            });
-            console.log(error);
-            alert("Unable to get restaurant details, please try again!");
-        })
-    }
+    //         }
+    //     })
+    //     .catch(error => {
+    //         console.log("get restaurant details error");
+    //         this.setState({
+    //             isPageUpdated: "false"
+    //         });
+    //         console.log(error);
+    //         alert("Unable to get restaurant details, please try again!");
+    //     })
+    // }
 
     render() {
         let authenticate = null;
@@ -103,13 +101,13 @@ class Favourites extends React.Component {
                 <div className="row justify-items-start">
                     {this.state.favouritesList.map(restaurant => {
                         return (
-                            <div className="col-3" key={restaurant.restaurantEmail}>
-                                <Link to={`/Restaurant/${restaurant.restaurantEmail}`} >
+                            <div className="col-3" key={restaurant.email}>
+                                <Link to={`/Restaurant/${restaurant.email}`} >
                                     <div className="card my-2" style={{width: "15rem"}}>
-                                        <img src={restaurant.imageLink} className="card-img-top" alt="..." />
+                                        <img src={restaurant.profilePicture} className="card-img-top" alt="..." />
                                         <div className="card-body">
                                             <h5 className="card-title">{restaurant.name}</h5>
-                                            <p>{restaurant.restaurantEmail}</p>
+                                            <p>{restaurant.email}</p>
                                             {restaurant.city}, {restaurant.state}
                                         </div>
                                     </div>

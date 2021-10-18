@@ -1,62 +1,43 @@
 const express = require('express');
-const mysql = require('mysql');
 const app = express.Router();
-const pool = require('../config/dbConnection.js');
 const { upload } = require('./uploadDownload.js');
+const Restaurant = require('../Models/Restaurant.js');
 
 app.post('/addNewDish', upload.array('photos', 5), (req, res) => {;
-    console.log(req.body);
+    console.log('req.body ', req.body);
 
-    pool
-        .catch((err) => {
-            console.log('Error in creating pool ' + err);
-            res.writeHead(500, {
-                'Content-type': 'text/plain'
-            });
-            res.end("Error while creating pool");
-        })
-        .then((conn) => {
-            console.log('Pool created');
-            let queryResult;
-            queryResult = conn.query(`INSERT INTO Dish (
-                Dish_Code,
-                Restaurant_Email,
-                Dish_Name,
-                Ingredients,
-                Description,
-                Category,
-                Price,
-                Dish_Image
-            )
-            VALUES (
-                ${mysql.escape(req.body.dishcode)},
-                ${mysql.escape(req.body.restaurantEmail)},
-                ${mysql.escape(req.body.dishname)},
-                ${mysql.escape(req.body.ingredients)},
-                ${mysql.escape(req.body.description)},
-                ${mysql.escape(req.body.category)},
-                ${mysql.escape(req.body.price)},
-                ${mysql.escape(req.body.imageLink)}
-            )`);
-
-            return queryResult;
-        })
-        .catch((err) => {
-            console.log('Error in query execution ' + err);
+    Restaurant.updateOne({
+        email: req.body.restaurantEmail
+    }, {
+        $addToSet: {
+            dishes: {
+                dishCode: req.body.dishcode,
+                dishName: req.body.dishname,
+                ingredients: req.body.ingredients,
+                description: req.body.description,
+                category: req.body.category,
+                price: req.body.price,
+                imageLink: req.body.imageLink
+            }
+        }
+    }, (err, result) => {
+        if(err) {
+            console.log('Error in adding dish ' + err);
             res.writeHead(400, {
                 'Content-type': 'text/plain'
             });
-            res.end("Error in query execution");
-        })
-        .then((queryResult) => {
-            console.log("queryResult ", queryResult);
+            res.end("Error in adding dish");
+        }
+        else {
+            console.log("result ", result);
             res.writeHead(200, {
                 'Content-type': 'text/plain'
             });
 
             res.end();
             console.log("Dish added successfully");
-        })
+        }
+    });
 });
 
 module.exports = app;

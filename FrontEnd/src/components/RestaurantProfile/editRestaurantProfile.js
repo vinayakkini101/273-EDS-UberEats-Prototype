@@ -27,7 +27,7 @@ class EditRestaurantProfile extends React.Component {
                 pickup: this.props.location.pickup,
                 delivery: this.props.location.delivery,
                 veg: this.props.location.veg,
-                nonveg: this.props.location.nonveg,
+                nonVeg: this.props.location.nonVeg,
                 vegan: this.props.location.vegan,
                 currentStreet: this.props.location.street,
                 updatedStreet: this.props.location.street,
@@ -93,23 +93,6 @@ class EditRestaurantProfile extends React.Component {
                     localStorage.setItem('userEmail', this.state.profileDetails.email);
                     this.setState({
                         updateOperation: 'success'
-                        // profileDetails: {
-                        //     id: details.Restaurant_ID,
-                        //     name: details.name,
-                        //     description: details.description,
-                        //     email: details.email,
-                        //     contactno: details.contact_number,
-                        //     starttime: details.start_time,
-                        //     endtime: details.end_time,
-                        //     country: details.country,
-                        //     state: details.state,
-                        //     city: details.city,
-                        //     imageLink: details.Display_Picture,
-                        //     pickup: details.pickup === 1 ? true : false,
-                        //     delivery: details.delivery === 1 ? true : false,
-                        //     currentStreet: details.updatedStreet,
-                        //     updatedStreet: details.updatedStreet
-                        // }
                     })
                 }
             })
@@ -307,12 +290,12 @@ class EditRestaurantProfile extends React.Component {
                                 </div>
                                 <div className="row mb-3 align-items-center">
                                     <input className="form-check-input mt-0" 
-                                        name="nonveg" 
+                                        name="nonVeg" 
                                         type="checkbox" 
-                                        checked={this.state.profileDetails.nonveg} 
+                                        checked={this.state.profileDetails.nonVeg} 
                                         onChange={this.handleCheckbox}
                                     />
-                                        Atleast 1 item available in nonveg 
+                                        Atleast 1 item available in non-veg 
                                 </div>
                                 <div className="row mb-3 align-items-center">
                                     <input className="form-check-input mt-0" 

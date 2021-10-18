@@ -29,7 +29,7 @@ class RestaurantHome extends React.Component {
                     console.log("response ", response.data);
                     this.setState({
                         isPageUpdated: true,
-                        dishList: response.data.slice()
+                        dishList: response.data.dishes.slice()
                     })
                 }
             })
@@ -46,7 +46,7 @@ class RestaurantHome extends React.Component {
     handleDeleteDish = (e) => {
         console.log('delete dish e target ', e.target.name);
         axios.post('/deleteDish', {
-            dishcode: [e.target.name],
+            dishCode: [e.target.name],
             restaurantEmail: localStorage.getItem('userEmail') 
         })
             .then((response) => {
@@ -101,10 +101,10 @@ class RestaurantHome extends React.Component {
                     <tbody>
                         {this.state.dishList.map(dish => {
                             return (
-                                <tr key={dish.Dish_Code}>
+                                <tr key={dish.dishCode}>
                                     <td>
                                         <img 
-                                            src={dish.Dish_Image} 
+                                            src={dish.imageLink} 
                                             className='img-fluid img-thumbnail' 
                                             alt=''
                                             style={{width: '15rem', height: '7rem'}}
@@ -113,15 +113,15 @@ class RestaurantHome extends React.Component {
                                     </td>
                                     {/* className='img-fluid' */}
                                     {/* style={{width: '8rem', height: '5rem'}} */}
-                                    <td>{dish.Dish_Code}</td>
-                                    <td>{dish.Dish_Name}</td>
-                                    <td>{dish.Ingredients}</td>
-                                    <td>{dish.Description}</td>
-                                    <td>{dish.Category}</td>
-                                    <td>${dish.Price}</td>
+                                    <td>{dish.dishCode}</td>
+                                    <td>{dish.dishName}</td>
+                                    <td>{dish.ingredients}</td>
+                                    <td>{dish.description}</td>
+                                    <td>{dish.category}</td>
+                                    <td>${dish.price}</td>
                                     <td>
                                         <button
-                                            name={dish.Dish_Code}
+                                            name={dish.dishCode}
                                             className="btn btn-danger"
                                             onClick={this.handleDeleteDish}
                                         >
