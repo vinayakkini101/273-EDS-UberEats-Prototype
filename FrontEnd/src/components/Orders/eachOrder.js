@@ -30,7 +30,7 @@ class EachOrder extends React.Component {
                     console.log("getOrderedDishes response ", response.data);
                     const details = response.data;
                     this.setState({
-                        dishDetails: details.slice()
+                        dishDetails: details.orderedDishes.slice()
                     })
                     console.log('after setstate dishDetails ', this.state.dishDetails);
                 }

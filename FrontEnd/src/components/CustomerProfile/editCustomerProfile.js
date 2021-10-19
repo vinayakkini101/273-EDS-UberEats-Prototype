@@ -77,21 +77,7 @@ class EditCustomerProfile extends React.Component {
                     const details = response.data;
                     localStorage.setItem('userEmail', this.state.profileDetails.email);
                     this.setState({
-                        updateOperation: 'success',
-                        // profileDetails: {
-                        //     id: details.Customer_ID,
-                        //     name: details.name,
-                        //     description: details.description,
-                        //     email: details.email,
-                        //     contactno: details.contact_number,
-                        //     starttime: details.start_time,
-                        //     endtime: details.end_time,
-                        //     country: details.country,
-                        //     state: details.state,
-                        //     city: details.City,
-                        //     imageLink: details.Display_Picture,
-                        //     street: details.street
-                        // }
+                        updateOperation: 'success'
                     })
                 }
             })
@@ -116,13 +102,7 @@ class EditCustomerProfile extends React.Component {
                     const details = response.data;
                     localStorage.setItem('userEmail', this.state.profileDetails.email);
                     this.setState({
-                        updateOperation: 'success',
-                        // profileDetails: {
-                        //     country: details.country,
-                        //     state: details.state,
-                        //     city: details.City,
-                        //     street: details.street
-                        // }
+                        updateOperation: 'success'
                     })
                 }
             })

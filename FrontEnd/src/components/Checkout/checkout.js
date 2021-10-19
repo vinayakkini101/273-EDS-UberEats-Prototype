@@ -88,7 +88,7 @@ class Checkout extends React.Component {
                     const details = response.data;
                     
                     this.setState({
-                        addressDetails: details.slice()
+                        addressDetails: details.address.slice()
                     })
                 }
             })
@@ -231,7 +231,7 @@ class Checkout extends React.Component {
 
         let Address = null;
         if(this.state.deliveryType === 'delivery') {
-            Address = <SelectAddress 
+            Address = <SelectAddress
                         addressDetails={this.state.addressDetails}
                         newStreet={this.state.newStreet}
                         newCity={this.state.newCity}
@@ -262,7 +262,7 @@ class Checkout extends React.Component {
                     <div className="col-8">
                         <table className="table table-bordered">
                             <thead>
-                                <tr>
+                                <tr key='-1'>
                                     <th scope="col">Dish Name</th>
                                     <th scope="col">Quantity</th>
                                     <th scope="col">Price</th>
@@ -289,24 +289,24 @@ class Checkout extends React.Component {
                         </table>
 
                         <div className="row my-3">
-                            <div class="form-check">
-                                <input class="form-check-input" 
+                            <div className="form-check">
+                                <input className="form-check-input" 
                                     type="radio" name="deliveryType" 
                                     onChange={this.handleRadioButton}
                                     value="pickup"
                                 />
-                                <label class="form-check-label" for="flexRadioDefault1">
+                                <label className="form-check-label" htmlFor="flexRadioDefault1">
                                     I'll Pickup
                                 </label>
                             </div>
-                            <div class="form-check">
-                                <input class="form-check-input" 
+                            <div className="form-check">
+                                <input className="form-check-input" 
                                     type="radio" name="deliveryType" 
                                     onChange={this.handleRadioButton}
                                     value="delivery"
                                     required
                                 />
-                                <label class="form-check-label" for="flexRadioDefault2">
+                                <label className="form-check-label" htmlFor="flexRadioDefault2">
                                     I'd Like It Delivered
                                 </label>
                             </div>
@@ -411,11 +411,11 @@ function SelectAddress(props) {
                         onChange={props.handleFieldInput}
                         name="combinedSelectedAddress"
                     >    
-                        <option selected>-select an option-</option>
+                        <option defaultValue key='firstKey'>-select an option-</option>
                         {props.addressDetails.map(address => {
                             return (
-                                <option>
-                                    {address.streetAddress}, {address.city}, 
+                                <option key={address.street + address.city}>
+                                    {address.street}, {address.city}, 
                                     {address.state}, {address.country}
                                 </option>
                             );

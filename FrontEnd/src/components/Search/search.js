@@ -17,7 +17,7 @@ class Search extends React.Component {
                 state: localStorage.getItem('state'),
                 city: localStorage.getItem('city')
             },
-            selectedFilter: 'dishname',
+            selectedFilter: 'dishName',
             searchText: ''
         }
     }
@@ -72,7 +72,7 @@ class Search extends React.Component {
     filterRestaurantByLocation = (requestedLocation) => {
         const defaultList = this.state.defaultRestaurantList;
         let closestList = defaultList.filter(restaurant => {
-            if(restaurant.city.toLowerCase() === requestedLocation.toLowerCase()) {
+            if(restaurant.address[0].city.toLowerCase() === requestedLocation.toLowerCase()) {
                 return restaurant;
             }
             return null;
@@ -87,18 +87,11 @@ class Search extends React.Component {
     }
 
     filterByDishName = (dishName) => {
-        let defaultList = this.state.defaultDishList;
-        let matchingRestaurants = defaultList.filter(dish => {
-            if(dish.Dish_Name.toLowerCase().includes(dishName.toLowerCase())) {
-                return dish.Restaurant_Email;
-            }
-            return null;
-        });
-        matchingRestaurants = matchingRestaurants.map(restaurant => restaurant.Restaurant_Email);
-        defaultList = this.state.defaultRestaurantList;
+        let defaultList = this.state.defaultRestaurantList;
         let filteredRestaurants = defaultList.filter(restaurant => {
-            if(matchingRestaurants.includes(restaurant.email)) {
-                return restaurant;
+            for(let dish of restaurant.dishes) {
+                if(dish.dishName.toLowerCase().includes(dishName.toLowerCase()))
+                    return restaurant;
             }
             return null;
         });
@@ -132,10 +125,17 @@ class Search extends React.Component {
         axios.get('/getAllDishes')
             .then((response) => {
                 if (response.status === 200) {
-                    console.log("response ", response.data.slice());
+                    console.log("response ", response.data);
 
+                    let dishList = [];
+                    for(let document of response.data) {
+                        if(document.dishes.length > 0) {
+                            document.dishes.restaurantEmail = document.email;
+                            Array.prototype.push.apply(dishList, document.dishes);
+                        }
+                    }
                     this.setState({
-                        defaultDishList: response.data.slice()
+                        defaultDishList: dishList.slice()
                     });
                     
                     console.log('dish list state ',this.state.defaultDishList);
@@ -157,13 +157,13 @@ class Search extends React.Component {
         if(this.state.selectedFilter === 'location') {
             this.filterRestaurantByLocation(searchQuery);
         }
-        else if(this.state.selectedFilter === 'dishname') {
+        else if(this.state.selectedFilter === 'dishName') {
             this.filterByDishName(searchQuery);
         }
         else if(this.state.selectedFilter === 'delivery' || this.state.selectedFilter === 'pickup') {
             this.filterByDeliveryMode();
         }
-        else if(this.state.selectedFilter === 'dishname') {
+        else if(this.state.selectedFilter === 'dishName') {
             this.filterByDeliveryMode(searchQuery);
         }
     }
@@ -186,9 +186,9 @@ class Search extends React.Component {
                 <input 
                     type="radio" 
                     name="filter"
-                    value="dishname"
+                    value="dishName"
                     className="mx-2"
-                    checked={this.state.selectedFilter === "dishname"}
+                    checked={this.state.selectedFilter === "dishName"}
                     onChange={this.handleRadioButtons}    
                 /><span>Dish Name</span>
                 <input 

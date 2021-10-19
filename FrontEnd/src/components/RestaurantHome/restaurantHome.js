@@ -27,9 +27,18 @@ class RestaurantHome extends React.Component {
             .then((response) => {
                 if (response.status === 200) {
                     console.log("response ", response.data);
+
+                    let dishList = [];
+                    for(let document of response.data) {
+                        if(document.dishes.length > 0) {
+                            document.dishes.restaurantEmail = document.email;
+                            Array.prototype.push.apply(dishList, document.dishes);
+                        }
+                    }
+
                     this.setState({
                         isPageUpdated: true,
-                        dishList: response.data.dishes.slice()
+                        dishList: dishList.slice()
                     })
                 }
             })
@@ -104,7 +113,7 @@ class RestaurantHome extends React.Component {
                                 <tr key={dish.dishCode}>
                                     <td>
                                         <img 
-                                            src={dish.imageLink} 
+                                            src={dish.dishImage} 
                                             className='img-fluid img-thumbnail' 
                                             alt=''
                                             style={{width: '15rem', height: '7rem'}}

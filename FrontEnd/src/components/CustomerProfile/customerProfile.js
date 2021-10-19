@@ -4,7 +4,6 @@ import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import NavBar from '../Navbar/navbar';
-import rootURL from '../config/setting';
 
 class CustomerProfile extends React.Component {
 
@@ -57,15 +56,15 @@ class CustomerProfile extends React.Component {
                     profileDetails: {
                         name: details.name,
                         email: details.email,
-                        contactno: details.contact_number,
+                        contactno: details.contactNumber,
                         about: details.about,
                         nickname: details.nickname,
                         dob: details.dob.split('T')[0],
-                        country: details.country,
-                        state: details.state,
-                        city: details.city,
-                        imageLink: details.profile_picture ,
-                        street: details.street
+                        country: details.address[0].country,
+                        state: details.address[0].state,
+                        city: details.address[0].city,
+                        imageLink: details.profilePicture ,
+                        street: details.address[0].street
                     }
                 })
             }

@@ -1,44 +1,29 @@
 const express = require('express');
-const mysql = require('mysql');
 const app = express.Router();
-const pool = require('../config/dbConnection.js');
+const Customer = require('../Models/Customer.js');
 
 app.post('/updateCustomerAddress', (req, res) => {
-    console.log(req.body);
-    let dbConn = null;
+    console.log('req.body ', req.body);
 
-    pool
-        .catch((err) => {
-            console.log('Error in creating pool ' + err);
-            res.writeHead(500, {
-                'Content-type': 'text/plain'
-            });
-            res.end("Error while creating pool");
-        })
-        .then((conn) => {
-            let result;
-            dbConn = conn;
-            result = dbConn.query(`UPDATE Address 
-                                        SET
-                                            country = ${mysql.escape(req.body.country)},
-                                            state = ${mysql.escape(req.body.state)},
-                                            city = ${mysql.escape(req.body.city)},
-                                            streetAddress = ${mysql.escape(req.body.street)}
-                                        WHERE 
-                                            email=${mysql.escape(req.body.currentEmail)}
-                                            AND
-                                            streetAddress = ${mysql.escape(req.body.currentStreet)}
-                                    `);
-            return result;
-        })
-        .catch((err) => {
-            console.log('Error in query execution in customer address update ' + err);
+    Customer.updateOne({
+        email: req.body.currentEmail,
+        'address.street': req.body.currentStreet
+    }, {
+        $set: {
+            'address.$.street': req.body.street,
+            'address.$.city': req.body.city,
+            'address.$.state': req.body.state,
+            'address.$.country': req.body.country
+        }
+    }, (err, result) => {
+        if(err) {
+            console.log('Error in query execution in Customer address update ' + err);
             res.writeHead(400, {
                 'Content-type': 'text/plain'
             });
-            res.end("Error in query execution in customer address update");
-        })
-        .then((result) => {
+            res.end("Error in query execution in Customer address update");
+        }
+        else {
             console.log("queryResult ", result);
             res.writeHead(200, {
                 'Content-type': 'text/plain'
@@ -46,7 +31,8 @@ app.post('/updateCustomerAddress', (req, res) => {
 
             res.end(JSON.stringify(result[0]));
             console.log("Customer address updated successfully");
-        })
+        }
+    })
 });
 
 module.exports = app;

@@ -28,11 +28,10 @@ class CustomerHome extends React.Component {
         axios.post('/getAllRestaurants')
             .then((response) => {
                 if (response.status === 200) {
-                    // console.log("response ", response.data);
 
                     this.setState({
-                        defaultRestaurantList: response.data,
-                        currentRestaurantList: response.data
+                        defaultRestaurantList: response.data.slice(),
+                        currentRestaurantList: response.data.slice()
                     });
                     
                     this.sortRestaurantByLocation();
@@ -182,7 +181,7 @@ class CustomerHome extends React.Component {
                                             checked={this.state.selectedFilter === "location"}
                                             onChange={this.handleRadioButtons}
                                         />
-                                        <label class="form-check-label">Nearest Location</label>
+                                        <label className="form-check-label">Nearest Location</label>
                                     </div>
                                 </li>
                                 <li className="nav-item my-1 mx-1">
@@ -196,7 +195,7 @@ class CustomerHome extends React.Component {
                                             onChange={this.handleRadioButtons}
                                             // className="mb-2"
                                         />
-                                        <label class="form-check-label">Veg</label>
+                                        <label className="form-check-label">Veg</label>
                                     </div>
                                     
                                 </li>
@@ -211,7 +210,7 @@ class CustomerHome extends React.Component {
                                             onChange={this.handleRadioButtons}
                                             // className="mb-2"
                                         />
-                                        <label class="form-check-label">Non-Veg</label>
+                                        <label className="form-check-label">Non-Veg</label>
                                     </div>
                                     
                                 </li>
@@ -226,7 +225,7 @@ class CustomerHome extends React.Component {
                                             onChange={this.handleRadioButtons}
                                             // className="mb-2"
                                         />
-                                        <label class="form-check-label">Vegan</label>
+                                        <label className="form-check-label">Vegan</label>
                                     </div>
                                 </li>
                                 <li className="nav-item my-1 mx-1">
@@ -240,7 +239,7 @@ class CustomerHome extends React.Component {
                                             onChange={this.handleRadioButtons}
                                             // className="mb-2"
                                         />
-                                        <label class="form-check-label">Pickup</label>
+                                        <label className="form-check-label">Pickup</label>
                                     </div>
                                 </li>
                                 <li className="nav-item my-1 mx-1">
@@ -253,7 +252,7 @@ class CustomerHome extends React.Component {
                                             checked={this.state.selectedFilter === "delivery"}
                                             onChange={this.handleRadioButtons}
                                         />
-                                        <label class="form-check-label">Delivery</label>
+                                        <label className="form-check-label">Delivery</label>
                                     </div>
                                 </li>
                             </ul>

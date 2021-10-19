@@ -53,19 +53,20 @@ class VisitRestaurant extends React.Component {
                     this.setState({
                         // isPageUpdated: true,
                         profileDetails: {
-                            id: details.Restaurant_ID,
+                            // id: details._id,
                             name: details.name,
                             description: details.description,
                             email: details.email,
-                            contactno: details.contact_number,
-                            starttime: details.start_time,
-                            endtime: details.end_time,
-                            country: details.country,
-                            state: details.state,
-                            city: details.city,
-                            imageLink: details.Display_Picture,
+                            contactno: details.contactNumber,
+                            starttime: details.startTime,
+                            endtime: details.endTime,
+                            country: details.address[0].country,
+                            state: details.address[0].state,
+                            city: details.address[0].city,
+                            imageLink: details.profilePicture,
                             street: ''
-                        }
+                        },
+                        dishList: details.dishes.slice()
                     })
                 }
             })
@@ -81,30 +82,30 @@ class VisitRestaurant extends React.Component {
 
 
     populateDishList = () => {
-        axios.get('/getAllDishes', {
-            params: {
-                restaurantEmail: this.state.profileDetails.restaurantEmail
-            }
-        })
-            .then((response) => {
-                if (response.status === 200) {
-                    console.log("response ", response.data.slice());
+        // axios.get('/getAllDishes', {
+        //     params: {
+        //         restaurantEmail: this.state.profileDetails.restaurantEmail
+        //     }
+        // })
+        //     .then((response) => {
+        //         if (response.status === 200) {
+        //             console.log("response ", response.data.slice());
 
-                    this.setState({
-                        dishList: response.data.slice(),
-                    });
+        //             this.setState({
+        //                 dishList: response.data.slice(),
+        //             });
                     
-                    console.log('dish list state ',this.state.dishList);
-                }
-            })
-            .catch(error => {
-                console.log("get all dish details error");
-                this.setState({
-                    // isPageUpdated: "false"
-                });
-                console.log(error);
-                alert("Unable to get all dish details, please try again!");
-            })
+        //             console.log('dish list state ',this.state.dishList);
+        //         }
+        //     })
+        //     .catch(error => {
+        //         console.log("get all dish details error");
+        //         this.setState({
+        //             // isPageUpdated: "false"
+        //         });
+        //         console.log(error);
+        //         alert("Unable to get all dish details, please try again!");
+        //     })
     }
 
     render() {
@@ -137,7 +138,7 @@ class VisitRestaurant extends React.Component {
                     </div>
                 </div>
 
-                <div className="row">
+                <div className="row my-4">
                     <div className="position-fixed bottom-0 end-0 p-3" style={{zIndex: '11', color: 'green' }}>
                         <div id="successToast" className="toast" role="alert">
                             <div className="toast-header">
@@ -154,7 +155,7 @@ class VisitRestaurant extends React.Component {
                     <div className="row">
                         {this.state.dishList.map(dish => {
                             return <DishDisplayCard 
-                                        key={dish.Dish_ID} 
+                                        key={dish.dishCode} 
                                         dishDetails={dish} 
                                         restaurantEmail={this.state.profileDetails.email}
                                         restaurantName={this.state.profileDetails.name}
@@ -181,7 +182,7 @@ class DishDisplayCard extends React.Component {
             details: props.dishDetails,
             restaurantEmail: props.restaurantEmail,
             quantity: 0,
-            price: props.dishDetails.Price,
+            price: props.dishDetails.price,
             isQuantityZero: false
         }
         this.triggerToast = props.triggerToast;
@@ -195,7 +196,6 @@ class DishDisplayCard extends React.Component {
         if(sessionStorage.getItem('cartItems')) {
             cart = JSON.parse(sessionStorage.getItem('cartItems'));
         }
-        debugger
         let itemStatus = '';
         itemStatus = this.ensureItemsFromSameRestaurant(cart);
         if(itemStatus === 'NOTADDED') {
@@ -236,7 +236,7 @@ class DishDisplayCard extends React.Component {
 
     ensureItemsFromSameRestaurant = (cart) => {
         // Show modal if items from another restaurant are added
-        const restaurantEmail = this.state.details.Restaurant_Email;
+        const restaurantEmail = this.state.restaurantEmail;
         for(let item of cart) {
             if(item.restaurantEmail !== restaurantEmail) {
                 const cartModal = new Modal('#cartModal');
@@ -259,8 +259,8 @@ class DishDisplayCard extends React.Component {
         // Update item if it already exists in the cart
         // Else add item to cart
         let isDishFound = false;
-        const dishName = this.state.details.Dish_Name;
-        const restaurantEmail = this.state.details.Restaurant_Email;
+        const dishName = this.state.details.dishName;
+        const restaurantEmail = this.state.restaurantEmail;
 
         for(let item of cart) {
             if(item.dishName === dishName && item.restaurantEmail === restaurantEmail) {
@@ -276,12 +276,12 @@ class DishDisplayCard extends React.Component {
             if(this.state.quantity > 0) {
                 cart.push({
                     userEmail: localStorage.getItem('userEmail'),
-                    restaurantEmail: this.state.details.Restaurant_Email,
+                    restaurantEmail: this.state.restaurantEmail,
                     restaurantName: this.props.restaurantName,
-                    dishName: this.state.details.Dish_Name,
+                    dishName: this.state.details.dishName,
                     quantity: this.state.quantity,
                     price: this.state.price,
-                    dishImage: this.state.details.Dish_Image,
+                    dishImage: this.state.details.dishImage,
                     pickup: this.props.pickup,
                     delivery: this.props.delivery
                 });
@@ -309,11 +309,16 @@ class DishDisplayCard extends React.Component {
         return (
             <>
                 <div className="card col-lg-3 col-md-6 col-12 g-4 m-2" style={{width: '3rem;'}}>
-                    <img src={this.state.details.Dish_Image} className="card-img-top" alt="..."/>
+                    <img 
+                        src={this.state.details.dishImage} 
+                        className="card-img-top mx-auto my-auto" 
+                        alt="..."
+                        style={{width: '15rem', height: '15rem'}}    
+                    />
                     <div className="card-body">
-                        <h5 className="card-title">{this.state.details.Dish_Name}</h5>
-                        <p className="card-text">{this.state.details.Description}</p>
-                        <p className="card-text">Price: ${this.state.details.Price}</p>
+                        <h5 className="card-title">{this.state.details.dishName}</h5>
+                        <p className="card-text">{this.state.details.description}</p>
+                        <p className="card-text">Price: ${this.state.details.price}</p>
                         <div className="input-group">
                             <button className="btn btn-outline-secondary" type="button" onClick={this.handleQuantityMinus}>-</button>
                             <div className="form-control" name="quantity">{this.state.quantity}</div>

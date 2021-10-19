@@ -30,10 +30,6 @@ class Favourites extends React.Component {
                         favouritesList: response.data.favourites.slice()
                     });
                     
-                    // for(let restaurant of this.state.favouritesList) {
-                        // this.getProfileDetails(this.state.favouritesList.indexOf(restaurant));
-
-                    // }
                     console.log(this.state.favouritesList);
                 }
             })
@@ -46,44 +42,6 @@ class Favourites extends React.Component {
                 alert("Unable to getFavourites, please try again!");
             })
     }
-
-    // getProfileDetails = (favouriteIndex) => {
-    //     console.log('getprofiledetails ', favouriteIndex);
-    //     let currentFavourite = this.state.favouritesList[favouriteIndex];
-
-    //     axios.post('/getRestaurantProfile', {
-    //         restaurantEmail: currentFavourite.restaurantEmail
-    //     })
-    //     .then((response) => {
-    //         if (response.status === 200) {
-    //             console.log("response ", response.data);
-    //             const details = response.data;
-    //             this.setState(state => {
-    //                 let newFavouritesList = state.favouritesList.slice();
-    //                 newFavouritesList[favouriteIndex] = {
-    //                     ...newFavouritesList[favouriteIndex],
-    //                     // id: details._id,
-    //                     name: details.name,
-    //                     description: details.description,
-    //                     state: details.address[0].state,
-    //                     city: details.address[0].city,
-    //                     imageLink: details.profilePicture,
-    //                     street: details.address[0].street
-    //                 }
-    //                 return {favouritesList: newFavouritesList};
-    //             })
-
-    //         }
-    //     })
-    //     .catch(error => {
-    //         console.log("get restaurant details error");
-    //         this.setState({
-    //             isPageUpdated: "false"
-    //         });
-    //         console.log(error);
-    //         alert("Unable to get restaurant details, please try again!");
-    //     })
-    // }
 
     render() {
         let authenticate = null;

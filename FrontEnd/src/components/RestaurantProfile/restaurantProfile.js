@@ -4,7 +4,6 @@ import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import NavBar from '../Navbar/navbar';
-import rootURL from '../config/setting';
 
 class RestaurantProfile extends React.Component {
 

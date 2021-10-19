@@ -54,7 +54,7 @@ class Orders extends React.Component {
     filterOrdersList = (status) => {
         console.log('in filter orders list ');
         let filteredOrdersList = this.state.ordersList.filter(order => {
-            if(status.includes(order.status)) {
+            if(status.toLowerCase().includes(order.status.toLowerCase())) {
                 return order;
             }
         });
