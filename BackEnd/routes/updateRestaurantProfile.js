@@ -14,7 +14,7 @@ app.post('/updateRestaurantProfile', (req, res) => {
         contactNumber: req.body.name.contactno,
         startTime: req.body.name.starttime,
         endTime: req.body.name.endtime,
-        profilePicture: req.body.imageLink,
+        profilePicture: req.body.imageName,
         pickup: req.body.pickup,
         delivery: req.body.delivery,
         veg: req.body.veg,

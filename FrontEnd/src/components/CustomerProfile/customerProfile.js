@@ -4,6 +4,7 @@ import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import NavBar from '../Navbar/navbar';
+import s3BucketURL from '../config/setting.js';
 
 class CustomerProfile extends React.Component {
 
@@ -63,7 +64,7 @@ class CustomerProfile extends React.Component {
                         country: details.address[0].country,
                         state: details.address[0].state,
                         city: details.address[0].city,
-                        imageLink: details.profilePicture ,
+                        imageName: details.profilePicture,
                         street: details.address[0].street
                     }
                 })
@@ -120,7 +121,7 @@ class CustomerProfile extends React.Component {
                     <div className="row">
                         <div className="col-3">
                             <img 
-                                src={this.state.profileDetails.imageLink || ''} 
+                                src={s3BucketURL+this.state.profileDetails.imageName || ''} 
                                 className='img-fluid img-thumbnail rounded-circle z-depth-5'
                                 alt='Display'
                                 style={{width: '15rem', height: '15rem'}}

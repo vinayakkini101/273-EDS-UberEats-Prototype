@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Redirect } from "react-router";
 import {Toast, Modal} from 'bootstrap';
 import NavBar from "../Navbar/navbar";
+import s3BucketURL from '../config/setting.js';
 
 class VisitRestaurant extends React.Component {
     constructor(props) {
@@ -63,7 +64,7 @@ class VisitRestaurant extends React.Component {
                             country: details.address[0].country,
                             state: details.address[0].state,
                             city: details.address[0].city,
-                            imageLink: details.profilePicture,
+                            imageName: details.profilePicture,
                             street: ''
                         },
                         dishList: details.dishes.slice()
@@ -125,7 +126,7 @@ class VisitRestaurant extends React.Component {
                 <div className="row">
                     <div className="col-3 my-2">
                         <img 
-                            src={this.state.profileDetails.imageLink || ''}
+                            src={s3BucketURL+this.state.profileDetails.imageName || ''}
                             className='img-fluid img-thumbnail rounded-circle z-depth-5' 
                             alt='Display' 
                             style={{width: '15rem', height: '15rem'}}
@@ -310,7 +311,7 @@ class DishDisplayCard extends React.Component {
             <>
                 <div className="card col-lg-3 col-md-6 col-12 g-4 m-2" style={{width: '3rem;'}}>
                     <img 
-                        src={this.state.details.dishImage} 
+                        src={s3BucketURL+this.state.details.imageLink} 
                         className="card-img-top mx-auto my-auto" 
                         alt="..."
                         style={{width: '15rem', height: '15rem'}}    

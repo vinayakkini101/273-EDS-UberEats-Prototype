@@ -3,7 +3,8 @@ import React from 'react';
 import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
 import NavBar from '../Navbar/navbar';
-import NewDish from './newDish.js'
+import NewDish from './newDish.js';
+import s3BucketURL from '../config/setting.js';
 
 class RestaurantHome extends React.Component {
     constructor(props) {
@@ -113,7 +114,7 @@ class RestaurantHome extends React.Component {
                                 <tr key={dish.dishCode}>
                                     <td>
                                         <img 
-                                            src={dish.dishImage} 
+                                            src={s3BucketURL+dish.imageLink || ''} 
                                             className='img-fluid img-thumbnail' 
                                             alt=''
                                             style={{width: '15rem', height: '7rem'}}

@@ -3,7 +3,7 @@ import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
 import axios from 'axios';
 import NavBar from '../Navbar/navbar';
-import rootURL from '../config/setting';
+import s3BucketURL from '../config/setting.js';
 
 class EditRestaurantProfile extends React.Component {
 
@@ -43,7 +43,7 @@ class EditRestaurantProfile extends React.Component {
         const imageFile = event.target.files[0];
         const formData = new FormData();
         formData.append('photos', imageFile);
-        console.log('formData ', formData);
+        console.log('formData ', imageFile);
 
         axios.post('/uploadFile', formData)
             .then(response => {
@@ -52,11 +52,11 @@ class EditRestaurantProfile extends React.Component {
                     this.setState({
                         profileDetails: {
                             ...this.state.profileDetails,
-                            imageName: imageFile.name,
-                            imageLink: '/items/download-image/' + imageFile.name
+                            imageName: imageFile.name
+                            // imageLink: '/items/download-image/' + imageFile.name
                         }
                     })
-                    console.log('restaurant pic link state ', this.state.profileDetails.imageLink);
+                    console.log('restaurant pic name state ', this.state.profileDetails.imageName);
                     this.imageRef.current.value = '';
                 }
             })
@@ -156,7 +156,7 @@ class EditRestaurantProfile extends React.Component {
                 <div className="row">
                     <div className="col-3">
                         <img 
-                            src={this.state.profileDetails.imageLink || ''} 
+                            src={s3BucketURL+this.state.profileDetails.imageName || ''}
                             className='img-fluid img-thumbnail rounded-circle z-depth-5'
                             alt='Display' 
                             style={{width: '15rem', height: '15rem'}}

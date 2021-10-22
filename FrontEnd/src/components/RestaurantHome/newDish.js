@@ -84,7 +84,7 @@ class NewDish extends React.Component {
                         dishDetails: {
                             ...this.state.dishDetails,
                             imageName: imageFile.name,
-                            imageLink: '/items/download-image/' + imageFile.name
+                            imageLink: imageFile.name
                         }
                     })
                     console.log('dish link state ', this.state.dishDetails.imageLink);

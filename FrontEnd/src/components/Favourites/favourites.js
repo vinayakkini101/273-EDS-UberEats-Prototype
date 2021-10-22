@@ -4,6 +4,7 @@ import { Redirect } from 'react-router';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import NavBar from '../Navbar/navbar';
+import s3BucketURL from '../config/setting.js';
 
 class Favourites extends React.Component {
     constructor(props) {
@@ -62,7 +63,7 @@ class Favourites extends React.Component {
                             <div className="col-3" key={restaurant.email}>
                                 <Link to={`/Restaurant/${restaurant.email}`} >
                                     <div className="card my-2" style={{width: "15rem"}}>
-                                        <img src={restaurant.profilePicture} className="card-img-top" alt="..." />
+                                        <img src={s3BucketURL+restaurant.profilePicture} className="card-img-top" alt="..." />
                                         <div className="card-body">
                                             <h5 className="card-title">{restaurant.name}</h5>
                                             <p>{restaurant.email}</p>

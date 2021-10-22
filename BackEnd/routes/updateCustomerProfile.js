@@ -14,7 +14,7 @@ app.post('/updateCustomerProfile', (req, res) => {
         contactNumber: req.body.contactno,
         nickname: req.body.nickname,
         dob: req.body.dob,
-        profilePicture: req.body.imageLink
+        profilePicture: req.body.imageName
     }, (err, result) => {
         if(err) {
             console.log('Error in query execution in customer details update ' + err);

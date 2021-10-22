@@ -4,6 +4,7 @@ import { Redirect } from 'react-router';
 import axios from 'axios';
 import NavBar from './Navbar/navbar';
 import { Link } from 'react-router-dom';
+import s3BucketURL from './config/setting.js';
 
 class CustomerHome extends React.Component {
 
@@ -305,8 +306,7 @@ class RestaurantDisplayCard extends React.Component {
                 country: this.props.details.address[0].country,
                 state: this.props.details.address[0].state,
                 city: this.props.details.address[0].city,
-                imageLink: this.props.details.profilePicture,
-                // imageName: this.props.details.imageName,
+                imageName: this.props.details.profilePicture,
                 street: this.props.details.address[0].street,
                 favourites: []
         }
@@ -321,7 +321,7 @@ class RestaurantDisplayCard extends React.Component {
                 userEmail: localStorage.getItem('userEmail'),
                 restaurantEmail: event.currentTarget.name,
                 restaurantName: this.state.name,
-                restaurantPicture: this.state.imageLink,
+                restaurantPicture: this.state.imageName,
                 restaurantCity: this.state.city,
                 restaurantState: this.state.state 
             }
@@ -347,7 +347,11 @@ class RestaurantDisplayCard extends React.Component {
                     <div className="card-header">
                         
                         <Link to={`/Restaurant/${this.state.email}`} >
-                            <img src={this.state.imageLink} className="card-img-top" alt="..."/>
+                            <img 
+                                src={s3BucketURL+this.state.imageName || ''} 
+                                className="card-img-top" 
+                                alt="..."
+                            />
                         </Link>
                     </div>
                     <div className="card-body">

@@ -2,8 +2,8 @@ const express = require('express');
 const app = express.Router();
 const { upload } = require('./uploadDownload.js');
 const Restaurant = require('../Models/Restaurant.js');
-
-app.post('/addNewDish', upload.array('photos', 5), (req, res) => {;
+// upload.array('photos', 5)
+app.post('/addNewDish', (req, res) => {;
     console.log('req.body ', req.body);
 
     Restaurant.updateOne({

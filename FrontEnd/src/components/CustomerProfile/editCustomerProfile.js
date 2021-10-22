@@ -3,7 +3,7 @@ import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
 import axios from 'axios';
 import NavBar from '../Navbar/navbar';
-import rootURL from '../config/setting';
+import s3BucketURL from '../config/setting.js';
 
 class EditCustomerProfile extends React.Component {
 
@@ -46,8 +46,8 @@ class EditCustomerProfile extends React.Component {
                     this.setState({
                         profileDetails: {
                             ...this.state.profileDetails,
-                            imageName: imageFile.name,
-                            imageLink: '/items/download-image/' + imageFile.name
+                            imageName: imageFile.name
+                            // imageLink: '/items/download-image/' + imageFile.name
                         }
                     })
                     console.log('Customer pic link state ', this.state.profileDetails.imageLink);
@@ -142,7 +142,7 @@ class EditCustomerProfile extends React.Component {
                 <div className="row">
                     <div className="col-3">
                         <img 
-                            src={(this.state.profileDetails.imageLink) || ''} 
+                            src={s3BucketURL+this.state.profileDetails.imageName || ''}
                             className='img-fluid img-thumbnail rounded-circle z-depth-5'
                             alt='Display' 
                             style={{width: '15rem', height: '15rem'}}

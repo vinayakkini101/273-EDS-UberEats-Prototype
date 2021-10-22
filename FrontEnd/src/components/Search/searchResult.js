@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import s3BucketURL from '../config/setting.js';
+
 
 class SearchResult extends React.Component {
     constructor(props) {
@@ -14,7 +16,7 @@ class SearchResult extends React.Component {
                     <div className="row g-0">
                         <div className="col-md-2">
                             <img 
-                                src={this.props.details.profilePicture} 
+                                src={s3BucketURL+this.props.details.profilePicture} 
                                 className="img-fluid rounded-start" 
                                 alt=""
                                 style={{width: '10rem', height: '8rem'}} 
