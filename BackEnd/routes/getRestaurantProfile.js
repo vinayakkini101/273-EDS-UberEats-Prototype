@@ -1,8 +1,9 @@
 const express = require('express');
 const app = express.Router();
 const Restaurant = require('../Models/Restaurant.js');
+const { checkAuth } = require('../Utils/auth.js');
 
-app.post('/getRestaurantProfile', (req, res) => {
+app.post('/getRestaurantProfile', checkAuth, (req, res) => {
     console.log('req.body ', req.body);
     
     Restaurant.findOne({

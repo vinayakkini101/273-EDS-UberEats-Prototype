@@ -45,6 +45,7 @@ class CustomerProfile extends React.Component {
 
     getProfileDetails = () => {
         axios.defaults.withCredentials = true;
+        axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
         axios.post('/getCustomerProfile', {
             customerEmail: this.props.match.params.CustomerEmail
         })
@@ -81,11 +82,11 @@ class CustomerProfile extends React.Component {
     }
 
     render() {
-        let authenticate = null;
-        if( !cookie.load('cookie')) {
-            console.log('hello');
-            authenticate = <Redirect to='/login' />;
-        }
+        // let authenticate = null;
+        // if( !cookie.load('cookie')) {
+        //     console.log('hello');
+        //     authenticate = <Redirect to='/login' />;
+        // }
 
         let EditButton = null;
         if(localStorage.getItem('isRestaurant') === 'false') {
@@ -115,7 +116,7 @@ class CustomerProfile extends React.Component {
         return (
             <>
                 <NavBar />
-                {authenticate}
+                {/* {authenticate} */}
                 <div className='container my-4'>
                     <h3>My profile</h3>
                     <div className="row">

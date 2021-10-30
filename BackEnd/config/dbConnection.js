@@ -1,5 +1,7 @@
+const config = require('./config.json');
+
 const mongoose = require('mongoose');
-const connectionString = 'mongodb+srv://admin:admin%40123@cluster0.mp3pk.mongodb.net/Cluster0?retryWrites=true&w=majority';
+const connectionString = config.DB.host;
 
 let options = {
     useNewUrlParser: true,

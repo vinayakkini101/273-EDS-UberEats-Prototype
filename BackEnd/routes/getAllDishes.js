@@ -1,9 +1,10 @@
 const express = require('express');
 const app = express.Router();
 const Restaurant = require('../Models/Restaurant.js');
+const { checkAuth } = require('../Utils/auth.js');
 
-app.get('/getAllDishes', (req, res) => {
-    console.log('req.body ', req.query);
+app.get('/getAllDishes', checkAuth, (req, res) => {
+    console.log('getalldishes req.body ', req.query);
 
     let query = {};
     if(req.query.restaurantEmail) {

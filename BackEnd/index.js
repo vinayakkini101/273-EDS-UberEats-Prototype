@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var cors = require('cors');
 var mysql = require('mysql');
 var LocalStorage = require('node-localstorage').LocalStorage;
+var passport = require('passport');
 
 localStorage = new LocalStorage('./local');
 var pool = require('./config/dbConnection.js');
@@ -34,14 +35,17 @@ const updateOrderStatus = require('./routes/updateOrderStatus.js');
 const getOrderStatus = require('./routes/getOrderStatus.js');
 const addFavourite = require('./routes/addFavourite.js');
 const getFavourites = require('./routes/getFavourites.js');
+const { auth } = require('./Utils/auth.js');
+const logout = require('./routes/logout.js');
+
 
 app.set('view engine', 'ejs');
 app.set('views', './views');
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-//use cookie parser to parse request headers
 app.use(cookieParser());
+app.use(passport.initialize());
 
 app.listen(3000, () => {
     console.log('Server listening at port 3000');
@@ -49,13 +53,13 @@ app.listen(3000, () => {
 
 app.use(cors({ origin: true, credentials: true}));
 
-app.use(session({
-    secret: 'UberEatsClone',
-    resave: false,
-    saveUninitialized: false,
-    duration: 60 * 60 * 1000,
-    activeDuration: 5 * 60 * 1000
-}));
+// app.use(session({
+//     secret: 'UberEatsClone',
+//     resave: false,
+//     saveUninitialized: false,
+//     duration: 60 * 60 * 1000,
+//     activeDuration: 5 * 60 * 1000
+// }));
 
 app.use(function(req, res, next){
     res.setHeader('Access-Control-Allow-Origin', constants.frontEnd);
@@ -90,6 +94,7 @@ app.use('/', getOrderStatus);
 app.use('/', addFavourite);
 app.use('/', getFavourites);
 app.use('/', updateRestaurantAddress);
+app.use('/', logout);
 
 // const Restaurants = require('./Models/Restaurant.js');
 // const restaurant = new Restaurants({

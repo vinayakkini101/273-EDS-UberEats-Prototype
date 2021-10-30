@@ -60,6 +60,7 @@ class RestaurantProfile extends React.Component {
 
     getProfileDetails = () => {
         axios.defaults.withCredentials = true;
+        axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
         axios.post('/getRestaurantProfile', {
             restaurantEmail: this.props.match.params.RestaurantEmail
         })
@@ -102,17 +103,17 @@ class RestaurantProfile extends React.Component {
     }
 
     render() {
-        let authenticate = null;
-        if( !cookie.load('cookie')) {
-            console.log('hello');
-            authenticate = <Redirect to='/login' />;
-        }
+        // let authenticate = null;
+        // if( !cookie.load('cookie')) {
+        //     console.log('hello');
+        //     authenticate = <Redirect to='/login' />;
+        // }
 
         return (
             <>
                 <NavBar />
 
-                {authenticate}
+                {/* {authenticate} */}
 
                 <div className='container my-4'>
                     <h3>My profile</h3>

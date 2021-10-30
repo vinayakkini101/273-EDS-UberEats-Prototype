@@ -1,8 +1,9 @@
 const express = require('express');
 const app = express.Router();
 const Customer = require('../Models/Customer.js');
+const { checkAuth } = require('../Utils/auth.js');
 
-app.post('/getFavourites', (req, res) => {
+app.post('/getFavourites', checkAuth, (req, res) => {
     console.log('getFavourites req.body ',req.body);
 
     Customer.findOne({

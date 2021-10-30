@@ -27,6 +27,7 @@ class Orders extends React.Component {
             customerEmail = localStorage.getItem('userEmail');
         }
         axios.defaults.withCredentials = true;
+        axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
         axios.post('/getOrders', {
             customerEmail: customerEmail,
             restaurantName: restaurantName

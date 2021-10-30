@@ -1,8 +1,9 @@
 const express = require('express');
 const app = express.Router();
 const Order = require('../Models/Order.js');
+const { checkAuth } = require('../Utils/auth.js');
 
-app.post('/addOrder', (req, res) => {;
+app.post('/addOrder', checkAuth, (req, res) => {;
     // req.body.orderDateTime =  new Date(req.body.orderDateTime).toISOString().slice(0, 19).replace('T', ' ');
     console.log('addorder req.body ',req.body);
 

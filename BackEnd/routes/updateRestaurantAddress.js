@@ -1,8 +1,9 @@
 const express = require('express');
 const app = express.Router();
 const Restaurant = require('../Models/Restaurant.js');
+const { checkAuth } = require('../Utils/auth.js');
 
-app.post('/updateRestaurantAddress', (req, res) => {
+app.post('/updateRestaurantAddress', checkAuth, (req, res) => {
     console.log(req.body);
 
     Restaurant.updateOne({

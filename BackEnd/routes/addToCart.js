@@ -2,8 +2,9 @@ const express = require('express');
 const mysql = require('mysql');
 const app = express.Router();
 const pool = require('../config/dbConnection.js');
+const { checkAuth } = require('../Utils/auth.js');
 
-app.post('/addToCart', (req, res) => {;
+app.post('/addToCart', checkAuth, (req, res) => {;
     console.log(req.body);
     let dbConn;
 

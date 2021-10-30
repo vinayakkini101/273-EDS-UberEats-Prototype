@@ -20,6 +20,8 @@ class RestaurantHome extends React.Component {
     }
 
     handleGetAllDishes = () => {
+        // console.log('localstorage token ', localStorage.getItem('token'));
+        axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
         axios.get('/getAllDishes', {
             params: {
                 restaurantEmail: localStorage.getItem('userEmail')
@@ -55,6 +57,7 @@ class RestaurantHome extends React.Component {
 
     handleDeleteDish = (e) => {
         console.log('delete dish e target ', e.target.name);
+        axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
         axios.post('/deleteDish', {
             dishCode: [e.target.name],
             restaurantEmail: localStorage.getItem('userEmail') 
@@ -81,11 +84,11 @@ class RestaurantHome extends React.Component {
     }
 
     render() {
-        let authenticate = null;
-        if( !cookie.load('cookie')) {
-            console.log('hello');
-            authenticate = <Redirect to='/login' />;
-        }
+        // let authenticate = null;
+        // if( !cookie.load('cookie')) {
+        //     console.log('hello');
+        //     authenticate = <Redirect to='/login' />;
+        // }
 
         return (
             <>
@@ -93,7 +96,7 @@ class RestaurantHome extends React.Component {
             
             <div className="container my-4">
             
-                {authenticate}
+                {/* {authenticate} */}
                 <h3>Menu</h3>
                 <table className="table">
                     <thead>

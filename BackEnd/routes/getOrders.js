@@ -1,8 +1,9 @@
 const express = require('express');
 const app = express.Router();
 const Order = require('../Models/Order.js');
+const { checkAuth } = require('../Utils/auth.js');
 
-app.post('/getOrders', async (req, res) => {
+app.post('/getOrders', checkAuth, async (req, res) => {
     console.log('req.query ', req.query);
 
     let result;

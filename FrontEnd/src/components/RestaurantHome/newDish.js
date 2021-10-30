@@ -27,6 +27,7 @@ class NewDish extends React.Component {
         event.preventDefault();
         
         axios.defaults.withCredentials = true;
+        axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
         axios.post('/addNewDish', {
                 ...this.state.dishDetails, 
                 restaurantEmail: localStorage.getItem('userEmail'),
@@ -76,6 +77,7 @@ class NewDish extends React.Component {
         formData.append('photos', imageFile);
         console.log('formData ', formData);
 
+        axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
         axios.post('/uploadFile', formData)
             .then(response => {
                 if (response.status === 200) {
@@ -83,11 +85,11 @@ class NewDish extends React.Component {
                     this.setState({
                         dishDetails: {
                             ...this.state.dishDetails,
-                            imageName: imageFile.name,
+                            // imageName: imageFile.name
                             imageLink: imageFile.name
                         }
                     })
-                    console.log('dish link state ', this.state.dishDetails.imageLink);
+                    console.log('dish link state ', this.state.dishDetails.imageName);
                     this.imageRef.current.value = '';
                 }
             })

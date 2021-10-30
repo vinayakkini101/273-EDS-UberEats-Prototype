@@ -1,8 +1,9 @@
 const express = require('express');
 const app = express.Router();
 const Order = require('../Models/Order.js');
+const { checkAuth } = require('../Utils/auth.js');
 
-app.post('/getOrderedDishes', (req, res) => {
+app.post('/getOrderedDishes', checkAuth, (req, res) => {
     console.log('getOrderedDishes req.body ', req.body);
 
     Order.findOne({

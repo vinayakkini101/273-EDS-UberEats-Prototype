@@ -3,6 +3,7 @@ import axios from 'axios';
 import cookie from 'react-cookies';
 import Cart from '../Cart/cart.js';
 import Orders from '../Orders/orders.js';
+import { Redirect } from 'react-router';
 
 class NavBar extends React.Component {
 
@@ -10,13 +11,17 @@ class NavBar extends React.Component {
         super(props);
         this.state = {
             cartItems: [],
-            userEmail: localStorage.getItem('userEmail')
+            userEmail: localStorage.getItem('userEmail'),
+            isLoggedOut: false
         }
     }
 
     handleLogout = () => {
-        cookie.remove('cookie', {path: '/'});
+        // cookie.remove('cookie', {path: '/'})
+        const token = localStorage.getItem('token');
+        console.log('logged out');
         localStorage.removeItem('isRestaurant');
+        localStorage.removeItem('token');
         console.log('localstorage on logout ', localStorage);
         localStorage.clear();
 
@@ -24,6 +29,17 @@ class NavBar extends React.Component {
         sessionStorage.removeItem('userName');
         sessionStorage.clear();
         console.log('sessionstorage  ', sessionStorage);
+
+        axios.defaults.headers.common['Authorization'] = token;
+        axios.post('/logout')
+            .then((res) => {
+                this.setState({
+                    isLoggedOut: true
+                })
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     }
 
     render() {
@@ -33,6 +49,11 @@ class NavBar extends React.Component {
         let cartLink = null;
         let favouriteLink = null;
     
+        let redirect = null;
+        if(this.state.isLoggedOut) {
+            redirect = <Redirect to='/' />
+        }
+
         if(localStorage.getItem('isRestaurant') === 'true') {
             homeLink = '/RestaurantHome';
             profileLink = `/RestaurantProfile/${this.state.userEmail}`;
@@ -47,6 +68,8 @@ class NavBar extends React.Component {
         // console.log(localStorage.getItem('isRestaurant'));
         return (
             <>
+            {redirect}
+            
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <div className="container-fluid">
                     <a className="navbar-brand fw-bold fs-1" href="/">UberEats</a>
@@ -58,13 +81,12 @@ class NavBar extends React.Component {
                     <a className="nav-link fs-5 fw-bold" href="/Orders">Orders</a>
                     {cartLink}
                     Hi, {sessionStorage.getItem('userName')}!
-                    <a 
+                    <button 
                         className="btn btn-outline-danger" 
-                        href="/" 
                         onClick={this.handleLogout}
                     >
                         Logout
-                    </a>
+                    </button>
                 </div>
             </nav>
             </>

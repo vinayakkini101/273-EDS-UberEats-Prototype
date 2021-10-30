@@ -21,6 +21,7 @@ class EachOrder extends React.Component {
 
     getOrderedDishes = () => {
         axios.defaults.withCredentials = true;
+        axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
         axios.post('/getOrderedDishes', {
             userEmail: this.props.order.userEmail,
             orderDateTime: this.props.order.dateTime
@@ -52,6 +53,7 @@ class EachOrder extends React.Component {
 
     updateOrderStatus = (newStatus) => {
         axios.defaults.withCredentials = true;
+        axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
         axios.post('/updateOrderStatus', {
             userEmail: this.props.order.userEmail,
             orderDateTime: this.props.order.dateTime,

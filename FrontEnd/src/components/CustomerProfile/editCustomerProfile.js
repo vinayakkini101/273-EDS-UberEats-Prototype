@@ -117,11 +117,11 @@ class EditCustomerProfile extends React.Component {
     }
 
     render() {
-        let authenticate = null;
-        if( !cookie.load('cookie')) {
-            console.log('hello');
-            authenticate = <Redirect to='/login' />;
-        }
+        // let authenticate = null;
+        // if( !cookie.load('cookie')) {
+        //     console.log('hello');
+        //     authenticate = <Redirect to='/login' />;
+        // }
 
         let errorMessage = null;
         let redirectVar = null;
@@ -134,7 +134,7 @@ class EditCustomerProfile extends React.Component {
 
         return (
             <>
-            {authenticate}
+            {/* {authenticate} */}
             <NavBar />
 
             <div className='container my-4'>

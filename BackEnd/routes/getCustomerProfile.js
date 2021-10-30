@@ -1,8 +1,9 @@
 const express = require('express');
 const app = express.Router();
 const Customer = require('../Models/Customer.js');
+const { checkAuth } = require('../Utils/auth.js');
 
-app.post('/getCustomerProfile', (req, res) => {
+app.post('/getCustomerProfile', checkAuth, (req, res) => {
     console.log('req.body ', req.body);
 
     Customer.findOne({

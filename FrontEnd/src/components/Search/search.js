@@ -24,6 +24,7 @@ class Search extends React.Component {
 
     componentDidMount = () => {
         axios.defaults.withCredentials = true;
+        axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
         axios.post('/getAllRestaurants')
             .then((response) => {
                 if (response.status === 200) {
@@ -72,7 +73,7 @@ class Search extends React.Component {
     filterRestaurantByLocation = (requestedLocation) => {
         const defaultList = this.state.defaultRestaurantList;
         let closestList = defaultList.filter(restaurant => {
-            if(restaurant.address[0].city.toLowerCase() === requestedLocation.toLowerCase()) {
+            if(restaurant.address[0].city.toLowerCase().includes(requestedLocation.toLowerCase())) {
                 return restaurant;
             }
             return null;
@@ -122,6 +123,7 @@ class Search extends React.Component {
     }
 
     populateDishList = () => {
+        axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
         axios.get('/getAllDishes')
             .then((response) => {
                 if (response.status === 200) {
@@ -169,16 +171,16 @@ class Search extends React.Component {
     }
 
     render() {
-        let authenticate = null;
-        if( !cookie.load('cookie')) {
-            console.log('hello');
-            authenticate = <Redirect to='/login' />;
-        }
+        // let authenticate = null;
+        // if( !cookie.load('cookie')) {
+        //     console.log('hello');
+        //     authenticate = <Redirect to='/login' />;
+        // }
 
         return (
             <>
             <NavBar />
-            {authenticate}
+            {/* {authenticate} */}
 
             <div className="container my-4">
                 <h3>Search</h3>

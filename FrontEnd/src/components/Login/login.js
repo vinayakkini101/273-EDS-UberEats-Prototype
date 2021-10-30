@@ -4,6 +4,7 @@ import axios from 'axios';
 import cookie from 'react-cookies';
 import {Redirect} from 'react-router';
 import {Link} from 'react-router-dom';
+import jwt_decode from 'jwt-decode';
 
 class LoginForm extends React.Component {
 
@@ -23,16 +24,19 @@ class LoginForm extends React.Component {
         axios.post('/login', details)
             .then((response) => {
                 if (response.status === 200) {
-                    console.log("response ", response)
-                    console.log("isRestaurant ", details);
+                    console.log("response ", response);
+                    localStorage.setItem("token", response.data);
+                    response.data = jwt_decode(response.data.split(' ')[1]);
+                    console.log("details ", details);
+                    // console.log('typeof isresto ', typeof details.isRestaurant);
                     localStorage.setItem("isRestaurant", details.isRestaurant);
-                    localStorage.setItem("userName", response.data.name);
-                    localStorage.setItem("userEmail", response.data.email);
-                    localStorage.setItem("country", response.data.address[0].country);
-                    localStorage.setItem("state", response.data.address[0].state);
-                    localStorage.setItem("city", response.data.address[0].city);
-                    localStorage.setItem("street", response.data.address[0].street);
-                    sessionStorage.setItem("userName", response.data.name);
+                    localStorage.setItem("userName", response.data.user.name);
+                    localStorage.setItem("userEmail", response.data.user.email);
+                    localStorage.setItem("country", response.data.user.address[0].country);
+                    localStorage.setItem("state", response.data.user.address[0].state);
+                    localStorage.setItem("city", response.data.user.address[0].city);
+                    localStorage.setItem("street", response.data.user.address[0].street);
+                    sessionStorage.setItem("userName", response.data.user.name);
                     this.setState({
                         authFlag: true
                     })
@@ -51,18 +55,17 @@ class LoginForm extends React.Component {
     render() {
 
         let redirectVar = null;
-        if (cookie.load('cookie')) {
-            console.log('localstore in login render()',localStorage.getItem("isRestaurant"));
+        let token = localStorage.getItem('token') || '';
+        if (token.length > 0) {
+            console.log('token ', token);
+            console.log('localstore in login render()', localStorage.getItem("isRestaurant"));
             if (localStorage.getItem("isRestaurant") === 'true') {
                 redirectVar = <Redirect to="/RestaurantHome" />
             }
-            else {
+            else if (localStorage.getItem("isRestaurant") === 'false') {
                 console.log('hello')
                 redirectVar =  <Redirect to="/CustomerHome" />
             }
-        }
-        else{
-            // console.log('cookie did not load');
         }
 
         return (

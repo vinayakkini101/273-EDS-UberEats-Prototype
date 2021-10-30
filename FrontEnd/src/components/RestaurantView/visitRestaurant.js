@@ -44,6 +44,7 @@ class VisitRestaurant extends React.Component {
     getProfileDetails = () => {
         // console.log('get prof details localstore email  ', localStorage.getItem('userEmail'));
         axios.defaults.withCredentials = true;
+        axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
         axios.post('/getRestaurantProfile', {
             restaurantEmail: this.state.profileDetails.restaurantEmail
         })
@@ -110,15 +111,15 @@ class VisitRestaurant extends React.Component {
     }
 
     render() {
-        let authenticate = null;
-        if( !cookie.load('cookie')) {
-            console.log('hello');
-            authenticate = <Redirect to='/login' />;
-        }
+        // let authenticate = null;
+        // if( !cookie.load('cookie')) {
+        //     console.log('hello');
+        //     authenticate = <Redirect to='/login' />;
+        // }
 
         return (
             <>
-            {authenticate}
+            {/* {authenticate} */}
             <NavBar />
 
             <div className='container my-4'>

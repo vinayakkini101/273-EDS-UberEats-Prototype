@@ -43,6 +43,7 @@ class Checkout extends React.Component {
 
     getProfileDetails = () => {
         axios.defaults.withCredentials = true;
+        axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
         axios.post('/getCustomerProfile', {
             customerEmail: localStorage.getItem('userEmail') 
         })
@@ -79,6 +80,7 @@ class Checkout extends React.Component {
 
     getSavedAddresses = () => {
         axios.defaults.withCredentials = true;
+        axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
         axios.post('/getCustomerAddresses', {
             customerEmail: localStorage.getItem('userEmail') 
         })
@@ -104,6 +106,7 @@ class Checkout extends React.Component {
 
     handleAddNewAddress = () => {
         axios.defaults.withCredentials = true;
+        axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
         axios.post('/addCustomerAddress', {
             street: this.state.newStreet,
             city: this.state.newCity,
@@ -132,6 +135,7 @@ class Checkout extends React.Component {
         console.log('cart in addOrder ', this.state.cartItems);
 
         axios.defaults.withCredentials = true;
+        axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
         axios.post('/addOrder', {
             userEmail: localStorage.getItem('userEmail'),
             userName: sessionStorage.getItem('userName'),
@@ -201,16 +205,16 @@ class Checkout extends React.Component {
     }
 
     render() {
-        let authenticate = null;
-        if( !cookie.load('cookie')) {
-            console.log('hello');
-            authenticate = <Redirect to='/login' />;
-        }
+        // let authenticate = null;
+        // if( !cookie.load('cookie')) {
+        //     console.log('hello');
+        //     authenticate = <Redirect to='/login' />;
+        // }
 
         if(this.state.cartItems.length === 0) {
             return (
                 <>
-                {authenticate}
+                {/* {authenticate} */}
                 <NavBar />
                 <div className="container">
                     <div className="alert alert-secondary">Cart Empty!</div>
@@ -252,7 +256,7 @@ class Checkout extends React.Component {
 
         return (
             <>
-            {authenticate}
+            {/* {authenticate} */}
             <NavBar />
             {OrderCompleteRedirect}
 

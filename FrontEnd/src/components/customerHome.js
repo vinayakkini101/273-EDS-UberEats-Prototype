@@ -26,6 +26,7 @@ class CustomerHome extends React.Component {
 
     componentDidMount = () => {
         axios.defaults.withCredentials = true;
+        axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
         axios.post('/getAllRestaurants')
             .then((response) => {
                 if (response.status === 200) {
@@ -154,16 +155,16 @@ class CustomerHome extends React.Component {
     }
 
     render() {
-        let authenticate = null;
-        if( !cookie.load('cookie')) {
-            // console.log('hello');
-            authenticate = <Redirect to='/login' />;
-        }
+        // let authenticate = null;
+        // if( !cookie.load('cookie')) {
+        //     // console.log('hello');
+        //     authenticate = <Redirect to='/login' />;
+        // }
 
         return (
             <>
             <NavBar />
-            {authenticate}
+            {/* {authenticate} */}
              
             <div className="container-fluid">
                 {/* <h1 className="text-primary pt-1">Welcome to UberEats!</h1> */}

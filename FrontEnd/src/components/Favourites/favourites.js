@@ -20,6 +20,7 @@ class Favourites extends React.Component {
 
     getFavourites = () => {
         axios.defaults.withCredentials = true;
+        axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
         axios.post('/getFavourites', {
             userEmail: localStorage.getItem('userEmail')
         })
@@ -45,15 +46,15 @@ class Favourites extends React.Component {
     }
 
     render() {
-        let authenticate = null;
-        if( !cookie.load('cookie')) {
-            console.log('hello');
-            authenticate = <Redirect to='/login' />;
-        }
+        // let authenticate = null;
+        // if( !cookie.load('cookie')) {
+        //     console.log('hello');
+        //     authenticate = <Redirect to='/login' />;
+        // }
 
         return (
             <>
-            {authenticate}
+            {/* {authenticate} */}
             <NavBar />
             <div className="container mt-3 mb-5">
                 <h4>Your Favourites!</h4>

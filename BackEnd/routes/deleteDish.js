@@ -1,8 +1,9 @@
 const express = require('express');
 const app = express.Router();
 const Restaurant = require('../Models/Restaurant.js');
+const { checkAuth } = require('../Utils/auth.js');
 
-app.post('/deleteDish', (req, res) => {
+app.post('/deleteDish', checkAuth, (req, res) => {
     console.log('delete dish req.body ', req.body);
 
     Restaurant.updateOne({

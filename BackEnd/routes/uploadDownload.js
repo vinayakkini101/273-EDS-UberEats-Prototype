@@ -4,7 +4,7 @@ const app = express.Router();
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-const s3 = require('../AWS/s3_listbuckets.js');
+const s3 = require('../Utils/initializeS3.js');
 const multerS3 = require('multer-s3');
 
 const upload = multer({

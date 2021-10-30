@@ -85,6 +85,7 @@ class EditRestaurantProfile extends React.Component {
         event.preventDefault();
         
         axios.defaults.withCredentials = true;
+        axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
         axios.post('/updateRestaurantProfile', this.state.profileDetails)
             .then((response) => {
                 if (response.status === 200) {
@@ -110,6 +111,7 @@ class EditRestaurantProfile extends React.Component {
         event.preventDefault();
         
         axios.defaults.withCredentials = true;
+        axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
         axios.post('/updateRestaurantAddress', this.state.profileDetails)
             .then((response) => {
                 if (response.status === 200) {
@@ -132,11 +134,11 @@ class EditRestaurantProfile extends React.Component {
     }
 
     render() {
-        let authenticate = null;
-        if( !cookie.load('cookie')) {
-            console.log('hello');
-            authenticate = <Redirect to='/login' />;
-        }
+        // let authenticate = null;
+        // if( !cookie.load('cookie')) {
+        //     console.log('hello');
+        //     authenticate = <Redirect to='/login' />;
+        // }
 
         let errorMessage = null;
         let redirectVar = null;
@@ -149,7 +151,7 @@ class EditRestaurantProfile extends React.Component {
 
         return (
             <>
-            {authenticate}
+            {/* {authenticate} */}
             <NavBar />
             <div className='container my-4'>
                 <h3>Edit Profile</h3>
