@@ -2,15 +2,16 @@ const express = require('express');
 const app = express.Router();
 const Restaurant = require('../Models/Restaurant.js');
 const { checkAuth } = require('../Utils/auth.js');
+const mongoose = require('mongoose');
 
 app.post('/deleteDish', checkAuth, (req, res) => {
     console.log('delete dish req.body ', req.body);
-
+    let idToDelete = req.body.dishCode[0];
     Restaurant.updateOne({
         email: req.body.restaurantEmail,
     }, {
         $pull: {
-            dishes: {dishCode: req.body.dishCode[0]}
+            dishes: {dishCode: idToDelete}
         }
     }, (err, result) => {
         if(err) {
@@ -26,7 +27,7 @@ app.post('/deleteDish', checkAuth, (req, res) => {
                 'Content-type': 'text/plain'
             });
 
-            res.end();
+            res.end(JSON.stringify(idToDelete));
             console.log("Dish deleted successfully");
         }
     })

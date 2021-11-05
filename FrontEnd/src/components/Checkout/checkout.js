@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-import cookie from 'react-cookies';
 import { Redirect } from 'react-router-dom';
 import countryList from 'country-list';
 import NavBar from '../Navbar/navbar';

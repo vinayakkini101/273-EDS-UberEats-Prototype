@@ -3,16 +3,18 @@ const app = express.Router();
 const { upload } = require('./uploadDownload.js');
 const Restaurant = require('../Models/Restaurant.js');
 const { checkAuth } = require('../Utils/auth.js');
+const mongoose = require('mongoose');
 // upload.array('photos', 5)
 app.post('/addNewDish', checkAuth, (req, res) => {;
     console.log('req.body ', req.body);
-
+    let dishCode = new mongoose.Types.ObjectId().toString() + new Date().toISOString();
+    console.log('new dishCode ', dishCode);
     Restaurant.updateOne({
         email: req.body.restaurantEmail
     }, {
         $addToSet: {
             dishes: {
-                dishCode: req.body.dishcode,
+                dishCode: dishCode,
                 dishName: req.body.dishname,
                 ingredients: req.body.ingredients,
                 description: req.body.description,
@@ -35,7 +37,7 @@ app.post('/addNewDish', checkAuth, (req, res) => {;
                 'Content-type': 'text/plain'
             });
 
-            res.end();
+            res.end(JSON.stringify(dishCode));
             console.log("Dish added successfully");
         }
     });

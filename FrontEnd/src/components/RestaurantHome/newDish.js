@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React from 'react';
-import rootURL from '../config/setting.js';
-
+import { connect } from 'react-redux';
+import { addDishAsync } from '../../js/middleware/index.js';
 
 class NewDish extends React.Component {
 
@@ -25,47 +25,30 @@ class NewDish extends React.Component {
     
     handleAddNewDish = (event) => {
         event.preventDefault();
-        
-        axios.defaults.withCredentials = true;
-        axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
-        axios.post('/addNewDish', {
-                ...this.state.dishDetails, 
-                restaurantEmail: localStorage.getItem('userEmail'),
-            })
-            .then((response) => {
-                if (response.status === 200) {
-                    console.log("response ", response.data);
-                    this.setState({
-                        isPageUpdated: true,
-                        dishDetails: {
-                            dishcode: '',
-                            dishname: '',
-                            ingredients: '',
-                            description: '',
-                            category: '',
-                            price: '',
-                            imageLink: '',
-                            imageName: ''
-                        }
-                    })
-                    this.props.handleGetAllDishes();
-                }
-            })
-            .catch(error => {
-                console.log("Add new dish error");
-                this.setState({
-                    isPageUpdated: "false"
-                });
-                console.log(error);
-                alert("Unable to add new dish, please try again!");
-            })
+        this.setState({
+            dishDetails: {
+                dishcode: '',
+                dishname: '',
+                ingredients: '',
+                description: '',
+                category: '',
+                price: '',
+                imageLink: '',
+                imageName: ''
+            }
+        })
+        this.props.addDish(this.state.dishDetails);
     }
 
     handleFieldInput = (e) => {
-        // console.log(e.target.name, e.target.value);
         this.setState((state) => {
-            state.dishDetails = {...state.dishDetails, [e.target.name] : e.target.value};
-            return state.dishDetails;
+            return {
+                ...state, 
+                dishDetails: {
+                    ...state.dishDetails, 
+                    [e.target.name] : e.target.value 
+                }
+            }
         });
     }
 
@@ -168,7 +151,7 @@ class NewDish extends React.Component {
                         </div> 
                         <div className="col-1">
                             <button 
-                                type="submit" 
+                                type="submit"
                                 className="btn btn-success"
                             >
                                 Add Dish
@@ -182,4 +165,17 @@ class NewDish extends React.Component {
     }
 }
 
-export default NewDish;
+function mapDispatchToProps(dispatch) {
+    return {
+        addDish: dishDetails => dispatch(addDishAsync(dishDetails))
+    }
+}
+ 
+function mapStateToProps(state) {
+    return {
+        dishDetails: state.dishDetails
+    }
+}
+
+const ConnectedNewDish = connect(mapStateToProps, mapDispatchToProps)(NewDish);
+export default ConnectedNewDish;

@@ -57,7 +57,7 @@ class LoginForm extends React.Component {
         let redirectVar = null;
         let token = localStorage.getItem('token') || '';
         if (token.length > 0) {
-            console.log('token ', token);
+            // console.log('token ', token);
             console.log('localstore in login render()', localStorage.getItem("isRestaurant"));
             if (localStorage.getItem("isRestaurant") === 'true') {
                 redirectVar = <Redirect to="/RestaurantHome" />
