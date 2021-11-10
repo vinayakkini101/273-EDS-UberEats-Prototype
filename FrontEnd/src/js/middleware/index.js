@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { actionCreater } from '../actions/index.js';
 
-import { ADD_DISH, DELETE_DISH, GET_ALL_DISHES } from '../constants/action-types';
+import { ADD_DISH, DELETE_DISH, GET_ALL_DISHES, GET_RESTAURANT_PROFILE } from '../constants/action-types';
 
 function getAllDishesAsync(payload) {
     return (dispatch, getState) => {
@@ -83,4 +83,30 @@ function deleteDishAsync({dishCode, restaurantEmail}) {
     }
 }
 
-export { getAllDishesAsync, addDishAsync, deleteDishAsync }
+function getRestaurantProfileAsync(payload) {
+    return dispatch => {
+        axios.defaults.withCredentials = true;
+        axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
+        axios.post('/getRestaurantProfile', {
+            restaurantEmail: payload
+        })
+        .then((response) => {
+            if (response.status === 200) {
+                console.log("response ", response.data);
+                const details = response.data;
+                dispatch(actionCreater(GET_RESTAURANT_PROFILE, details));
+            }
+        })
+        .catch(error => {
+            console.log("get restaurant details error");
+            this.setState({
+                isPageUpdated: "false"
+            });
+            console.log(error);
+            alert("Unable to get restaurant details, please try again!");
+            dispatch(actionCreater(GET_RESTAURANT_PROFILE));
+        })
+    }
+}
+
+export { getAllDishesAsync, addDishAsync, deleteDishAsync, getRestaurantProfileAsync }

@@ -1,43 +1,20 @@
 import React from 'react';
-import cookie from 'react-cookies';
-import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import NavBar from '../Navbar/navbar';
 import s3BucketURL from '../config/setting.js';
+import { connect } from 'react-redux';
+import { getRestaurantProfileAsync } from '../../js/middleware/index.js';
 
 class RestaurantProfile extends React.Component {
 
     constructor(props) {
         super(props);
         this.imageRef = React.createRef();
-        this.state = {
-            val: 1,
-            profileDetails: {
-                id: '',
-                name: '',
-                description: '',
-                email: '',
-                contactno: '',
-                starttime: '',
-                endtime: '',
-                country: '',
-                state: '',
-                city: '',
-                imageLink: '',
-                imageName: '',
-                pickup: false,
-                delivery: false,
-                veg: false,
-                nonVeg: false,
-                vegan: false,
-                street: ''
-            }
-        }
     } 
 
     componentDidMount = () => {
-        this.getProfileDetails();
+        this.props.getRestaurantProfile(this.props.match.params.RestaurantEmail);
+        console.log('redux props ', this.props.profileDetails);
     }
 
     handleChange = (e) => {
@@ -58,57 +35,13 @@ class RestaurantProfile extends React.Component {
         }) 
     }
 
-    getProfileDetails = () => {
-        axios.defaults.withCredentials = true;
-        axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
-        axios.post('/getRestaurantProfile', {
-            restaurantEmail: this.props.match.params.RestaurantEmail
-        })
-        .then((response) => {
-            if (response.status === 200) {
-                console.log("response ", response.data);
-                const details = response.data;
-                this.setState({
-                    // isPageUpdated: true,
-                    profileDetails: {
-                        // id: details.Restaurant_ID,
-                        name: details.name,
-                        description: details.description,
-                        email: details.email,
-                        contactno: details.contactNumber,
-                        starttime: details.startTime,
-                        endtime: details.endTime,
-                        country: details.address[0].country,
-                        state: details.address[0].state,
-                        city: details.address[0].city,
-                        imageName: details.profilePicture,
-                        pickup: details.pickup === 1 ? true : false,
-                        delivery: details.delivery === 1 ? true : false,
-                        veg: details.veg === 1 ? true : false,
-                        nonVeg: details.nonVeg === 1 ? true : false,
-                        vegan: details.vegan === 1 ? true : false,
-                        street: details.address[0].street
-                    }
-                })
-            }
-        })
-        .catch(error => {
-            console.log("get restaurant details error");
-            this.setState({
-                isPageUpdated: "false"
-            });
-            console.log(error);
-            alert("Unable to get restaurant details, please try again!");
-        })
-    }
-
     render() {
         // let authenticate = null;
         // if( !cookie.load('cookie')) {
         //     console.log('hello');
         //     authenticate = <Redirect to='/login' />;
         // }
-
+    // {console.log('props from reducer ', this.props.profileDetails)}
         return (
             <>
                 <NavBar />
@@ -120,7 +53,7 @@ class RestaurantProfile extends React.Component {
                     <div className="row">
                         <div className="col-3">
                             <img 
-                                src={s3BucketURL+this.state.profileDetails.imageName || ''}
+                                src={s3BucketURL+this.props.profileDetails.profilePicture || ''}
                                 // {this.state.profileDetails.imageLink || ''} 
                                 className='img-fluid img-thumbnail rounded-circle z-depth-5' 
                                 alt='Display' 
@@ -148,7 +81,7 @@ class RestaurantProfile extends React.Component {
                                         <div className="col-6">
                                             <input type="text" name="name" className="form-control" 
                                             // disabled 
-                                            value={this.state.profileDetails.name} 
+                                            value={this.props.profileDetails.name} 
                                             readOnly
                                         />
                                         </div>
@@ -160,7 +93,7 @@ class RestaurantProfile extends React.Component {
                                         <div className="col-6">
                                             <input type="text" name="description" className="form-control" 
                                             // disabled 
-                                            value={this.state.profileDetails.description} 
+                                            value={this.props.profileDetails.description} 
                                             readOnly
                                         />
                                         </div>
@@ -172,7 +105,7 @@ class RestaurantProfile extends React.Component {
                                         <div className="col-6">
                                             <input type="text" name="email" className="form-control" 
                                             // disabled 
-                                            value={this.state.profileDetails.email} 
+                                            value={this.props.profileDetails.email} 
                                             readOnly
                                         />
                                         </div>
@@ -184,7 +117,7 @@ class RestaurantProfile extends React.Component {
                                         <div className="col-6">
                                             <input type="text" name="contactno" className="form-control" 
                                             // disabled 
-                                            value={this.state.profileDetails.contactno} 
+                                            value={this.props.profileDetails.contactNumber} 
                                             readOnly
                                         />
                                         </div>
@@ -196,7 +129,7 @@ class RestaurantProfile extends React.Component {
                                         <div className="col-6">
                                             <input type="text" name="starttime" className="form-control" 
                                             // disabled 
-                                            value={this.state.profileDetails.starttime} 
+                                            value={this.props.profileDetails.startTime} 
                                             readOnly
                                         />
                                         </div>
@@ -208,7 +141,7 @@ class RestaurantProfile extends React.Component {
                                         <div className="col-6">
                                             <input type="text" name="endtime" className="form-control" 
                                             // disabled 
-                                            value={this.state.profileDetails.endtime} 
+                                            value={this.props.profileDetails.endTime} 
                                             readOnly
                                         />
                                         </div>
@@ -220,11 +153,11 @@ class RestaurantProfile extends React.Component {
                                         <div className="col-6">
                                             <input type="text" name="street" className="form-control" 
                                             // disabled 
-                                            value={this.state.profileDetails.street} 
+                                            value={this.props.profileDetails.address[0].street} 
                                             readOnly
                                         />
                                         </div>
-                                    </div>
+                                    </div> 
                                     <div className="row mb-3 align-items-center">
                                         <div className="col-3">
                                             <label htmlFor="" className="col-form-label">City</label>
@@ -232,7 +165,7 @@ class RestaurantProfile extends React.Component {
                                         <div className="col-6">
                                             <input type="text" name="city" className="form-control" 
                                             // disabled 
-                                            value={this.state.profileDetails.city} 
+                                            value={this.props.profileDetails.address[0].city} 
                                             readOnly
                                         />
                                         </div>
@@ -244,7 +177,7 @@ class RestaurantProfile extends React.Component {
                                         <div className="col-6">
                                             <input type="text" name="state" className="form-control" 
                                             // disabled 
-                                            value={this.state.profileDetails.state} 
+                                            value={this.props.profileDetails.address[0].state} 
                                             readOnly
                                         />
                                         </div>
@@ -256,16 +189,16 @@ class RestaurantProfile extends React.Component {
                                         <div className="col-6">
                                             <input type="text" name="country" className="form-control" 
                                             // disabled 
-                                            value={this.state.profileDetails.country} 
+                                            value={this.props.profileDetails.address[0].country} 
                                             readOnly
                                         />
                                         </div>
-                                    </div>
+                                    </div> 
                                     <div className="row mb-3 align-items-center">
                                         <input className="form-check-input mt-0" 
                                             name="pickup" 
                                             type="checkbox" 
-                                            checked={this.state.profileDetails.pickup} 
+                                            checked={this.props.profileDetails.pickup} 
                                             disabled
                                             onChange={this.handleCheckbox}
                                         />
@@ -275,7 +208,7 @@ class RestaurantProfile extends React.Component {
                                         <input className="form-check-input mt-0" 
                                             name="delivery" 
                                             type="checkbox" 
-                                            checked={this.state.profileDetails.delivery} 
+                                            checked={this.props.profileDetails.delivery} 
                                             disabled
                                             onChange={this.handleCheckbox}
                                         />
@@ -285,7 +218,7 @@ class RestaurantProfile extends React.Component {
                                         <input className="form-check-input mt-0" 
                                             name="veg" 
                                             type="checkbox" 
-                                            checked={this.state.profileDetails.veg} 
+                                            checked={this.props.profileDetails.veg} 
                                             disabled
                                             onChange={this.handleCheckbox}
                                         />
@@ -295,7 +228,7 @@ class RestaurantProfile extends React.Component {
                                         <input className="form-check-input mt-0" 
                                             name="nonVeg" 
                                             type="checkbox" 
-                                            checked={this.state.profileDetails.nonVeg} 
+                                            checked={this.props.profileDetails.nonVeg} 
                                             disabled
                                             onChange={this.handleCheckbox}
                                         />
@@ -305,7 +238,7 @@ class RestaurantProfile extends React.Component {
                                         <input className="form-check-input mt-0" 
                                             name="vegan" 
                                             type="checkbox" 
-                                            checked={this.state.profileDetails.vegan} 
+                                            checked={this.props.profileDetails.vegan} 
                                             disabled
                                             onChange={this.handleCheckbox}
                                         />
@@ -314,24 +247,24 @@ class RestaurantProfile extends React.Component {
                                 </form>
                             <Link 
                                 to={{pathname: '/EditRestaurantProfile', 
-                                        id: this.state.profileDetails.id,
-                                        name: this.state.profileDetails.name,
-                                        description: this.state.profileDetails.description,
-                                        email: this.state.profileDetails.email,
-                                        contactno: this.state.profileDetails.contactno,
-                                        starttime: this.state.profileDetails.starttime,
-                                        endtime: this.state.profileDetails.endtime,
-                                        country: this.state.profileDetails.country,
-                                        state: this.state.profileDetails.state,
-                                        city: this.state.profileDetails.city,
-                                        imageLink: this.state.profileDetails.imageLink,
-                                        imageName: this.state.profileDetails.imageName,
-                                        pickup: this.state.profileDetails.pickup,
-                                        delivery: this.state.profileDetails.delivery,
-                                        veg: this.state.profileDetails.veg,
-                                        nonVeg: this.state.profileDetails.nonVeg,
-                                        vegan: this.state.profileDetails.vegan,
-                                        street: this.state.profileDetails.street
+                                        id: this.props.profileDetails.id,
+                                        name: this.props.profileDetails.name,
+                                        description: this.props.profileDetails.description,
+                                        email: this.props.profileDetails.email,
+                                        contactno: this.props.profileDetails.contactNumber,
+                                        starttime: this.props.profileDetails.startTime,
+                                        endtime: this.props.profileDetails.endTime,
+                                        country: this.props.profileDetails.address[0].country,
+                                        state: this.props.profileDetails.address[0].state,
+                                        city: this.props.profileDetails.address[0].city,
+                                        imageLink: this.props.profileDetails.imageLink,
+                                        imageName: this.props.profileDetails.profilePicture,
+                                        pickup: this.props.profileDetails.pickup,
+                                        delivery: this.props.profileDetails.delivery,
+                                        veg: this.props.profileDetails.veg,
+                                        nonVeg: this.props.profileDetails.nonVeg,
+                                        vegan: this.props.profileDetails.vegan,
+                                        street: this.props.profileDetails.address[0].street
                                     }} 
                                 type='button'
                                 className='btn btn-success'
@@ -352,4 +285,18 @@ class RestaurantProfile extends React.Component {
     }
 }
 
-export default RestaurantProfile;
+function mapStateToProps(state) {
+    return {
+        profileDetails: state.restaurantProfileDetails,
+        address: state.restaurantProfileDetails.address
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        getRestaurantProfile: restaurantEmail => dispatch(getRestaurantProfileAsync(restaurantEmail))
+    }
+}
+
+const ConnectedRestaurantProfile = connect(mapStateToProps, mapDispatchToProps)(RestaurantProfile);
+export default ConnectedRestaurantProfile;
