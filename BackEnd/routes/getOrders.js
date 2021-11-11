@@ -9,7 +9,7 @@ app.post('/getOrders', checkAuth, async (req, res) => {
     let result;
 
     try{
-        if(req.body.customerEmail) {
+        if(req.body.userEmail) {
             result = await Order.find({userEmail: req.body.userEmail});
         }
         else {
