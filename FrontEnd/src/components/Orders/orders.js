@@ -4,6 +4,8 @@ import cookie from 'react-cookies';
 import NavBar from '../Navbar/navbar';
 import UpdateOrderOptions from './updateOrderOptions';
 import EachOrder from './eachOrder';
+import { connect } from 'react-redux';
+import { getOrdersAsync } from '../../js/middleware/index.js';
 
 class Orders extends React.Component {
 
@@ -17,51 +19,37 @@ class Orders extends React.Component {
         // console.log(this.state.isRestaurant);
     }
 
+    componentDidUpdate = (prevProps) => {
+        if(this.props.ordersList !== prevProps.ordersList) {
+            this.setState({
+                filteredOrdersList: this.props.ordersList
+            })
+        }
+    }
+
     componentDidMount = () => {
         let customerEmail = null;
         let restaurantName = null;
         if(this.state.isRestaurant === 'true') {
             restaurantName = localStorage.getItem('userName');
+            this.props.getOrders('', restaurantName);
         }
         else {
             customerEmail = localStorage.getItem('userEmail');
+            this.props.getOrders(customerEmail, '');
         }
-        axios.defaults.withCredentials = true;
-        axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
-        axios.post('/getOrders', {
-            customerEmail: customerEmail,
-            restaurantName: restaurantName
-        })
-            .then((response) => {
-                if (response.status === 200) {
-                    console.log("getOrders response ", response.data);
-                    const details = response.data;
-                    this.setState({
-                        ordersList: details.slice(),
-                        filteredOrdersList: details.slice()
-                    })
-                }
-            })
-            .catch(error => {
-                console.log("add order error");
-                this.setState({
-                    isPageUpdated: "false"
-                });
-                console.log(error);
-                alert("Unable to add order, please try again!");
-            })
     }
 
     filterOrdersList = (status) => {
         console.log('in filter orders list ');
-        let filteredOrdersList = this.state.ordersList.filter(order => {
+        let filteredOrdersList = this.props.ordersList.filter(order => {
             if(status.toLowerCase().includes(order.status.toLowerCase())) {
                 return order;
             }
         });
 
-        if(status === 'All' || filteredOrdersList.length === this.state.ordersList.length) {
-            filteredOrdersList = this.state.ordersList.slice();
+        if(status === 'All' || filteredOrdersList.length === this.props.ordersList.length) {
+            filteredOrdersList = this.props.ordersList.slice();
         }
 
         this.setState({
@@ -109,7 +97,7 @@ class Orders extends React.Component {
                         <EachOrder 
                             order={order} 
                             key={order.dateTime} 
-                            index={this.state.ordersList.indexOf(order)} 
+                            index={this.props.ordersList.indexOf(order)} 
                             filterOrdersList={this.filterOrdersList}
                         />
                     )
@@ -139,4 +127,17 @@ function CustomerFilter(props) {
     );
 }
 
-export default Orders;
+function mapStateToProps(state) {
+    return {
+        ordersList: state.orders
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        getOrders: (customerEmail, restaurantName) => dispatch(getOrdersAsync(customerEmail, restaurantName))
+    }
+}
+
+const ConnectedOrders = connect(mapStateToProps, mapDispatchToProps)(Orders);
+export default ConnectedOrders;

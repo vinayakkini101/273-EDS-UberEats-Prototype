@@ -4,16 +4,16 @@ const Order = require('../Models/Order.js');
 const { checkAuth } = require('../Utils/auth.js');
 
 app.post('/getOrders', checkAuth, async (req, res) => {
-    console.log('req.query ', req.query);
+    console.log('req.body ', req.body);
 
     let result;
 
     try{
         if(req.body.customerEmail) {
-            result = await Order.find({email: req.body.customerEmail});
+            result = await Order.find({userEmail: req.body.userEmail});
         }
         else {
-            result = await Order.find({email: req.body.restaurantName});
+            result = await Order.find({restaurantName: req.body.restaurantName});
         }
 
         console.log('orders list ', result);

@@ -2,6 +2,7 @@ import axios from 'axios';
 import { actionCreater } from '../actions/index.js';
 
 import { ADD_DISH, DELETE_DISH, GET_ALL_DISHES, GET_RESTAURANT_PROFILE } from '../constants/action-types';
+import { GET_ORDERS } from '../constants/action-types';
 
 function getAllDishesAsync(payload) {
     return (dispatch, getState) => {
@@ -109,4 +110,32 @@ function getRestaurantProfileAsync(payload) {
     }
 }
 
-export { getAllDishesAsync, addDishAsync, deleteDishAsync, getRestaurantProfileAsync }
+function getOrdersAsync(customerEmail, restaurantName) {
+    return dispatch => {
+        let data;
+        if(customerEmail) {
+            data = { userEmail: customerEmail };
+        }
+        else {
+            data = { restaurantName };
+        }
+        axios.defaults.withCredentials = true;
+        axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
+        axios.post('/getOrders', data)
+            .then((response) => {
+                if (response.status === 200) {
+                    console.log("getOrders response ", response.data);
+                    const payload = response.data;
+                    dispatch(actionCreater(GET_ORDERS, payload));
+                }
+            })
+            .catch(error => {
+                console.log("add order error");
+                dispatch(actionCreater(GET_ORDERS));
+                console.log(error);
+                alert("Unable to add order, please try again!");
+            })
+    }
+}
+
+export { getAllDishesAsync, addDishAsync, deleteDishAsync, getRestaurantProfileAsync, getOrdersAsync }

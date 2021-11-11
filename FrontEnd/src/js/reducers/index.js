@@ -1,4 +1,6 @@
 import { ADD_DISH, DELETE_DISH, GET_ALL_DISHES, GET_RESTAURANT_PROFILE } from '../constants/action-types.js';
+import { GET_ORDERS } from '../constants/action-types';
+
 const initialState = {
     dishDetails: {
         dishcode: '',
@@ -11,7 +13,8 @@ const initialState = {
         imageName: ''
     },
     dishList: [],
-    restaurantProfileDetails: {address:[{}]}
+    restaurantProfileDetails: {address:[{}]},
+    orders: []
 };
 
 function rootReducer(state = initialState, action) {
@@ -40,6 +43,12 @@ function rootReducer(state = initialState, action) {
             return {
                 ...state,
                 restaurantProfileDetails: action.payload
+            }
+        case GET_ORDERS:
+            console.log('in getorders reducer');
+            return {
+                ...state,
+                orders: action.payload
             }
         default: 
     }
