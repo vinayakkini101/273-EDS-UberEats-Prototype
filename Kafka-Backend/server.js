@@ -1,25 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
+
+// connect to db
 var pool = require('./config/dbConnection.js');
-
-// let User = require("./models/userModel");
-// const db = require("../server/config/keys").mongoURI;
-
-// mongoose
-//   .connect(
-//     "mongodb+srv://root:root@cluster0.jgmdd.mongodb.net/splitwise?retryWrites=true&w=majority",
-//     {
-//       poolSize: 500,
-//       useCreateIndex: true,
-//       useNewUrlParser: true,
-//       useUnifiedTopology: true,
-//     }
-//   )
-//   .then(() => {
-//     console.log("Mongo connected........");
-//   })
-//   .catch((err) => console.log(err));
-
 
 // var getProfile = require("./services/getProfile");
 // var updateProfile = require("./services/updateProfile");
@@ -52,7 +35,7 @@ var pool = require('./config/dbConnection.js');
 // var activity = require("./services/RecentActivity/recentActivity");
 
 var login = require("./services/login.js");
-// var signup = require("./services/user/signup");
+var getAllDishes = require("./services/getAllDishes");
 
 var connection = new require("./kafka/Connection");
 
@@ -120,7 +103,7 @@ function handleTopicRequest(topic_name, fname) {
 // handleTopicRequest("get_activity", activity);
 
 handleTopicRequest('login', login);
-// handleTopicRequest("signup", signup);
+handleTopicRequest('get_all_dishes', getAllDishes);
 
 // app.listen(3002, () => {
 //     console.log("running on the port 3002");

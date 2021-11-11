@@ -27,9 +27,9 @@ function getAllDishesAsync(payload) {
             })
             .catch(error => {
                 console.log("Get all dishes error");
-                this.setState({
-                    isPageUpdated: "false"
-                });
+                // this.setState({
+                //     isPageUpdated: "false"
+                // });
                 console.log(error);
                 alert("Unable to get dishes, please try again!");
                 dispatch(actionCreater(GET_ALL_DISHES, {}))
