@@ -48,7 +48,7 @@ app.use(cookieParser());
 app.use(passport.initialize());
 
 app.listen(3000, () => {
-    console.log('Server listening at port 3000');
+    console.log('Node server listening at port 3000');
 });
 
 app.use(cors({ origin: true, credentials: true}));
