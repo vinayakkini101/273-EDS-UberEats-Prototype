@@ -20,7 +20,7 @@ async function handle_request(msg, callback) {
             //     'Content-type': 'text/plain'
             // });
             // res.end("Error in query execution");
-            callback(err, 'Error in query execution');
+            callback(err);
         }
         else {
             console.log('dish list result ', result);

@@ -34,8 +34,9 @@ var pool = require('./config/dbConnection.js');
 // var groupNames = require("./services/RecentActivity/groupNames");
 // var activity = require("./services/RecentActivity/recentActivity");
 
-var login = require("./services/login.js");
-var getAllDishes = require("./services/getAllDishes");
+let login = require("./services/login.js");
+let getAllDishes = require("./services/getAllDishes");
+let deleteDish = require("./services/deleteDish");
 
 var connection = new require("./kafka/Connection");
 
@@ -104,6 +105,7 @@ function handleTopicRequest(topic_name, fname) {
 
 handleTopicRequest('login', login);
 handleTopicRequest('get_all_dishes', getAllDishes);
+handleTopicRequest('delete_dish', deleteDish);
 
 // app.listen(3002, () => {
 //     console.log("running on the port 3002");
