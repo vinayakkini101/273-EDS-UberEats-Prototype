@@ -156,7 +156,7 @@ class EachOrder extends React.Component {
                                         /> : null
                 }
 
-                { !isRestaurant && this.props.order.status === 'New' 
+                { !isRestaurant && this.state.orderStatus === 'New' 
                         ? <UpdateOrderDropdown 
                                 address={'cancel-by-customer'} 
                                 handleUpdateClick={this.handleUpdateClick}
@@ -201,6 +201,12 @@ class EachOrder extends React.Component {
                                 })}
 
                                 <div className="row mt-3">
+                                    <div className="col">
+                                        <div className="fw-bold">Special Instructions</div>
+                                        <p>{this.props.order.specialInstructions}</p>
+                                    </div>
+                                </div>
+                                <div className="row">
                                     <div className="col">
                                         <div className="fw-bold">Delivery Address</div>
                                         <p>{this.props.order.address}</p>

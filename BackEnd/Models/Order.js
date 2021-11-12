@@ -7,7 +7,8 @@ let orderSchema = new mongoose.Schema({
     status: {type: String, required: true},
     userName: {type: String, required: true},
     restaurantName: {type: String, required: true},
-    orderedDishes: {type: Array, required: true}
+    orderedDishes: {type: Array, required: true},
+    specialInstructions: {type: String}
 },
 {
     versionKey: false

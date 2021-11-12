@@ -21,7 +21,8 @@ async function handle_request(msg, callback) {
         status: 'New',
         userName: msg.userName,
         restaurantName: msg.cartItems[0].restaurantName,
-        orderedDishes: orderedDishes
+        orderedDishes: orderedDishes,
+        specialInstructions: msg.specialInstructions
     })
 
     newOrder.save((err, result) => {

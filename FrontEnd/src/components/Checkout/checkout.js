@@ -19,7 +19,8 @@ class Checkout extends React.Component {
             combinedSelectedAddress: '',
             deliveryType: '',
             showPlaceOrderButton: false,
-            orderComplete: false
+            orderComplete: false,
+            specialInstructions: ''
         }
         console.log('getpstdate ', getPSTDateTime());
     }
@@ -141,7 +142,8 @@ class Checkout extends React.Component {
             cartItems: this.state.cartItems,
             orderDateTime: getPSTDateTime(),
             combinedSelectedAddress: this.state.combinedSelectedAddress,
-            deliveryType: this.state.deliveryType 
+            deliveryType: this.state.deliveryType ,
+            specialInstructions: this.state.specialInstructions
         })
             .then((response) => {
                 if (response.status === 200) {
@@ -292,6 +294,16 @@ class Checkout extends React.Component {
                         </table>
 
                         <div className="row my-3">
+                            <label className="form-label" htmlFor="specialInstructions">
+                                Special Instructions:-
+                            </label>
+                            <textarea className="form-control" 
+                                type="textarea" name="specialInstructions" 
+                                onChange={this.handleFieldInput}
+                            />
+                        </div>
+
+                        <div className="row my-3">
                             <div className="form-check">
                                 <input className="form-check-input" 
                                     type="radio" name="deliveryType" 
@@ -335,9 +347,9 @@ class Checkout extends React.Component {
                     <div className="modal-body">
                         <div className="container-fluid">
                             <div className="row">
-                                <div className="col-6 dark">Dish Name</div>
-                                <div className="col-3">Price</div>
-                                <div className="col-3">Quantity</div>
+                                <div className="col-6 fw-bold">Dish Name</div>
+                                <div className="col-3 fw-bold">Price</div>
+                                <div className="col-3 fw-bold">Quantity</div>
                                 {/* <div className="col-2">Total</div> */}
                             </div>
                             {this.state.cartItems.map(item => {
@@ -350,6 +362,12 @@ class Checkout extends React.Component {
                                     </div>
                                 );
                             })}
+                        </div>
+                        <div className="row mt-3">
+                            <div className="col">
+                                <div className="fw-bold">Special Instructions</div>
+                                <p>{this.state.specialInstructions}</p>
+                            </div>
                         </div>
                         <p></p>
                         Delivery Address
