@@ -153,7 +153,15 @@ class EachOrder extends React.Component {
                 {isRestaurant ? <UpdateOrderDropdown 
                                         address={this.props.order.address} 
                                         handleUpdateClick={this.handleUpdateClick}
-                                        /> : null}
+                                        /> : null
+                }
+
+                { !isRestaurant && this.props.order.status === 'New' 
+                        ? <UpdateOrderDropdown 
+                                address={'cancel-by-customer'} 
+                                handleUpdateClick={this.handleUpdateClick}
+                                /> : null
+                }
             </div>
 
 

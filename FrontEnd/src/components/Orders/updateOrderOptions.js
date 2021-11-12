@@ -21,9 +21,12 @@ function UpdateOrderOptions(props) {
             <button className="dropdown-item" onClick={props.handleFilterClick} name="Delivered" >Delivered</button>
             <button className="dropdown-item" onClick={props.handleFilterClick} name="Pickup Ready" >Pickup Ready</button>
             <button className="dropdown-item" onClick={props.handleFilterClick} name="Picked Up" >Picked Up</button>
-            <button className="dropdown-item" onClick={props.handleUpdateClick} name="Cancelled" >Cancel The Order</button>
+            <button className="dropdown-item" onClick={props.handleUpdateClick} name="Cancelled" >Cancelled</button>
             <button className="dropdown-item" onClick={props.handleFilterClick} name="All" >All</button>
             </>;
+    }
+    else if(props.address === 'cancel-by-customer') {
+        Options =  <button className="dropdown-item" onClick={props.handleUpdateClick} name="Cancelled" >Cancel</button>
     }
     else {
         Options =  
