@@ -8,6 +8,7 @@ function UpdateOrderOptions(props) {
             <button className="dropdown-item" onClick={props.handleUpdateClick} name="Preparing">Preparing</button>
             <button className="dropdown-item" onClick={props.handleUpdateClick} name="Pickup Ready">Pickup Ready</button>
             <button className="dropdown-item" onClick={props.handleUpdateClick} name="Picked Up" >Picked Up</button>
+            <button className="dropdown-item" onClick={props.handleUpdateClick} name="Cancelled" >Cancel The Order</button>
             </>;
     }
     else if(props.address === 'customer') {
@@ -20,6 +21,7 @@ function UpdateOrderOptions(props) {
             <button className="dropdown-item" onClick={props.handleFilterClick} name="Delivered" >Delivered</button>
             <button className="dropdown-item" onClick={props.handleFilterClick} name="Pickup Ready" >Pickup Ready</button>
             <button className="dropdown-item" onClick={props.handleFilterClick} name="Picked Up" >Picked Up</button>
+            <button className="dropdown-item" onClick={props.handleUpdateClick} name="Cancelled" >Cancel The Order</button>
             <button className="dropdown-item" onClick={props.handleFilterClick} name="All" >All</button>
             </>;
     }
@@ -30,6 +32,7 @@ function UpdateOrderOptions(props) {
             <button className="dropdown-item" onClick={props.handleUpdateClick} name="Preparing">Preparing</button>
             <button className="dropdown-item" onClick={props.handleUpdateClick} name="On The Way" >On The Way</button>
             <button className="dropdown-item" onClick={props.handleUpdateClick} name="Delivered" >Delivered</button>
+            <button className="dropdown-item" onClick={props.handleUpdateClick} name="Cancelled" >Cancel The Order</button>
             </>;
     }
 
