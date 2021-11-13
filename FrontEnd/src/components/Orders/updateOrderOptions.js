@@ -1,42 +1,40 @@
 function UpdateOrderOptions(props) {
     let Options = null;
-    // console.log('UpdateOrderOptions resto props ', props.handleUpdateClick);
+    const restaurantDeliveryOptions = ['Order Received', 'Preparing', 'On The Way', 'Delivered', 'Cancelled'];
+    const restaurantPickupOptions = ['Order Received', 'Preparing', 'Pickup Ready', 'Picked Up', 'Cancelled'];
+    const customerOptions = ['Order Received', 'Preparing', 'On The Way', 'Delivered', 'Pickup Ready', 'Picked Up', 'Cancelled', 'All'];
     if(props.address === 'Pickup') {
         Options =  
-            <>
-            <button className="dropdown-item" onClick={props.handleUpdateClick} name="Order Received">Order Received</button>
-            <button className="dropdown-item" onClick={props.handleUpdateClick} name="Preparing">Preparing</button>
-            <button className="dropdown-item" onClick={props.handleUpdateClick} name="Pickup Ready">Pickup Ready</button>
-            <button className="dropdown-item" onClick={props.handleUpdateClick} name="Picked Up" >Picked Up</button>
-            <button className="dropdown-item" onClick={props.handleUpdateClick} name="Cancelled" >Cancel The Order</button>
-            </>;
+            restaurantPickupOptions.map(buttonName => 
+                <Button 
+                    buttonClass='dropdown-item'
+                    handleUpdateClick={props.handleUpdateClick}
+                    name={buttonName}
+                />
+            );
     }
     else if(props.address === 'customer') {
-        // console.log('UpdateOrderOptions customer props ', props.handleFilterClick);
         Options =  
-            <>
-            <button className="dropdown-item" onClick={props.handleFilterClick} name="Order Received">Order Received</button>
-            <button className="dropdown-item" onClick={props.handleFilterClick} name="Preparing">Preparing</button>
-            <button className="dropdown-item" onClick={props.handleFilterClick} name="On The Way" >On The Way</button>
-            <button className="dropdown-item" onClick={props.handleFilterClick} name="Delivered" >Delivered</button>
-            <button className="dropdown-item" onClick={props.handleFilterClick} name="Pickup Ready" >Pickup Ready</button>
-            <button className="dropdown-item" onClick={props.handleFilterClick} name="Picked Up" >Picked Up</button>
-            <button className="dropdown-item" onClick={props.handleUpdateClick} name="Cancelled" >Cancelled</button>
-            <button className="dropdown-item" onClick={props.handleFilterClick} name="All" >All</button>
-            </>;
+            customerOptions.map(buttonName => 
+                <Button 
+                    buttonClass={props.currentSelection === buttonName ? 'dropdown-item active':  'dropdown-item'}
+                    handleUpdateClick={props.handleFilterClick}
+                    name={buttonName}
+                />
+            );
     }
     else if(props.address === 'cancel-by-customer') {
-        Options =  <button className="dropdown-item" onClick={props.handleUpdateClick} name="Cancelled" >Cancel</button>
+        Options = <Button buttonClass='dropdown-item' handleUpdateClick={props.handleUpdateClick} name='Cancelled' />
     }
     else {
         Options =  
-            <>
-            <button className="dropdown-item" onClick={props.handleUpdateClick} name="Order Received">Order Received</button>
-            <button className="dropdown-item" onClick={props.handleUpdateClick} name="Preparing">Preparing</button>
-            <button className="dropdown-item" onClick={props.handleUpdateClick} name="On The Way" >On The Way</button>
-            <button className="dropdown-item" onClick={props.handleUpdateClick} name="Delivered" >Delivered</button>
-            <button className="dropdown-item" onClick={props.handleUpdateClick} name="Cancelled" >Cancel The Order</button>
-            </>;
+            restaurantDeliveryOptions.map(buttonName => 
+                <Button 
+                    buttonClass='dropdown-item'
+                    handleUpdateClick={props.handleUpdateClick}
+                    name={buttonName}
+                />
+            );
     }
 
     return (
@@ -44,6 +42,10 @@ function UpdateOrderOptions(props) {
         {Options}
         </>
     );
+}
+
+function Button(props) {
+    return <button className={props.buttonClass} onClick={props.handleUpdateClick} name={props.name}>{props.name}</button>;
 }
 
 export default UpdateOrderOptions;
