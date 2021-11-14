@@ -1,3 +1,4 @@
+bin/kafka-topics.sh --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --create --topic response_topic
 bin/kafka-topics.sh --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --create --topic add_customer_address
 bin/kafka-topics.sh --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --create --topic add_favourite
 bin/kafka-topics.sh --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --create --topic add_new_dish
