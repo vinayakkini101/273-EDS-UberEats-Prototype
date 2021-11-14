@@ -45,6 +45,8 @@ class EditRestaurantProfile extends React.Component {
         formData.append('photos', imageFile);
         console.log('formData ', imageFile);
 
+        axios.defaults.withCredentials = true;
+        axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
         axios.post('/uploadFile', formData)
             .then(response => {
                 if (response.status === 200) {
