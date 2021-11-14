@@ -46,7 +46,7 @@ class RestaurantHome extends React.Component {
                     <thead>
                         <tr key="headingKey">
                             <th scope="col">Image</th>
-                            <th scope="col">Code</th>
+                            {/* <th scope="col">Code</th> */}
                             <th scope="col">Name</th>
                             <th scope="col">Ingredients</th>
                             <th scope="col">Description</th>
@@ -70,7 +70,7 @@ class RestaurantHome extends React.Component {
                                     </td>
                                     {/* className='img-fluid' */}
                                     {/* style={{width: '8rem', height: '5rem'}} */}
-                                    <td>{dish.dishCode}</td>
+                                    {/* <td>{dish.dishCode}</td> */}
                                     <td>{dish.dishName}</td>
                                     <td>{dish.ingredients}</td>
                                     <td>{dish.description}</td>

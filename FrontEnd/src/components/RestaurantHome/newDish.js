@@ -84,15 +84,15 @@ class NewDish extends React.Component {
             {/* <div className="container"> */}
                 <form encType="multipart/form-data" onSubmit={this.handleAddNewDish} className="mb-5">
                     <div className="row align-items-end">
-                        <div className="col-1">
+                        {/* <div className="col-1">
                             <label htmlFor="inputEmail4" className="form-label">Code *</label>
                             <input type="number" name="dishcode" className="form-control" 
                                 value={this.state.dishDetails.dishcode} 
                                 onChange={this.handleFieldInput} 
                                 required
                             />
-                        </div> 
-                        <div className="col-2">
+                        </div>  */}
+                        <div className="col-3">
                             <label htmlFor="inputEmail4" className="form-label">Dish Name *</label>
                             <input type="text" name="dishname" className="form-control" 
                                 value={this.state.dishDetails.dishname} 
