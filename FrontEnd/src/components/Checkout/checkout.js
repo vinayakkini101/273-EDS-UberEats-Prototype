@@ -280,7 +280,7 @@ class Checkout extends React.Component {
                                         <tr>
                                             <td>{item.dishName}</td>
                                             <td>x{item.quantity}</td>
-                                            <td>${item.price}</td>
+                                            <td>${parseFloat(item.price).toFixed(2)}</td>
                                         </tr>
                                     );
                                 })}
@@ -356,7 +356,7 @@ class Checkout extends React.Component {
                                 return (
                                     <div className="row">
                                         <div className="col-6">{item.dishName}</div>
-                                        <div className="col-3">${item.price}</div>
+                                        <div className="col-3">${parseFloat(item.price).toFixed(2)}</div>
                                         <div className="col-3">x{item.quantity}</div>
                                         {/* <div className="col-2">${item.quantity * item.price}</div> */}
                                     </div>
@@ -375,7 +375,7 @@ class Checkout extends React.Component {
                             this.state.combinedSelectedAddress 
                             }
                         </p>
-                        <p>Order Total : ${totalCost}</p>
+                        <p>Order Total : ${parseFloat(totalCost).toFixed(2)}</p>
 
                     </div>
                     <div className="modal-footer">

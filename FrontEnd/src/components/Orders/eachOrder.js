@@ -195,7 +195,7 @@ class EachOrder extends React.Component {
                                             <div className="col-6">{item.dishName}</div>
                                             <div className="col-2">${item.price}</div>
                                             <div className="col-2">x{item.quantity}</div>
-                                            <div className="col-2">${item.quantity * item.price}</div>
+                                            <div className="col-2">${parseFloat(item.quantity * item.price).toFixed(2)}</div>
                                         </div>
                                     );
                                 })}

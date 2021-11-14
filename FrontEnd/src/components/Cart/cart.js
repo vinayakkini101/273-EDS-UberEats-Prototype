@@ -93,7 +93,7 @@ class Cart extends React.Component {
                                 return (
                                     <div className="row" key={item.dishName}>
                                         <div className="col-6">{item.dishName}</div>
-                                        <div className="col-2">${item.price}</div>
+                                        <div className="col-2">${parseFloat(item.price).toFixed(2)}</div>
                                         <div className="col-2 text-center">{item.quantity}</div>
                                         <div className="col-2">
                                             <div className="input-group">
