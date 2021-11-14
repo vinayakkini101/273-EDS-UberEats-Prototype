@@ -3,5 +3,5 @@
         "host": "mongodb+srv://admin:admin%40123@cluster0.mp3pk.mongodb.net/Cluster0?retryWrites=true&w=majority"
     },
     "secret": "UberEatsClone",
-    "frontEnd": "http://18.224.15.26:3001"
+    "frontEnd": "http://18.224.169.123:3001"
 }
