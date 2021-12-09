@@ -7,6 +7,7 @@ var cors = require('cors');
 var mysql = require('mysql');
 var LocalStorage = require('node-localstorage').LocalStorage;
 var passport = require('passport');
+const { graphqlHTTP } = require('express-graphql');
 
 localStorage = new LocalStorage('./local');
 var pool = require('./config/dbConnection.js');
@@ -37,6 +38,7 @@ const addFavourite = require('./routes/addFavourite.js');
 const getFavourites = require('./routes/getFavourites.js');
 const { auth } = require('./Utils/auth.js');
 const logout = require('./routes/logout.js');
+const schema = require('./schema/schema.js');
 
 
 app.set('view engine', 'ejs');
@@ -69,6 +71,11 @@ app.use(function(req, res, next){
     res.setHeader('Cache-Control', 'no-cache');
     next();
 });
+
+app.use("/graphql", graphqlHTTP({
+    schema,
+    graphiql: true
+}));
 
 app.use('/', login);
 app.use('/', signup);

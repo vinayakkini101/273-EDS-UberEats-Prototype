@@ -2,7 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import {Formik, Form, Field, ErrorMessage} from 'formik';
 import countryList from 'country-list';
-// import {Link} from 'react-router-dom';
+import { signupCustomer } from '../../graphql/mutations';
+import gqlConfig from '../../graphql/config.js';
 
 class CustomerSignUp extends React.Component {
 
@@ -19,9 +20,22 @@ class CustomerSignUp extends React.Component {
         console.log('inside handleSignUp react');
         console.log(details);
         axios.defaults.withCredentials = true;
-        axios.post('/signup', details)
+        // axios.post('/signup', details)
+        gqlConfig({
+            query: signupCustomer,
+            variables: {
+                email: details.email,
+                name: details.name,
+                password: details.password,
+                contactNumber: details.contactno,
+                dob: details.dob,
+                nickname: details.nickname,
+                about: details.about,
+                profilePicture: details.profilePicture
+            }
+        })
             .then((response) => {
-                if (response.status === 200) {
+                // if (response.status === 200) {
                     console.log("response ", response)
                     // console.log("isRestaurant ", details);
                     // localStorage.setItem("isRestaurant", details.isRestaurant);
@@ -30,7 +44,7 @@ class CustomerSignUp extends React.Component {
                     this.setState({
                         authFlag: true
                     })
-                }
+                // }
             })
             .catch(error => {
                 console.log("In error");
