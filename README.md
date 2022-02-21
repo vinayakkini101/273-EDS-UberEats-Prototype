@@ -11,7 +11,8 @@ Phase 2 :<br>
 Replace MySQL with MongoDB <br>
 Implement Redux all across the app <br>
 Use Kafka <br>
-Authenticate using Passport-JWT strategy <br><br>
+Authenticate using Passport-JWT strategy <br>
+Demo video : https://www.youtube.com/watch?v=SQrejwFHQHk <br><br>
 
 Phase 3 : <br>
 Add GraphQL<br><br>
